@@ -3,9 +3,9 @@
 #include "Game.h"
 
 
-void PlayScene::Initialize()	// °ÔÀÓ ½ÃÀÛÇÒ ¶§ ÃÊ±âÈ­
+void PlayScene::Initialize()	// ê²Œìž„ ì‹œìž‘í•  ë•Œ ì´ˆê¸°í™”
 {
-	
+
 }
 
 void PlayScene::ProcessInput()
@@ -15,7 +15,7 @@ void PlayScene::ProcessInput()
 		Game::ChangeScene(ESceneState::END);
 	}
 
-	if (Input::IsKeyPressed(VK_ESCAPE)) { //Á¾·á
+	if (Input::IsKeyPressed(VK_ESCAPE)) { //ì¢…ë£Œ
 		Game::GameExit();
 	}
 }

@@ -5,9 +5,9 @@
 float m_fEndScenecurrentTime = 0;
 float m_fSceneChangeTime = 0;
 
-void EndScene::Initialize()	// °ÔÀÓ ½ÃÀÛÇÒ ¶§ ÃÊ±âÈ­
+void EndScene::Initialize()	// ê²Œìž„ ì‹œìž‘í•  ë•Œ ì´ˆê¸°í™”
 {
-	if(Game::GetTimer())
+	if (Game::GetTimer())
 		m_fEndScenecurrentTime = Game::GetTimer()->GetTotalTime();
 }
 
@@ -18,7 +18,7 @@ void EndScene::ProcessInput()
 		Game::ChangeScene(ESceneState::MENU);
 	}
 
-	if (Input::IsKeyPressed(VK_ESCAPE)) { //Á¾·á
+	if (Input::IsKeyPressed(VK_ESCAPE)) { //ì¢…ë£Œ
 		Game::GameExit();
 	}
 
@@ -45,7 +45,7 @@ void EndScene::Render()
 	{
 		char array[20];
 		sprintf_s(array, u8"%f", Game::GetTimer()->GetTotalTime() - m_fEndScenecurrentTime);
-		ConsoleRenderer::ScreenDrawString(2, 2, u8"°æ°ú ½Ã°£ : ", FG_SKY_DARK);
+		ConsoleRenderer::ScreenDrawString(2, 2, u8"ê²½ê³¼ ì‹œê°„ : ", FG_SKY_DARK);
 		ConsoleRenderer::ScreenDrawString(3, 3, array, FG_SKY_DARK);
 	}
 }

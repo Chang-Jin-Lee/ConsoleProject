@@ -4,43 +4,43 @@
 
 namespace ConsoleRenderer
 {
-    HANDLE hConsoleHandle;      // ÃÊ±â È­¸é ÄÜ¼ÖÀÇ ÇÚµé
+    HANDLE hConsoleHandle;      // ì´ˆê¸° í™”ë©´ ì½˜ì†”ì˜ í•¸ë“¤
 
-    int nScreenWidth = 0; // ÄÜ¼ÖÃ¢ÀÇ ³Êºñ
-    int nScreenHeight = 0; // ÄÜ¼ÖÃ¢ÀÇ ³ôÀÌ
-    int nScreenBufferSize = 0; // ÄÜ¼ÖÃ¢ÀÇ ½ºÅ©¸°¹öÆÛ Å©±â
-    int nScreenBufferIndex = 0; // ÄÜ¼ÖÃ¢ÀÌ »ç¿ëÇÒ ½ºÅ©¸°¹öÆÛÀÇ ÀÎµ¦½º
-    HANDLE hScreenBuffer[2]; // ÄÜ¼ÖÃ¢ÀÌ »ç¿ëÇÒ ½ºÅ©¸°¹öÆÛÀÇ ÇÚµé
+    int nScreenWidth = 0; // ì½˜ì†”ì°½ì˜ ë„ˆë¹„
+    int nScreenHeight = 0; // ì½˜ì†”ì°½ì˜ ë†’ì´
+    int nScreenBufferSize = 0; // ì½˜ì†”ì°½ì˜ ìŠ¤í¬ë¦°ë²„í¼ í¬ê¸°
+    int nScreenBufferIndex = 0; // ì½˜ì†”ì°½ì´ ì‚¬ìš©í•  ìŠ¤í¬ë¦°ë²„í¼ì˜ ì¸ë±ìŠ¤
+    HANDLE hScreenBuffer[2]; // ì½˜ì†”ì°½ì´ ì‚¬ìš©í•  ìŠ¤í¬ë¦°ë²„í¼ì˜ í•¸ë“¤
 
     void ScreenInit()
     {
-        // ÇöÀç È­¸éÅ©±â¿¡ ¸Â´Â È­¸é ÄÜ¼Ö½ºÅ©¸°¹öÆÛ 2°³¸¦ ¸¸µç´Ù.    
+        // í˜„ì¬ í™”ë©´í¬ê¸°ì— ë§ëŠ” í™”ë©´ ì½˜ì†”ìŠ¤í¬ë¦°ë²„í¼ 2ê°œë¥¼ ë§Œë“ ë‹¤.    
         hConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
         hScreenBuffer[0] = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
         hScreenBuffer[1] = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 
-        // ±Û¾¾ Å©±â ÀÛ°Ô ¼³Á¤
+        // ê¸€ì”¨ í¬ê¸° ì‘ê²Œ ì„¤ì •
         SetSmallFont(hConsoleHandle, 4);
         SetSmallFont(hScreenBuffer[0], 4);
         SetSmallFont(hScreenBuffer[1], 4);
 
-        // ±âº» ÄÜ¼Ö,»ı¼ºµÈ ÄÜ¼Ö½ºÅ©¸° ¸ğµÎ Ä¿¼­ ¾Èº¸ÀÌ°Ô ¼³Á¤
+        // ê¸°ë³¸ ì½˜ì†”,ìƒì„±ëœ ì½˜ì†”ìŠ¤í¬ë¦° ëª¨ë‘ ì»¤ì„œ ì•ˆë³´ì´ê²Œ ì„¤ì •
         CONSOLE_CURSOR_INFO cursorInfo = { 0, };
         cursorInfo.bVisible = FALSE;
-        cursorInfo.dwSize = 1; // Ä¿¼­ÀÇ Å©±â¸¦ °áÁ¤ (1~100 »çÀÌ¸¸ °¡´É)
+        cursorInfo.dwSize = 1; // ì»¤ì„œì˜ í¬ê¸°ë¥¼ ê²°ì • (1~100 ì‚¬ì´ë§Œ ê°€ëŠ¥)
         SetConsoleCursorInfo(hConsoleHandle, &cursorInfo);
         SetConsoleCursorInfo(hScreenBuffer[0], &cursorInfo);
         SetConsoleCursorInfo(hScreenBuffer[1], &cursorInfo);
 
-        //±âº» ÄÜ¼ÖÀÇ È­¸é Å©±â Á¤º¸¸¦ ¾ò´Â´Ù.
-        CONSOLE_SCREEN_BUFFER_INFO Info; // ÃÊ±â È­¸é ÄÜ¼ÖÀÇ È­¸é Á¤º¸
+        //ê¸°ë³¸ ì½˜ì†”ì˜ í™”ë©´ í¬ê¸° ì •ë³´ë¥¼ ì–»ëŠ”ë‹¤.
+        CONSOLE_SCREEN_BUFFER_INFO Info; // ì´ˆê¸° í™”ë©´ ì½˜ì†”ì˜ í™”ë©´ ì •ë³´
         GetConsoleScreenBufferInfo(hConsoleHandle, &Info);
 
         nScreenHeight = Info.srWindow.Bottom - Info.srWindow.Top + 1;
         nScreenWidth = Info.srWindow.Right - Info.srWindow.Left + 1;
         nScreenBufferSize = nScreenWidth * nScreenHeight;
 
-        // ÄÜ¼Ö Ãâ·Â UTF8·Î º¯°æ
+        // ì½˜ì†” ì¶œë ¥ UTF8ë¡œ ë³€ê²½
         SetConsoleOutputCP(CP_UTF8);
         system("mode con cols=120 lines=30");
 
@@ -52,7 +52,7 @@ namespace ConsoleRenderer
         cfi.cbSize = sizeof(cfi);
         cfi.nFont = 0;
         cfi.dwFontSize.X = 0; // Width: 0 = auto
-        cfi.dwFontSize.Y = fontSize; // Height: ÁÙÀÏ¼ö·Ï ÀÛ¾ÆÁü
+        cfi.dwFontSize.Y = fontSize; // Height: ì¤„ì¼ìˆ˜ë¡ ì‘ì•„ì§
         cfi.FontFamily = FF_DONTCARE;
         cfi.FontWeight = FW_NORMAL;
         wcsncpy_s(cfi.FaceName, fontName, LF_FACESIZE);
@@ -61,9 +61,9 @@ namespace ConsoleRenderer
 
     void ScreenFlipping()
     {
-        // ½ÇÁ¦ ÄÜ¼ÖÀÌ »ç¿ëÇÒ ½ºÅ©¸°¹öÆÛÀÇ HandleÀ» ¼³Á¤ÇÏ¿© È­¸é¿¡ º¸¿©ÁØ´Ù.
+        // ì‹¤ì œ ì½˜ì†”ì´ ì‚¬ìš©í•  ìŠ¤í¬ë¦°ë²„í¼ì˜ Handleì„ ì„¤ì •í•˜ì—¬ í™”ë©´ì— ë³´ì—¬ì¤€ë‹¤.
         SetConsoleActiveScreenBuffer(hScreenBuffer[nScreenBufferIndex]);
-        // ´ÙÀ½¿¡ »ç¿ëÇÒ ½ºÅ©¸° ¹öÆÛÀÇ ÀÎµ¦½º¸¦ Áõ°¡½ÃÄÑ ÁØºñÇÑ´Ù.
+        // ë‹¤ìŒì— ì‚¬ìš©í•  ìŠ¤í¬ë¦° ë²„í¼ì˜ ì¸ë±ìŠ¤ë¥¼ ì¦ê°€ì‹œì¼œ ì¤€ë¹„í•œë‹¤.
         nScreenBufferIndex++;
         nScreenBufferIndex = nScreenBufferIndex % 2;  // 0,1,0,1,0,1,0,1....
     }
@@ -82,8 +82,8 @@ namespace ConsoleRenderer
     }
 
     /*
-        FOREGROUND_BLUE	ÅØ½ºÆ® »ö¿¡ ÆÄ¶õ»öÀÌ Æ÷ÇÔµË´Ï´Ù.
-        COMMON_LVB_LEADING_BYTE	¼±Çà ¹ÙÀÌÆ®ÀÔ´Ï´Ù.
+        FOREGROUND_BLUE	í…ìŠ¤íŠ¸ ìƒ‰ì— íŒŒë€ìƒ‰ì´ í¬í•¨ë©ë‹ˆë‹¤.
+        COMMON_LVB_LEADING_BYTE	ì„ í–‰ ë°”ì´íŠ¸ì…ë‹ˆë‹¤.
 
         https://learn.microsoft.com/ko-kr/windows/console/console-screen-buffers#character-attributes
     */
@@ -113,7 +113,7 @@ namespace ConsoleRenderer
         cdPos.Y = y;
 
         DWORD nNumberOfBytesToWrite = (DWORD)strlen(pStr);
-        //Æ¯Á¤ À§Ä¡¿¡ ¹®ÀÚ¿­À» Ãâ·ÂÇÑ´Ù.
+        //íŠ¹ì • ìœ„ì¹˜ì— ë¬¸ìì—´ì„ ì¶œë ¥í•œë‹¤.
         WriteConsoleOutputCharacterA(hScreenBuffer[nScreenBufferIndex], pStr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
         bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
         if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
