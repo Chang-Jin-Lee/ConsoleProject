@@ -5,6 +5,7 @@
 #include "PlayScene.h"
 #include "BaseDefine.h"
 #include "Time.h"
+#include "FileController.h"
 
 namespace Game
 {

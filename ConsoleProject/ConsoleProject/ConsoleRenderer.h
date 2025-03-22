@@ -58,10 +58,14 @@ namespace ConsoleRenderer
 
 	bool ScreenDrawChar(int x, int y, char ch, WORD attr);
 	bool ScreenDrawString(int x, int y, const char* pStr, WORD attr);
+	bool ScreenDrawWString(int x, int y, const wchar_t* pStr, WORD attr);
+	bool ScreenDrawStringFromFile(int x, int y, const char* pStr, WORD attr);
+	void ScreenDrawFileStrings(int x, int y, char** str, int str_size, WORD attr);
 	void ScreenDrawMultilineString(int x, int y, const char* str, WORD attr);
 	bool ScreenSetAttributes(WORD attr);
 
 	int ScreenWidth();
 	int ScreenHeight();
 	int ScreenCenter(const char* ch);
+	int ScreenCenterW(const wchar_t* ch);
 };

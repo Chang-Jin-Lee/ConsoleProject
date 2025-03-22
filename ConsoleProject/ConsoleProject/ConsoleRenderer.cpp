@@ -120,6 +120,47 @@ namespace ConsoleRenderer
         return bRval;
     }
 
+    bool ScreenDrawWString(int x, int y, const wchar_t* pStr, WORD attr)
+    {
+        COORD	cdPos;
+        BOOL	bRval = FALSE;
+        DWORD	dwCharsWritten;
+        cdPos.X = x;
+        cdPos.Y = y;
+
+        DWORD nNumberOfBytesToWrite = (DWORD)wcslen(pStr);
+        //특정 위치에 문자열을 출력한다.
+        WriteConsoleOutputCharacterW(hScreenBuffer[nScreenBufferIndex], pStr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
+        return bRval;
+    }
+
+    bool ScreenDrawStringFromFile(int x, int y, const char* pStr, WORD attr)
+    {
+        COORD	cdPos;
+        BOOL	bRval = FALSE;
+        DWORD	dwCharsWritten;
+        cdPos.X = x;
+        cdPos.Y = y;
+
+        DWORD nNumberOfBytesToWrite = (DWORD)(strlen(pStr) - 1);
+        //특정 위치에 문자열을 출력한다.
+        WriteConsoleOutputCharacterA(hScreenBuffer[nScreenBufferIndex], pStr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
+        return bRval;
+    }
+
+
+    void ScreenDrawFileStrings(int x, int y, char** str, int str_size, WORD attr)
+    {
+        for (int i = 0; i < str_size; i++)
+        {
+            ScreenDrawStringFromFile(x, y + i, str[i], attr);
+        }
+    }
+
     void ConsoleRenderer::ScreenDrawMultilineString(int x, int y, const char* str, WORD attr)
     {
         int offsetY = 0;
@@ -176,6 +217,11 @@ namespace ConsoleRenderer
     int ScreenCenter(const char* ch)
     {
         return nScreenWidth / 2 - strlen(ch) / 2;
+    }
+
+    int ScreenCenterW(const wchar_t* ch)
+    {
+        return nScreenWidth / 2 - wcslen(ch) / 2;
     }
 };
 

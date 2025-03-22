@@ -1,4 +1,4 @@
-﻿// ConsoleDoubleBuffering.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+// ConsoleDoubleBuffering.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 
 /*
@@ -33,6 +33,7 @@ int main()
 
 void Game::Initialize()	// 게임 시작할 때 초기화
 {
+	Game::SceneInitialize();
 	g_tgameTimer = new Time();
 	g_tgameTimer->Initialize();
 	ConsoleRenderer::ScreenInit();

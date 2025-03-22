@@ -130,6 +130,7 @@
     <ClCompile Include="BaseDefine.h" />
     <ClCompile Include="ConsoleRenderer.cpp" />
     <ClCompile Include="EndScene.cpp" />
+    <ClCompile Include="FileController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="MenuScene.cpp" />
@@ -141,9 +142,15 @@
     <ClInclude Include="AsciiArt.h" />
     <ClInclude Include="ConsoleRenderer.h" />
     <ClInclude Include="EndScene.h" />
+    <ClInclude Include="FileController.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="PlayScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="MenuTitle.txt" />
+    <Text Include="Aru.txt" />
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
