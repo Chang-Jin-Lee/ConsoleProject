@@ -7,8 +7,10 @@
 namespace PlayScene
 {
 	void Initialize();
+	void LoadData();
 	void ProcessInput();
 	void Update();
 	void Render();
 	void BlinkSpeechNextButton();
+	void SpeechContent();
 }

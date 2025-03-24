@@ -7,6 +7,7 @@
 namespace MenuScene
 {
 	void Initialize();
+	void LoadData();
 	void ProcessInput();
 	void Update();
 	void Render();

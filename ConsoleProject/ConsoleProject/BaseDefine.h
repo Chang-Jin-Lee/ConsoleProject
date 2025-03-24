@@ -33,6 +33,16 @@ namespace UI
 		}
 
 	};
+
+	struct FGAMEDIALOG
+	{
+		int InSize = 0;
+		FUI Speaker;
+		FUI Dialog;
+		FUI Type;
+		FUI Answer;
+		FUI Likeability;
+	};
 }
 
 #define VK_Q 0x41 + 'q' - 'a'

@@ -7,8 +7,15 @@ float m_fSceneChangeTime = 0;
 
 void EndScene::Initialize()	// 게임 시작할 때 초기화
 {
+	LoadData();
+
 	if (Game::GetTimer())
 		m_fEndScenecurrentTime = Game::GetTimer()->GetTotalTime();
+}
+
+void EndScene::LoadData()
+{
+
 }
 
 void EndScene::ProcessInput()

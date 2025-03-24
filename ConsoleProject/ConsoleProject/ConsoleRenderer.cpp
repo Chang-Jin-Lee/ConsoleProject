@@ -214,6 +214,10 @@ namespace ConsoleRenderer
         return bRval;
     }
 
+    void print(char* value)
+    {
+        OutputDebugStringA(value);
+    }
 
     int ScreenWidth()
     {

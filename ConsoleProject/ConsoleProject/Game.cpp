@@ -33,10 +33,29 @@ int wmain()
 
 void Game::Initialize()	// 게임 시작할 때 초기화
 {
+	Game::LoadData();
 	g_tgameTimer = new Time();
 	g_tgameTimer->Initialize();
 	ConsoleRenderer::ScreenInit();
 	Game::SceneInitialize();
+}
+
+void Game::LoadData()
+{
+	switch (g_eSceneCurrentState)
+	{
+	case ESceneState::MENU:
+		MenuScene::LoadData();
+		break;
+	case ESceneState::PLAY:
+		PlayScene::LoadData;
+		break;
+	case ESceneState::END:
+		EndScene::LoadData();
+		break;
+	default:
+		break;
+	}
 }
 
 void Game::SceneInitialize()

@@ -10,6 +10,7 @@
 namespace Game
 {
 	void Initialize();
+	void LoadData();
 	void SceneInitialize();
 	void Update();
 	void Render();

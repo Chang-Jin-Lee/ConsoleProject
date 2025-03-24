@@ -72,6 +72,8 @@ namespace ConsoleRenderer
 
 	bool ScreenSetAttributes(WORD attr);
 
+	void print(char* value);
+
 	int ScreenWidth();
 	int ScreenHeight();
 	int ScreenCenter(const char* ch);

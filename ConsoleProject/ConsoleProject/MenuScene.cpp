@@ -2,9 +2,10 @@
 #include "Input.h"
 #include "Game.h"
 
-#define MAX_PERCENT_STRING_SIZE 40
-#define MAX_BUTTON_COUNT 2
+#define MAX_PERCENT_STRING_SIZE 40	// 퍼센트 게이지바 칸 개수
+#define MAX_BUTTON_COUNT 2			// 메뉴 셀렉트 개수
 
+// Time 관련
 float m_fcurrentTime = 0;
 float m_floadingTime = 5;
 float m_fMenuLastTime = 0;
@@ -38,6 +39,8 @@ ECursorState m_ecursorState = START;
 
 void MenuScene::Initialize()	// 게임 시작할 때 초기화
 {
+	LoadData();
+
 	m_fCursor = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.4), int(ConsoleRenderer::ScreenHeight() * 0.7), (char*)" > ");
 	m_apossibleCursorYAxis[0] = int(ConsoleRenderer::ScreenHeight() * 0.7);
 	m_apossibleCursorYAxis[1] = int(ConsoleRenderer::ScreenHeight() * 0.8);
@@ -56,7 +59,10 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 		m_finitialOneSecond = Game::GetTimer()->GetTotalTime();
 		m_fcountOneSecond = Game::GetTimer()->GetTotalTime();
 	}
+}
 
+void MenuScene::LoadData()
+{
 	if (FileController::FileRead("MenuTitle.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_icontentSize))
 	{
 		m_fTitleFile.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fTitleFile.m_ppcontent[0]);
@@ -64,24 +70,16 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	}
 
 	if (FileController::FileRead("CatIdle.txt", "r", &m_fAsciiCatIdleFile.m_ppcontent, &m_fAsciiCatIdleFile.m_icontentSize))
-	{
 		AsciiArt_cat = &m_fAsciiCatIdleFile;
-	}
 
 	if (FileController::FileRead("CatEyeOpen.txt", "r", &m_fAsciiCatEyeOpenFile.m_ppcontent, &m_fAsciiCatEyeOpenFile.m_icontentSize) == false)
-	{
-		printf("FileReadError\n");
-	}
+		ConsoleRenderer::print((char*)"MenuScene_FileReadError\n");
 }
 
 void MenuScene::ProcessInput()
 {
-	if (Input::IsKeyPressed(VK_Q))
-	{ 
-		Game::ChangeScene(ESceneState::PLAY);
-	}
-
-	if (Input::IsKeyPressed(VK_ESCAPE)) { //종료
+	if (Input::IsKeyPressed(VK_ESCAPE))  //종료
+	{
 		Game::GameExit();
 	}
 
@@ -135,7 +133,7 @@ void MenuScene::Update()
 		m_fMenuLastTime = Game::GetTimer()->GetTotalTime() - m_fcurrentTime;
 		if (m_fMenuLastTime >= m_floadingTime + 1)
 		{
-			Game::ChangeScene(ESceneState::PLAY);
+			//Game::ChangeScene(ESceneState::PLAY);
 		}
 
 		m_fcountOneSeconds = Game::GetTimer()->GetTotalTime() - m_finitialOneSecond;
@@ -152,10 +150,7 @@ void MenuScene::Update()
 			m_fcountOneSecond = Game::GetTimer()->GetTotalTime();
 		}
 
-		if (bcatBlink)
-			AsciiArt_cat = &m_fAsciiCatEyeOpenFile;
-		else
-			AsciiArt_cat = &m_fAsciiCatIdleFile;
+		bcatBlink == true ? AsciiArt_cat = &m_fAsciiCatEyeOpenFile : AsciiArt_cat = &m_fAsciiCatIdleFile;
 	}
 }
 
@@ -173,21 +168,12 @@ void MenuScene::TitleText()
 
 void MenuScene::LoadingBar(float value)
 {
-	//const char* message = nullptr;
 	char message[MAX_PERCENT_STRING_SIZE];
 	int messageSize = min(MAX_PERCENT_STRING_SIZE-1, MAX_PERCENT_STRING_SIZE * value);
 	strncpy_s(message, m_fPercent.m_pcontent, messageSize);
 
 	char valueToString[5];
 	_itoa_s(min(100, 100 * value), valueToString,10);
-
-	// 출력 위치는 예시이며 필요에 따라 조정 가능
-	//ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(valueToString), ConsoleRenderer::ScreenHeight() * 0.5, valueToString, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawString(m_fPercent.m_fAxis.X, m_fPercent.m_fAxis.Y, message, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUI(m_fPercent, FG_WHITE);
-
-	if(AsciiArt_cat)
-		ConsoleRenderer::ScreenDrawFileStrings(ConsoleRenderer::ScreenCenter(AsciiArt_cat->m_ppcontent[0]) / 2, ConsoleRenderer::ScreenHeight() * 0.6, AsciiArt_cat->m_ppcontent, AsciiArt_cat->m_icontentSize, FG_WHITE);
 }
 
 void MenuScene::MenuSlect()
@@ -195,4 +181,6 @@ void MenuScene::MenuSlect()
 	ConsoleRenderer::ScreenDrawUI(m_fStartButton, FG_WHITE);
 	ConsoleRenderer::ScreenDrawUI(m_fExitButton, FG_WHITE);
 	ConsoleRenderer::ScreenDrawUI(m_fCursor, FG_WHITE);
+	if (AsciiArt_cat)
+		ConsoleRenderer::ScreenDrawFileStrings(ConsoleRenderer::ScreenCenter(AsciiArt_cat->m_ppcontent[0]) / 2, ConsoleRenderer::ScreenHeight() * 0.6, AsciiArt_cat->m_ppcontent, AsciiArt_cat->m_icontentSize, FG_WHITE);
 }

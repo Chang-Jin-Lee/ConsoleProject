@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CatEyeOpen.txt" />
+    <Text Include="CatEyeOpen_TailDown.txt" />
     <Text Include="CatIdle.txt" />
     <Text Include="Dialogue.csv" />
     <Text Include="Dog.txt" />

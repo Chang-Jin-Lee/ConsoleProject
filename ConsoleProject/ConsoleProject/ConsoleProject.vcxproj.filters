@@ -115,5 +115,8 @@
     <Text Include="Dialogue.csv">
       <Filter>리소스 파일\Dialogue</Filter>
     </Text>
+    <Text Include="CatEyeOpen_TailDown.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
 </Project>
