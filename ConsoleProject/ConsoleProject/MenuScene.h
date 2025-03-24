@@ -10,5 +10,7 @@ namespace MenuScene
 	void ProcessInput();
 	void Update();
 	void Render();
+	void TitleText();
 	void LoadingBar(float value);
+	void MenuSlect();
 }

@@ -40,12 +40,12 @@ void EndScene::Update()
 
 void EndScene::Render()
 {
-	ConsoleRenderer::ScreenDrawString(0, 0, u8"EndScene", FG_SKY_DARK);
+	ConsoleRenderer::ScreenDrawString(0, 0, "EndScene", FG_SKY_DARK);
 	if (Game::GetTimer())
 	{
 		char array[20];
 		sprintf_s(array, u8"%f", Game::GetTimer()->GetTotalTime() - m_fEndScenecurrentTime);
-		ConsoleRenderer::ScreenDrawString(2, 2, u8"경과 시간 : ", FG_SKY_DARK);
+		ConsoleRenderer::ScreenDrawString(2, 2, "경과 시간 : ", FG_SKY_DARK);
 		ConsoleRenderer::ScreenDrawString(3, 3, array, FG_SKY_DARK);
 	}
 }

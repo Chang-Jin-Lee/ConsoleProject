@@ -42,8 +42,6 @@ namespace ConsoleRenderer
 
         // 콘솔 출력 UTF8로 변경
         SetConsoleOutputCP(CP_UTF8);
-        system("mode con cols=120 lines=30");
-
     }
 
     void SetSmallFont(HANDLE hConsole, SHORT fontSize, const wchar_t* fontName)
@@ -120,7 +118,7 @@ namespace ConsoleRenderer
         return bRval;
     }
 
-    bool ScreenDrawWString(int x, int y, const wchar_t* pStr, WORD attr)
+    bool ScreenDrawString(int x, int y, const wchar_t* pStr, WORD attr)
     {
         COORD	cdPos;
         BOOL	bRval = FALSE;
@@ -152,6 +150,34 @@ namespace ConsoleRenderer
         return bRval;
     }
 
+    bool ScreenDrawStringFromFile(int x, int y, const wchar_t* pStr, WORD attr)
+    {
+        COORD	cdPos;
+        BOOL	bRval = FALSE;
+        DWORD	dwCharsWritten;
+        cdPos.X = x;
+        cdPos.Y = y;
+
+        DWORD nNumberOfBytesToWrite = (DWORD)(wcslen(pStr) - 1);
+        //특정 위치에 문자열을 출력한다.
+        WriteConsoleOutputCharacterW(hScreenBuffer[nScreenBufferIndex], pStr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
+        return bRval;
+    }
+
+    void ScreenDrawUI(UI::FUI ui, WORD attr)
+    {
+        ScreenDrawString(ui.m_fAxis.X, ui.m_fAxis.Y, ui.m_pcontent, attr);
+    }
+
+    void ScreenDrawUIFromFile(UI::FUI ui, WORD attr)
+    {
+        for (int i = 0; i < ui.m_icontentSize; i++)
+        {
+            ScreenDrawStringFromFile(ui.m_fAxis.X, ui.m_fAxis.Y + i, ui.m_ppcontent[i], attr);
+        }
+    }
 
     void ScreenDrawFileStrings(int x, int y, char** str, int str_size, WORD attr)
     {
@@ -161,29 +187,13 @@ namespace ConsoleRenderer
         }
     }
 
-    void ConsoleRenderer::ScreenDrawMultilineString(int x, int y, const char* str, WORD attr)
+    void ScreenDrawFileStrings(int x, int y, wchar_t** str, int str_size, WORD attr)
     {
-        int offsetY = 0;
-        const char* lineStart = str;
-        while (lineStart)
+        for (int i = 0; i < str_size; i++)
         {
-            const char* lineEnd = strchr(lineStart, '\n');
-            std::string line;
-            if (lineEnd)
-            {
-                line = std::string(lineStart, lineEnd);
-                lineStart = lineEnd + 1;
-            }
-            else
-            {
-                line = std::string(lineStart);
-                lineStart = nullptr;
-            }
-            ScreenDrawString(x, y + offsetY, line.c_str(), attr);
-            offsetY++;
+            ScreenDrawStringFromFile(x, y + i, str[i], attr);
         }
     }
-
 
     bool ScreenSetAttributes(WORD attr)
     {

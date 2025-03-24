@@ -139,7 +139,6 @@
     <ClCompile Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsciiArt.h" />
     <ClInclude Include="ConsoleRenderer.h" />
     <ClInclude Include="EndScene.h" />
     <ClInclude Include="FileController.h" />
@@ -148,8 +147,15 @@
     <ClInclude Include="PlayScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CatEyeOpen.txt" />
+    <Text Include="CatIdle.txt" />
+    <Text Include="Dialogue.csv" />
+    <Text Include="Dog.txt" />
+    <Text Include="ExitText.txt" />
     <Text Include="MenuTitle.txt" />
     <Text Include="Aru.txt" />
+    <Text Include="StartText.txt" />
+    <Text Include="SunGlass.txt" />
     <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

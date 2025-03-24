@@ -10,4 +10,5 @@ namespace PlayScene
 	void ProcessInput();
 	void Update();
 	void Render();
+	void BlinkSpeechNextButton();
 }

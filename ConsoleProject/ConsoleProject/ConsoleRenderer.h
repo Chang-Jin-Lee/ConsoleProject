@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include "BaseDefine.h"
 
 // Foreground
 #define FG_BLACK		0
@@ -58,10 +59,17 @@ namespace ConsoleRenderer
 
 	bool ScreenDrawChar(int x, int y, char ch, WORD attr);
 	bool ScreenDrawString(int x, int y, const char* pStr, WORD attr);
-	bool ScreenDrawWString(int x, int y, const wchar_t* pStr, WORD attr);
+	bool ScreenDrawString(int x, int y, const wchar_t* pStr, WORD attr);
+
 	bool ScreenDrawStringFromFile(int x, int y, const char* pStr, WORD attr);
+	bool ScreenDrawStringFromFile(int x, int y, const wchar_t* pStr, WORD attr);
+
+	void ScreenDrawUI(UI::FUI ui, WORD attr);
+	void ScreenDrawUIFromFile(UI::FUI ui, WORD attr);
+
 	void ScreenDrawFileStrings(int x, int y, char** str, int str_size, WORD attr);
-	void ScreenDrawMultilineString(int x, int y, const char* str, WORD attr);
+	void ScreenDrawFileStrings(int x, int y, wchar_t** str, int str_size, WORD attr);
+
 	bool ScreenSetAttributes(WORD attr);
 
 	int ScreenWidth();

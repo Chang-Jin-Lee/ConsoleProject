@@ -18,7 +18,7 @@ COORD g_Player = { 0,0 };
 bool g_bQuit = false;
 Time* g_tgameTimer = NULL;
 
-int main()
+int wmain()
 {
 	Game::Initialize();
 
@@ -33,10 +33,10 @@ int main()
 
 void Game::Initialize()	// 게임 시작할 때 초기화
 {
-	Game::SceneInitialize();
 	g_tgameTimer = new Time();
 	g_tgameTimer->Initialize();
 	ConsoleRenderer::ScreenInit();
+	Game::SceneInitialize();
 }
 
 void Game::SceneInitialize()
@@ -126,5 +126,5 @@ void Game::ChangeScene(const ESceneState& scene)
 
 void Game::GameExit()
 {
-	g_bQuit = false;
+	g_bQuit = true;
 }
