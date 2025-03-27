@@ -4,14 +4,8 @@
 #include <string.h>
 #include "ConsoleRenderer.h"
 
-
-#define MAX_BUFFER_POOL_SIZE 10001	// 버퍼의 최대 풀 개수 (y 축으로 몇 줄인지.)
-#define MAX_WORD_LENGTH 200				// 단어의 최대 알파벳 숫자는 14개, 끝은 문자 NULL (값0)으로 채워야한다.== txt 파일로 입력받을 수 있는 한 문장의 최대 글자 수
-#define MAX_PTR_SIZE 100000		// CSV 파일에서 읽어들일 수 있는 최대 단락 수
-
 char g_cszBuff[MAX_WORD_LENGTH];	// 입력 버퍼
 wchar_t g_cszWBuff[MAX_WORD_LENGTH];	// 입력 버퍼
-
 
 namespace FileController
 {
@@ -28,9 +22,10 @@ namespace FileController
 		*outBuffer = (char**)malloc(sizeof(char*) * (MAX_BUFFER_POOL_SIZE + 1));
 
 		int m_ioutBufferIndex = 0;
-
+		
 		while (true)
 		{
+			memset(g_cszBuff, '\0', MAX_WORD_LENGTH);
 			fgets(g_cszBuff, MAX_WORD_LENGTH, fp);
 			if (feof(fp)) break;
 
@@ -65,9 +60,11 @@ namespace FileController
 
 		int m_ioutBufferIndex = 0;
 
+		
+
 		while (true)
 		{
-
+			memset(g_cszWBuff, '\0', MAX_WORD_LENGTH);
 			fgetws(g_cszWBuff, MAX_WORD_LENGTH, fp);
 			if (feof(fp)) break;
 
@@ -103,35 +100,39 @@ namespace FileController
 
 		while (true)
 		{
+			memset(g_cszBuff, '\0', MAX_WORD_LENGTH);
 			fgets(g_cszBuff, MAX_WORD_LENGTH, fp);
 			if (feof(fp)) break;
 
 			int g_cszBuff_size = strlen(g_cszBuff);
 			char* context = NULL;
 			char* ptr = strtok_s(g_cszBuff, ",", &context);
-			char** ptrs = (char**)malloc(sizeof(char*)* MAX_PTR_SIZE);
+			char** ptrs = (char**)malloc(sizeof(char*) * MAX_PTR_SIZE);
 			int count = 0;
-			
+
 			while (ptr != NULL)
 			{
 				int ptrSize = strlen(ptr) + 1;
 				ptrs[count] = (char*)malloc(sizeof(char) * ptrSize);
-				memcpy_s(ptrs[count++], ptrSize ,ptr, ptrSize);
+				memcpy_s(ptrs[count++], ptrSize, ptr, ptrSize);
 				ConsoleRenderer::print(ptr);
 				ptr = strtok_s(NULL, ",", &context);
 			}
 
 			dialog[m_ioutBufferIndex].InSize = atoi(ptrs[0]);
 			dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[1];
-			dialog[m_ioutBufferIndex].Speaker.m_icontentSize = strlen(ptrs[1]);
+			dialog[m_ioutBufferIndex].Speaker.m_ipcontentSize = strlen(ptrs[1]);
 			dialog[m_ioutBufferIndex].Dialog.m_pcontent = ptrs[2];
-			dialog[m_ioutBufferIndex].Dialog.m_icontentSize = strlen(ptrs[2]);
+			dialog[m_ioutBufferIndex].Dialog.m_ipcontentSize = strlen(ptrs[2]);
 			dialog[m_ioutBufferIndex].Type.m_pcontent = ptrs[3];
-			dialog[m_ioutBufferIndex].Type.m_icontentSize = strlen(ptrs[3]);
+			dialog[m_ioutBufferIndex].Type.m_ipcontentSize = strlen(ptrs[3]);
 			dialog[m_ioutBufferIndex].Answer.m_pcontent = ptrs[4];
-			dialog[m_ioutBufferIndex].Answer.m_icontentSize = strlen(ptrs[4]);
+			dialog[m_ioutBufferIndex].Answer.m_ipcontentSize = strlen(ptrs[4]);
 			dialog[m_ioutBufferIndex].Likeability.m_pcontent = ptrs[5];
-			dialog[m_ioutBufferIndex].Likeability.m_icontentSize = strlen(ptrs[5]);
+			dialog[m_ioutBufferIndex].Likeability.m_ipcontentSize = strlen(ptrs[5]);
+			ptrs[6][strlen(ptrs[6]) - 1] = '\0';
+			dialog[m_ioutBufferIndex].SceneName.m_pcontent = ptrs[6];
+			dialog[m_ioutBufferIndex].SceneName.m_ipcontentSize = strlen(ptrs[6]) - 1;
 
 			m_ioutBufferIndex++;
 		}
@@ -139,6 +140,93 @@ namespace FileController
 		*dialogSize = m_ioutBufferIndex;
 
 		fclose(fp);
+
+		return 1;
+	}
+
+	int FileReadVideo(const char* VideoName, UI::FVideo* video)
+	{
+		for (int i = 0; i < MAX_VIDEO_SIZE; i++)
+		{
+			char filename[200];
+			sprintf_s(filename, sizeof(filename), "Video/%s/frame_%04d.txt", VideoName, i + 1);
+
+			FILE* fp = NULL;
+			fopen_s(&fp, filename, "r");
+			if (fp == NULL)
+			{
+				video->m_iMaxLength = i;
+				ConsoleRenderer::print(filename);
+				ConsoleRenderer::print((char*)"File Dose not Opened.\n");
+				break;
+			}
+
+			video->m_fui[i].m_ppcontent = (char**)malloc(sizeof(char*) * (MAX_BUFFER_POOL_SIZE + 1));
+
+			int m_ioutBufferIndex = 0;
+
+			while (true)
+			{
+				memset(g_cszBuff, '\0', MAX_WORD_LENGTH);
+				fgets(g_cszBuff, MAX_WORD_LENGTH, fp);
+				if (feof(fp)) break;
+
+				int g_cszBuff_size = strlen(g_cszBuff);
+				video->m_fui[i].m_ppcontent[m_ioutBufferIndex] = (char*)malloc(sizeof(char) * (g_cszBuff_size + 1));
+
+				for (int i = 0; i < g_cszBuff_size; i++)
+					video->m_fui[i].m_ppcontent[m_ioutBufferIndex][i] = g_cszBuff[i];
+				video->m_fui[i].m_ppcontent[m_ioutBufferIndex][g_cszBuff_size] = NULL;
+
+				m_ioutBufferIndex++;
+			}
+
+			video->m_fui[i].m_ippcontentSize = m_ioutBufferIndex;
+			fclose(fp);
+		}
+		return 1;
+	}
+
+	int FileReadAnimation(const char* VideoName, const int& animationState, Object::FPlayerCharacter* pc)
+	{
+		for (int i = 0; i < MAX_VIDEO_SIZE; i++)
+		{
+			char filename[200];
+			sprintf_s(filename, sizeof(filename), "Video/%s/frame_%04d.txt", VideoName, i + 1);
+
+			FILE* fp = NULL;
+			fopen_s(&fp, filename, "r");
+			if (fp == NULL)
+			{
+				pc->m_fanimation[animationState].m_iMaxLength = i;
+				ConsoleRenderer::print(filename);
+				ConsoleRenderer::print((char*)"File Dose not Opened.\n");
+				break;
+			}
+			
+			pc->m_fanimation[animationState].m_fui[i].m_ppcontent = (char**)malloc(sizeof(char*) * (MAX_BUFFER_POOL_SIZE + 1));
+
+			int m_ioutBufferIndex = 0;
+
+			while (true)
+			{
+				memset(g_cszBuff, '\0', MAX_WORD_LENGTH);
+				fgets(g_cszBuff, MAX_WORD_LENGTH, fp);
+				if (feof(fp)) break;
+
+				int g_cszBuff_size = strlen(g_cszBuff);
+				pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex] = (char*)malloc(sizeof(char) * (g_cszBuff_size + 1));
+
+				for (int j = 0; j < g_cszBuff_size; j++)
+					pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][j] = g_cszBuff[j];
+				pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][g_cszBuff_size] = NULL;
+
+				m_ioutBufferIndex++;
+			}
+
+			pc->m_fanimation[animationState].m_fui[i].m_ippcontentSize = m_ioutBufferIndex;
+			fclose(fp);
+		}
 
 		return 1;
 	}

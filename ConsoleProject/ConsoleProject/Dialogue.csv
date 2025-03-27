@@ -1,16 +1,20 @@
-0,Speaker,Dialogue,Type,Answer,Likeability
-1,Cat1,test1,Default,NULL,NULL
-2,Cat2,test2,Default,NULL,NULL
-3,Cat3,test3,Default,NULL,NULL
-4,Cat4,test4,Default,NULL,NULL
-5,Cat5,test5,Default,NULL,NULL
-6,Cat6,test6,Default,NULL,NULL
-7,Cat7,test7,Default,NULL,NULL
-8,Cat8,test8,Default,NULL,NULL
-9,Cat9,test9,Default,NULL,NULL
-10,Cat10,test10,Default,NULL,NULL
-11,Cat11,test11,Default,NULL,NULL
-12,Cat12,test12,Default,NULL,NULL
-13,Cat13,test13,Default,NULL,NULL
-14,Cat14,test14,Default,NULL,NULL
-15,Cat15,test15,Default,NULL,NULL
+0,Speaker,Dialogue,Type,Answer,Likeability,SceneName
+1,미야,……또 어두워졌군. 인간들은 어째서 밤마다 잠드는 걸까.,# 첫 번째 길목에서,NULL,❤️,CatWeird
+2,미야,후후. 하지만 나는 오늘도 달빛을 따라 걷는다.,# 첫 번째 길목에서,NULL,❤️,CatWalking
+3,미야,여긴… 주인이 좋아하던 공원.,# 첫 번째 길목에서,NULL,❤️❤️❤️,CatScared
+4,미야,이상해. 냄새가 낯설어…,# 첫 번째 길목에서,NULL,❤️,CatEyeOpen_TailDown
+5,미야,……발톱이 쭈뼛 섰어. 무언가… 따라오고 있어.,# 첫 번째 길목에서,NULL,💔,CatScared
+6,???,키-키-키… 귀찮은 발소리가 들리는군?,# 검은 까마귀 등장,NULL,💔,BirdIdle
+7,미야,……말하는 새라니. 싫어. 주인 냄새는 네가 묻혔지?,# 검은 까마귀 등장,NULL,💔💔,CatIdle
+8,미야, ……발톱 준비 완료. 날아오르기 전에 후회하게 해줄게.,# 배틀 시작 전,NULL,❤️,CatJump
+9,미야, ……이 깃털. 주인의 옷에서 떨어진 거야. 점점 가까워지고 있어.,# 배틀 시작 후,NULL,❤️,CatWalking
+10,미야,이 길.. 이상해… 발자국이… 없어져 간다.,# 어둠의 길을 지나는 중,NULL,❤️,CatWeird
+11,미야,아니야. 주인은 사라진 게 아니야. 숨겨진 거야.,# 어둠의 길을 지나는 중,NULL,❤️,CatWalking
+12,미야,문이 있군… 아주 낡았고.. 아주 조용해.,# 마지막 문 앞,NULL,❤️,CatWeird
+13,미야,준비됐어. 주인. 이번엔 내가 널 데리러 갈게.,Default,NULL,❤️,CatFace
+14,미야,……너였구나. 날 항상 창밖에서 보던 눈.,# 최종 이벤트,NULL,❤️,CatWalking
+15,???,그 아이는 널 정말 아꼈지. 그래서 데려왔어.,# 최종 이벤트,NULL,❤️,BirdAttack
+16,미야,주인은 선택한 게 아니야. 납치된 거야.,# 최종 이벤트,NULL,❤️,CatWeird
+17,미야,나의 이빨과 발톱. 지금을 위해 갈고 닦았어.,# 최종 이벤트,NULL,❤️,CatJump
+18,미야,……주인. 괜찮아. 이젠 내가 지킬게.,# 엔딩,NULL,❤️❤️❤️,CatWeird
+19,미야,다음엔 꼭… 같이 달빛을 산책하자.,# 엔딩,NULL,❤️❤️❤️❤️❤️,CatCurios

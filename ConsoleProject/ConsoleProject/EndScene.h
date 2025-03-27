@@ -8,6 +8,7 @@ namespace EndScene
 {
 	void Initialize();
 	void LoadData();
+	void Release();
 	void ProcessInput();
 	void Update();
 	void Render();

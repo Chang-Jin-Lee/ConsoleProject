@@ -31,6 +31,21 @@
     <Filter Include="리소스 파일\Dialogue">
       <UniqueIdentifier>{2de83ff2-d391-4ae8-b5f1-847f2b34ca1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="리소스 파일\Cat">
+      <UniqueIdentifier>{6bccc471-0f47-410b-8997-7af435636b8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\Player">
+      <UniqueIdentifier>{ce655d18-6584-4f1a-8bde-36b17c9e6c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\Video">
+      <UniqueIdentifier>{2a315538-48c2-4058-b450-910bab38943e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\Video\Aru">
+      <UniqueIdentifier>{5e36190b-14a9-481a-8d7d-96b513f32dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\Video\Rapi">
+      <UniqueIdentifier>{2a62e216-6962-4253-b747-00b86b61e261}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -63,6 +78,15 @@
     <ClCompile Include="FileController.cpp">
       <Filter>소스 파일\File</Filter>
     </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleRenderer.h">
@@ -83,18 +107,18 @@
     <ClInclude Include="FileController.h">
       <Filter>헤더 파일\File</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt">
       <Filter>리소스 파일</Filter>
     </Text>
     <Text Include="Aru.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-    <Text Include="CatIdle.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-    <Text Include="CatEyeOpen.txt">
       <Filter>리소스 파일</Filter>
     </Text>
     <Text Include="SunGlass.txt">
@@ -115,8 +139,3395 @@
     <Text Include="Dialogue.csv">
       <Filter>리소스 파일\Dialogue</Filter>
     </Text>
+    <Text Include="CatCurios.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatEyeOpen.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
     <Text Include="CatEyeOpen_TailDown.txt">
-      <Filter>리소스 파일</Filter>
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatFace.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatIdle.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatJump.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatOnRoof.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatScared.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatWeird.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="CatWalking.txt">
+      <Filter>리소스 파일\Cat</Filter>
+    </Text>
+    <Text Include="Player1Idle.txt">
+      <Filter>리소스 파일\Player</Filter>
+    </Text>
+    <Text Include="Player1Blink.txt">
+      <Filter>리소스 파일\Player</Filter>
+    </Text>
+    <Text Include="Player2Idle.txt">
+      <Filter>리소스 파일\Player</Filter>
+    </Text>
+    <Text Include="Player2Blink.txt">
+      <Filter>리소스 파일\Player</Filter>
+    </Text>
+    <Text Include="Player3Idle.txt">
+      <Filter>리소스 파일\Player</Filter>
+    </Text>
+    <Text Include="Player3Blink.txt">
+      <Filter>리소스 파일\Player</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0001.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0002.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0003.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0004.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0005.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0006.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0007.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0008.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0009.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0010.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0011.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0012.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0013.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0014.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0015.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0016.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0017.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0018.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0019.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0020.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0021.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0022.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0023.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0024.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0025.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0026.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0027.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0028.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0029.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0030.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0031.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0032.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0033.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0034.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0035.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0036.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0037.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0038.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0039.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0040.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0041.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0042.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0043.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0044.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0045.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0046.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0047.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0048.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0049.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0050.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0051.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0052.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0053.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0054.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0055.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0056.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0057.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0058.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0059.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0060.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0061.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0062.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0063.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0064.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0065.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0066.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0067.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0068.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0069.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0070.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0071.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0072.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0073.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0074.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0075.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0076.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0077.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0078.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0079.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0080.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0081.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0082.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0083.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0084.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0085.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0086.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0087.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0088.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0089.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0090.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0091.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0092.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0093.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0094.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0095.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0096.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0097.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0098.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0099.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0100.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0101.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0102.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0103.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0104.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0105.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0106.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0107.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0108.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0109.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0110.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0111.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0112.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0113.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0114.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0115.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0116.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0117.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0118.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0119.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0120.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0121.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0122.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0123.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0124.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0125.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0126.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0127.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0128.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0129.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0130.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0131.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0132.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0133.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0134.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0135.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0136.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0137.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0138.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0139.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0140.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0141.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0142.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0143.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0144.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0145.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0146.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0147.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0148.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0149.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0150.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0151.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0152.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0153.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0154.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0155.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0156.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0157.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0158.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0159.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0160.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0161.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0162.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0163.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0164.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0165.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0166.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0167.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0168.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0169.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0170.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0171.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0172.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0173.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0174.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0175.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0176.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0177.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0178.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0179.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0180.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0181.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0182.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0183.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0184.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0185.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0186.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0187.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0188.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0189.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0190.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0191.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0192.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0193.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0194.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0195.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0196.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0197.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0198.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0199.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0200.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0201.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0202.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0203.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0204.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0205.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0206.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0207.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0208.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0209.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0210.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0211.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0212.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0213.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0214.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0215.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0216.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0217.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0218.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0219.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0220.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0221.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0222.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0223.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0224.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0225.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0226.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0227.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0228.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0229.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0230.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0231.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0232.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0233.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0234.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0235.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0236.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0237.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0238.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0239.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0240.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0241.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0242.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0243.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0244.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0245.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0246.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0247.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0248.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0249.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0250.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0251.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0252.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0253.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0254.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0255.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0256.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0257.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0258.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0259.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0260.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0261.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0262.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0263.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0264.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0265.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0266.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0267.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0268.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0269.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0270.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0271.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0272.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0273.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0274.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0275.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0276.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0277.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0278.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0279.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0280.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0281.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0282.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0283.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0284.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0285.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0286.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0287.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0288.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0289.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0290.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0291.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0292.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0293.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0294.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0295.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0296.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0297.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0298.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0299.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0300.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0301.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0302.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0303.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0304.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0305.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0306.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0307.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0308.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0309.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0310.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0311.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0312.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0313.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0314.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0315.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0316.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0317.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0318.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0319.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0320.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0321.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0322.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0323.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0324.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0325.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0326.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0327.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0328.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0329.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0330.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0331.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0332.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0333.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0334.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0335.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0336.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0337.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0338.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0339.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0340.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0341.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0342.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0343.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0344.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0345.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0346.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0347.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0348.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0349.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0350.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0351.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0352.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0353.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0354.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0355.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0356.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0357.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0358.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0359.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0360.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0361.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0362.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0363.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0364.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0365.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0366.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0367.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0368.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0369.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0370.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0371.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0372.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0373.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0374.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0375.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0376.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0377.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0378.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0379.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0380.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0381.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0382.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0383.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0384.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0385.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0386.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0387.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0388.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0389.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0390.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0391.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0392.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0393.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0394.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0395.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0396.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0397.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0398.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0399.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0400.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0401.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0402.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0403.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0404.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0405.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0406.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0407.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0408.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0409.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0410.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0411.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0412.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0413.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0414.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0415.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0416.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0417.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0418.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0419.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0420.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0421.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0422.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0423.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0424.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0425.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0426.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0427.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0428.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0429.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0430.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0431.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0432.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0433.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0434.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0435.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0436.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0437.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0438.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0439.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0440.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0441.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0442.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0443.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0444.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0445.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0446.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0447.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0448.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0449.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0450.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0451.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0452.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0453.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0454.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0455.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0456.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0457.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0458.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0459.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0460.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0461.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0462.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0463.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0464.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0465.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0466.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0467.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0468.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0469.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0470.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0471.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0472.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0473.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0474.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0475.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0476.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0477.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0478.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0479.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0480.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0481.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0482.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0483.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0484.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0485.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0486.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0487.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0488.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0489.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0490.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0491.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0492.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0493.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0494.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0495.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0496.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0497.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0498.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0499.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0500.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0501.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0502.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0503.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0504.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0505.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0506.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0507.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0508.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0509.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0510.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0511.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0512.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0513.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0514.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0515.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0516.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0517.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0518.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0519.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0520.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0521.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0522.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0523.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0524.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0525.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0526.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0527.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0528.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0529.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0530.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0531.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0532.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0533.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0534.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0535.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0536.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0537.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0538.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0539.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0540.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0541.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0542.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0543.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0544.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0545.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0546.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0547.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0548.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0549.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0550.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0551.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0552.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0553.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0554.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0555.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0556.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0557.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0558.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0559.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0560.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0561.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0562.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0563.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0564.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0565.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0566.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0567.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0568.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0569.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0570.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0571.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0572.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0573.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0574.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0575.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0576.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0577.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0578.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0579.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0580.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0581.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0582.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0583.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0584.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0585.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0586.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0587.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0588.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0589.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0590.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0591.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0592.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0593.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0594.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0595.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0596.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0597.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0598.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0599.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0600.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0601.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0602.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0603.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0604.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0605.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0606.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0607.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0608.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0609.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0610.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0611.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0612.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0613.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0614.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0615.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0616.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0617.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0618.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0619.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0620.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0621.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0622.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0623.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0624.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0625.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0626.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0627.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0628.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0629.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0630.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0631.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0632.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0633.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0634.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0635.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0636.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0637.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0638.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0639.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0640.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0641.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0642.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0643.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0644.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0645.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0646.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0647.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0648.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0649.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0650.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0651.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0652.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0653.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0654.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0655.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0656.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0657.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0658.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0659.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0660.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0661.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0662.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0663.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0664.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0665.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0666.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0667.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0668.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0669.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0670.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0671.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0672.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0673.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0674.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0675.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0676.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0677.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0678.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0679.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0680.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0681.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0682.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0683.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0684.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0685.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0686.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0687.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0688.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0689.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0690.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0691.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0692.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0693.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0694.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0695.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0696.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0697.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0698.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0699.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0700.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0701.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0702.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0703.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0704.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0705.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0706.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0707.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0708.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0709.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0710.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0711.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0712.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0713.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0714.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0715.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0716.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0717.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0718.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0719.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0720.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0721.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0722.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0723.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0724.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0725.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0726.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0727.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0728.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0729.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0730.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0731.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0732.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0733.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0734.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0735.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0736.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0737.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0738.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0739.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0740.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0741.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0742.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0743.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0744.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0745.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0746.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0747.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0748.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0749.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0750.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0751.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0752.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0753.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0754.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0755.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0756.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0757.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0758.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0759.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0760.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0761.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0762.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0763.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0764.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0765.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0766.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0767.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0768.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0769.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0770.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0771.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0772.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0773.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0774.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0775.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0776.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0777.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0778.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0779.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0780.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0781.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0782.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0783.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0784.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0785.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0786.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0787.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0788.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0789.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0790.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0791.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0792.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0793.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0794.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0795.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0796.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0797.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0798.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0799.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0800.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0801.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0802.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0803.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0804.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0805.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0806.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0807.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0808.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0809.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0810.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0811.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0812.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0813.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0814.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0815.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0816.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0817.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0818.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0819.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0820.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0821.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0822.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0823.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0824.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0825.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0826.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0827.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0828.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0829.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0830.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0831.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0832.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0833.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0834.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0835.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0836.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0837.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0838.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0839.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0840.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0841.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0842.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0843.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0844.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0845.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0846.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0847.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0848.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0849.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0850.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0851.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0852.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0853.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0854.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0855.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0856.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0857.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0858.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0859.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0860.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0861.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0862.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0863.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0864.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0865.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0866.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0867.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0868.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0869.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0870.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0871.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0872.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0873.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0874.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0875.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0876.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0877.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0878.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0879.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0880.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0881.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0882.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0883.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0884.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0885.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0886.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0887.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0888.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0889.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0890.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0891.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0892.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0893.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0894.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0895.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0896.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0897.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0898.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0899.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0900.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0901.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0902.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0903.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0904.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0905.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0906.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0907.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0908.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0909.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0910.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0911.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0912.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0913.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0914.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0915.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0916.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0917.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0918.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0919.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0920.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0921.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0922.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0923.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0924.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0925.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0926.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0927.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0928.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0929.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0930.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0931.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0932.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0933.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0934.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0935.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0936.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0937.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0938.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0939.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0940.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0941.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0942.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0943.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0944.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0945.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0946.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0947.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0948.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0949.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0950.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0951.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0952.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0953.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0954.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0955.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0956.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0957.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0958.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0959.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0960.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0961.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0962.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0963.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0964.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0965.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0966.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0967.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0968.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0969.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0970.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0971.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0972.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0973.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0974.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0975.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0976.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0977.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0978.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0979.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0980.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0981.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0982.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0983.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0984.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0985.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0986.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0987.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0988.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0989.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0990.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0991.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0992.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0993.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0994.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0995.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0996.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0997.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0998.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_0999.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1000.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1001.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1002.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1003.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1004.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1005.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1006.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1007.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1008.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1009.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1010.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1011.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1012.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1013.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1014.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1015.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1016.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1017.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1018.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1019.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1020.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1021.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1022.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1023.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1024.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1025.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1026.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1027.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1028.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1029.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1030.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1031.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1032.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1033.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1034.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1035.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1036.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1037.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1038.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1039.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1040.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1041.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1042.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1043.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1044.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1045.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1046.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1047.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1048.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1049.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1050.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1051.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1052.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1053.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1054.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1055.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1056.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1057.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1058.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1059.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1060.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1061.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1062.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1063.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1064.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1065.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1066.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1067.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1068.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1069.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1070.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1071.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1072.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1073.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1074.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1075.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1076.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1077.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1078.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1079.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1080.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1081.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1082.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1083.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1084.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1085.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1086.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1087.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1088.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1089.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1090.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1091.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1092.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1093.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1094.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1095.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1096.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1097.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1098.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1099.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1100.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1101.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1102.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1103.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1104.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1105.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1106.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1107.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1108.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1109.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1110.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1111.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1112.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1113.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
+    </Text>
+    <Text Include="Video\Aru-frame_1114.txt">
+      <Filter>리소스 파일\Video\Aru</Filter>
     </Text>
   </ItemGroup>
 </Project>

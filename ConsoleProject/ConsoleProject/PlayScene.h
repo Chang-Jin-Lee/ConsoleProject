@@ -9,8 +9,10 @@ namespace PlayScene
 	void Initialize();
 	void LoadData();
 	void ProcessInput();
+	void Release();
 	void Update();
 	void Render();
 	void BlinkSpeechNextButton();
 	void SpeechContent();
+	void CutScene();
 }

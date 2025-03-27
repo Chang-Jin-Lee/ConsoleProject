@@ -9,9 +9,9 @@ namespace MenuScene
 	void Initialize();
 	void LoadData();
 	void ProcessInput();
+	void Release();
 	void Update();
 	void Render();
 	void TitleText();
-	void LoadingBar(float value);
 	void MenuSlect();
 }

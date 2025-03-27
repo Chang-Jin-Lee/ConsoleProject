@@ -1,25 +1,19 @@
 // ConsoleDoubleBuffering.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 
-/*
-*	Q : MenuScene
-*	W : PlayScene
-*	E : EndScene
-*/
-
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
 #include "Game.h"
 
-ESceneState g_eSceneCurrentState = ESceneState::MENU;
-ESceneState g_eSceneNextState = ESceneState::MENU;
+ESceneState g_eSceneCurrentState = MENU;
+ESceneState g_eSceneNextState = MENU;
 COORD g_Player = { 0,0 };
 bool g_bQuit = false;
-Time* g_tgameTimer = NULL;
 
 int wmain()
 {
+	Time::Initialize();
 	Game::Initialize();
 
 	while (!g_bQuit)
@@ -33,43 +27,38 @@ int wmain()
 
 void Game::Initialize()	// 게임 시작할 때 초기화
 {
-	Game::LoadData();
-	g_tgameTimer = new Time();
-	g_tgameTimer->Initialize();
+	ConsoleRenderer::ScreenClear();
 	ConsoleRenderer::ScreenInit();
-	Game::SceneInitialize();
-}
 
-void Game::LoadData()
-{
+	Game::LoadData();
 	switch (g_eSceneCurrentState)
 	{
-	case ESceneState::MENU:
-		MenuScene::LoadData();
+	case MENU:
+		MenuScene::Initialize();
 		break;
-	case ESceneState::PLAY:
-		PlayScene::LoadData;
+	case PLAY:
+		PlayScene::Initialize();
 		break;
-	case ESceneState::END:
-		EndScene::LoadData();
+	case END:
+		EndScene::Initialize();
 		break;
 	default:
 		break;
 	}
 }
 
-void Game::SceneInitialize()
+void Game::LoadData()
 {
 	switch (g_eSceneCurrentState)
 	{
-	case ESceneState::MENU:
-		MenuScene::Initialize();
+	case MENU:
+		MenuScene::LoadData();
 		break;
-	case ESceneState::PLAY:
-		PlayScene::Initialize();
+	case PLAY:
+		PlayScene::LoadData();
 		break;
-	case ESceneState::END:
-		EndScene::Initialize();
+	case END:
+		EndScene::LoadData();
 		break;
 	default:
 		break;
@@ -78,16 +67,16 @@ void Game::SceneInitialize()
 
 void Game::Update()
 {
-	Game::GetTimer()->UpdateTime();
+	Time::UpdateTime();
 	switch (g_eSceneCurrentState)
 	{
-	case ESceneState::MENU:
+	case MENU:
 		MenuScene::Update();
 		break;
-	case ESceneState::PLAY:
+	case PLAY:
 		PlayScene::Update();
 		break;
-	case ESceneState::END:
+	case END:
 		EndScene::Update();
 		break;
 	default:
@@ -101,13 +90,13 @@ void Game::Render()
 
 	switch (g_eSceneCurrentState)
 	{
-	case ESceneState::MENU:
+	case MENU:
 		MenuScene::Render();
 		break;
-	case ESceneState::PLAY:
+	case PLAY:
 		PlayScene::Render();
 		break;
-	case ESceneState::END:
+	case END:
 		EndScene::Render();
 		break;
 	default:
@@ -119,13 +108,21 @@ void Game::Render()
 
 void Game::Release()
 {
-	delete(g_tgameTimer);
+	switch (g_eSceneCurrentState)
+	{
+	case MENU:
+		MenuScene::Release();
+		break;
+	case PLAY:
+		PlayScene::Release();
+		break;
+	case END:
+		EndScene::Release();
+		break;
+	default:
+		break;
+	}
 	ConsoleRenderer::ScreenRelease();
-}
-
-Time* Game::GetTimer()
-{
-	return g_tgameTimer;
 }
 
 ESceneState* Game::GetCurrentSceneState()
@@ -138,8 +135,9 @@ void Game::ChangeScene(const ESceneState& scene)
 	g_eSceneNextState = scene;
 	if (g_eSceneNextState != g_eSceneCurrentState)
 	{
+		Game::Release();
 		g_eSceneCurrentState = g_eSceneNextState;
-		Game::SceneInitialize();
+		Game::Initialize();
 	}
 }
 
