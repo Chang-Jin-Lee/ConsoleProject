@@ -186,6 +186,22 @@ namespace ConsoleRenderer
         return bRval;
     }
 
+    bool ScreenDrawStringWithSize(int x, int y, const char* pStr, size_t size, WORD attr)
+    {
+        COORD	cdPos;
+        BOOL	bRval = FALSE;
+        DWORD	dwCharsWritten;
+        cdPos.X = x;
+        cdPos.Y = y;
+
+        DWORD nNumberOfBytesToWrite = (DWORD)size;
+        //특정 위치에 문자열을 출력한다.
+        WriteConsoleOutputCharacterA(hScreenBuffer[nScreenBufferIndex], pStr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, nNumberOfBytesToWrite, cdPos, &dwCharsWritten);
+        if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
+        return bRval;
+    }
+
     bool ScreenDrawString(int x, int y, const wchar_t* pStr, WORD attr)
     {
         COORD	cdPos;
@@ -255,7 +271,7 @@ namespace ConsoleRenderer
         ScreenDrawString(ui->m_fAxis.X, ui->m_fAxis.Y, ui->m_pcontent, attr);
     }
 
-    void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, UI::FUI* healthBar, WORD attr)
+    void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr)
     {
         //// &ui->m_ppcontent[i] 8B50
         //UI::FCOORDSNode* Root = ui->m_pDrawCOORDS;
@@ -272,12 +288,18 @@ namespace ConsoleRenderer
         {
             ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
         }
+    }
 
+    void ScreenDrawPlayerHealthUI(int x, int y, UI::FUI* healthBar, const int& curHealth, const int& maxHealth, WORD attr)
+    {
         if (healthBar->m_ppcontent != NULL)
         {
             for (int i = 0; i < healthBar->m_ippcontentSize; i++)
             {
-                ScreenDrawString(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], attr);
+                size_t totalSize = strlen(healthBar->m_ppcontent[i]);
+                float ratio = (1 - float(maxHealth - curHealth) / maxHealth);
+                size_t targetSize = totalSize * ratio;
+                ScreenDrawStringWithSize(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], targetSize, attr);
             }
 
         }

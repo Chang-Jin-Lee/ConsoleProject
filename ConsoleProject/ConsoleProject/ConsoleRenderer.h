@@ -61,6 +61,7 @@ namespace ConsoleRenderer
 	bool ScreenDrawChar(int x, int y, char ch, WORD attr);
 	bool ScreenDrawChar(int x, int y, char* ch, WORD attr);
 	bool ScreenDrawString(int x, int y, const char* pStr, WORD attr);
+	bool ScreenDrawStringWithSize(int x, int y, const char* pStr, size_t size, WORD attr);
 	bool ScreenDrawString(int x, int y, const wchar_t* pStr, WORD attr);
 
 	bool ScreenDrawStringFromFile(int x, int y, const char* pStr, WORD attr);
@@ -68,7 +69,8 @@ namespace ConsoleRenderer
 	bool ScreenDrawStringFromFile(int x, int y, const wchar_t* pStr, WORD attr);
 
 	void ScreenDrawUI(UI::FUI* ui, WORD attr);
-	void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, UI::FUI* healthBar, WORD attr);
+	void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr);
+	void ScreenDrawPlayerHealthUI(int x, int y, UI::FUI* healthBar, const int& curHealth, const int& maxHealth, WORD attr);
 	void ScreenDrawUIFromFile(UI::FUI* ui, WORD attr);
 
 	void ScreenDrawFileStrings(int x, int y, char** str, int str_size, WORD attr);
