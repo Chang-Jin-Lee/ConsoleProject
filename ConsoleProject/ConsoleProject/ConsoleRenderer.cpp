@@ -12,10 +12,11 @@ namespace ConsoleRenderer
     int nScreenBufferIndex = 0; // 콘솔창이 사용할 스크린버퍼의 인덱스
     HANDLE hScreenBuffer[2]; // 콘솔창이 사용할 스크린버퍼의 핸들
     int nScreenFontSize = 2;
-    SHORT nDesiredWidth = 1020;   
-    SHORT nDesiredHeight = 436;
-    COORD buffer = { nDesiredWidth, nDesiredHeight };
-    SMALL_RECT window = { 0, 0, nDesiredWidth - 1, nDesiredHeight - 1 };
+    SHORT nDesiredWidth = 1920;   
+    SHORT nDesiredHeight = 1080;
+    float nAspectRatio = 0.4;
+    COORD buffer = { nDesiredWidth * nAspectRatio, nDesiredHeight * nAspectRatio };
+    SMALL_RECT window = { 0, 0, nDesiredWidth * nAspectRatio - 1, nDesiredHeight * nAspectRatio - 1 };
 
     void ScreenInit()
     {
@@ -72,9 +73,6 @@ namespace ConsoleRenderer
         //if (!SetConsoleWindowInfo(hScreenBuffer[1], TRUE, &window))
         //    printf("창 크기 설정 실패: %lu\n", GetLastError());
         SetSmallFont(hScreenBuffer[1], nScreenFontSize);
-
-        //ShowWindow(GetConsoleWindow(), SW_RESTORE);
-        ShowWindow(GetConsoleWindow(), SW_SHOWNA);
         
         // 기본 콘솔,생성된 콘솔스크린 모두 커서 안보이게 설정
         CONSOLE_CURSOR_INFO cursorInfo = { 0, };
@@ -93,6 +91,9 @@ namespace ConsoleRenderer
 
         // 콘솔 출력 UTF8로 변경
         SetConsoleOutputCP(CP_UTF8);
+        //ShowWindow(GetConsoleWindow(), SW_RESTORE);
+        //ShowWindow(GetConsoleWindow(), SW_SHOWNA);
+        ShowWindow(GetConsoleWindow(), SW_SHOW);
     }
 
     void SetSmallFont(HANDLE hConsole, SHORT fontSize, const wchar_t* fontName)

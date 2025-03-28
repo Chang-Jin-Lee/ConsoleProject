@@ -46,7 +46,8 @@ bool bIsReloading = false;
 Object::FPlayerCharacter m_fPlayerCharacter;
 Object::FPlayerCharacter m_fEnemyCharacter;
 Object::FActor m_fBullet;
-Object::FActor m_fCrossHair;
+//Object::FActor m_fCrossHair;
+Object::FCrossHair m_fCrossHair;
 Object::Node* m_pBulletHead = NULL;
 float m_fDefaultBulletSpeed = 10.0f;
 
@@ -64,7 +65,7 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::COVER;
 	m_fPlayerCharacter.m_bPlayable = true;
 	m_fPlayerCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fPlayerCharacter.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.62;
+	m_fPlayerCharacter.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.52;
 	m_fPlayerCharacter.m_iColor = FG_WHITE;
 
 	// Initialize Enemy 
@@ -73,13 +74,14 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODY_IDLE;
 	m_fEnemyCharacter.m_bPlayable = true;
 	m_fEnemyCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fEnemyCharacter.m_fAxis.Y = 0;
+	m_fEnemyCharacter.m_fAxis.Y = -ConsoleRenderer::ScreenHeight() * 0.1;
 	m_fEnemyCharacter.m_iColor= FG_WHITE;
 
 	// Initialize Crosshair
-	m_fCrossHair.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fCrossHair.m_fui.m_ppcontent[0]);
+	m_fCrossHair.m_fAxis.X = ConsoleRenderer::ScreenHeight() * 0.5;
 	m_fCrossHair.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.5;
-	m_fCrossHair.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.5;
+	m_fCrossHair.m_fAspectRatio = 0.02;
+	Object::CreateCrossHair(&m_fCrossHair);
 	m_fCrossHair.m_iColor = FG_RED;
 
 	// Initialize Bullet
@@ -153,9 +155,6 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 
 	if (FileController::FileRead("Bullet.txt", "r", &m_fBullet.m_fui.m_ppcontent, &m_fBullet.m_fui.m_ippcontentSize) == false)
 		ConsoleRenderer::print((char*)"PlayScene_FileReadError CatIdle\n");
-
-	if (FileController::FileRead("CrossHair.txt", "r", &m_fCrossHair.m_fui.m_ppcontent, &m_fCrossHair.m_fui.m_ippcontentSize) == false)
-		ConsoleRenderer::print((char*)"PlayScene_FileReadError CatIdle\n");
 }
 
 void PlayScene::ProcessInput()
@@ -170,14 +169,14 @@ void PlayScene::ProcessInput()
 		Game::GameExit();
 	}
 
-	if (Input::IsKeyPressed(VK_0))
+	if (Input::IsKeyPressed(VK_NUMPAD0))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
 		ConsoleRenderer::ScreenInit();
 	}
 
-	if (Input::IsKeyPressed(VK_9))
+	if (Input::IsKeyPressed(VK_NUMPAD9))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize - 1);
@@ -354,7 +353,7 @@ void PlayScene::Render()
 	}
 
 	ConsoleRenderer::ScreenDrawFileStrings(m_fBullet.m_fAxis.X, m_fBullet.m_fAxis.Y, m_fBullet.m_fui.m_ppcontent, m_fBullet.m_fui.m_ippcontentSize, m_fBullet.m_iColor);
-	ConsoleRenderer::ScreenDrawFileStrings(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y, m_fCrossHair.m_fui.m_ppcontent, m_fCrossHair.m_fui.m_ippcontentSize, m_fCrossHair.m_iColor);
+	Object::RenderCrossHair(&m_fCrossHair);
 	Object::RenderAllNode(m_pBulletHead, m_fBullet.m_iColor);
 }
 void PlayScene::BlinkSpeechNextButton()

@@ -101,4 +101,111 @@ namespace Object
 			cur = cur->next;
 		}
 	}
+
+
+	void CreateCrossHair(FCrossHair* pCross)
+	{
+		int width = ConsoleRenderer::ScreenWidth() * pCross->m_fAspectRatio;
+		int height = width * 2;
+
+		pCross->Top.m_fui.m_ippcontentSize = height;
+		pCross->Bottom.m_fui.m_ippcontentSize = height;
+		pCross->Right.m_fui.m_ippcontentSize = width;
+		pCross->Left.m_fui.m_ippcontentSize = width;
+
+		pCross->Top.m_fAxis.X = pCross->m_fAxis.X;
+		pCross->Top.m_fAxis.Y = pCross->m_fAxis.Y - height;
+
+		pCross->Bottom.m_fAxis.X = pCross->m_fAxis.X;
+		pCross->Bottom.m_fAxis.Y = pCross->m_fAxis.Y + height;
+
+		pCross->Right.m_fAxis.X = pCross->m_fAxis.X + height;
+		pCross->Right.m_fAxis.Y = pCross->m_fAxis.Y;
+
+		pCross->Left.m_fAxis.X = pCross->m_fAxis.X - height;
+		pCross->Left.m_fAxis.Y = pCross->m_fAxis.Y;
+
+		pCross->Top.m_fui.m_ppcontent = (char**)malloc(sizeof(char*) * height);
+		for (int i = 0; i < height; i++)
+		{
+			pCross->Top.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * width);
+			for (int j = 0; j < width; j++)
+			{
+				pCross->Top.m_fui.m_ppcontent[i][j] = 'A';
+			}
+			pCross->Top.m_fui.m_ppcontent[i][width - 1] = '\0';
+		}
+
+		pCross->Bottom.m_fui.m_ppcontent = (char**)malloc(sizeof(char*) * height);
+		for (int i = 0; i < height; i++)
+		{
+			pCross->Bottom.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * width);
+			for (int j = 0; j < width; j++)
+			{
+				pCross->Bottom.m_fui.m_ppcontent[i][j] = 'A';
+			}
+			pCross->Bottom.m_fui.m_ppcontent[i][width - 1] = '\0';
+		}
+
+		pCross->Left.m_fui.m_ppcontent = (char**)malloc(sizeof(char*) * width);
+		for (int i = 0; i < width; i++)
+		{
+			pCross->Left.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * height);
+			for (int j = 0; j < height; j++)
+			{
+				pCross->Left.m_fui.m_ppcontent[i][j] = 'A';
+			}
+			pCross->Left.m_fui.m_ppcontent[i][height - 1] = '\0';
+		}
+
+		pCross->Right.m_fui.m_ppcontent = (char**)malloc(sizeof(char*) * width);
+		for (int i = 0; i < width; i++)
+		{
+			pCross->Right.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * height);
+			for (int j = 0; j < height; j++)
+			{
+				pCross->Right.m_fui.m_ppcontent[i][j] = 'A';
+			}
+			pCross->Right.m_fui.m_ppcontent[i][height - 1] = '\0';
+		}
+	}
+
+	void UpdateCrossHair(FCrossHair* pCross)
+	{
+
+	}
+
+	void RenderCrossHair(FCrossHair* pCross)
+	{
+		pCross->Top.m_fAxis.X = pCross->m_fAxis.X - strlen(pCross->Top.m_fui.m_ppcontent[0]) / 2;
+		pCross->Top.m_fAxis.Y = pCross->m_fAxis.Y - pCross->Top.m_fui.m_ippcontentSize * 2;
+
+		pCross->Bottom.m_fAxis.X = pCross->m_fAxis.X - strlen(pCross->Bottom.m_fui.m_ppcontent[0]) / 2;
+		pCross->Bottom.m_fAxis.Y = pCross->m_fAxis.Y + pCross->Top.m_fui.m_ippcontentSize * 2;
+
+		pCross->Right.m_fAxis.X = pCross->m_fAxis.X + pCross->Top.m_fui.m_ippcontentSize * 2;
+		pCross->Right.m_fAxis.Y = pCross->m_fAxis.Y;
+
+		pCross->Left.m_fAxis.X = pCross->m_fAxis.X - pCross->Top.m_fui.m_ippcontentSize * 2;
+		pCross->Left.m_fAxis.Y = pCross->m_fAxis.Y;
+
+		for (int i = 0; i < pCross->Top.m_fui.m_ippcontentSize; i++)
+		{
+			ConsoleRenderer::ScreenDrawString(pCross->Top.m_fAxis.X, pCross->Top.m_fAxis.Y + i, pCross->Top.m_fui.m_ppcontent[i], pCross->m_iColor);
+		}
+
+		for (int i = 0; i < pCross->Bottom.m_fui.m_ippcontentSize; i++)
+		{
+			ConsoleRenderer::ScreenDrawString(pCross->Bottom.m_fAxis.X, pCross->Bottom.m_fAxis.Y + i, pCross->Bottom.m_fui.m_ppcontent[i], pCross->m_iColor);
+		}
+		for (int i = 0; i < pCross->Left.m_fui.m_ippcontentSize; i++)
+		{
+			ConsoleRenderer::ScreenDrawString(pCross->Left.m_fAxis.X, pCross->Left.m_fAxis.Y + i, pCross->Left.m_fui.m_ppcontent[i], pCross->m_iColor);
+		}
+		for (int i = 0; i < pCross->Right.m_fui.m_ippcontentSize; i++)
+		{
+			ConsoleRenderer::ScreenDrawString(pCross->Right.m_fAxis.X, pCross->Right.m_fAxis.Y + i, pCross->Right.m_fui.m_ppcontent[i], pCross->m_iColor);
+		}
+	}
+
 }

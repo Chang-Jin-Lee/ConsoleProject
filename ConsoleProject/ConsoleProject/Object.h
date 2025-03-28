@@ -106,6 +106,26 @@ namespace Object
 		}
 	};
 
+	typedef struct FCrossHair
+	{
+		COORD m_fAxis;
+		float m_fAspectRatio;
+		int m_iColor;
+		bool bEnable;
+		FActor Left;
+		FActor Top;
+		FActor Right;
+		FActor Bottom;
+
+		FCrossHair()
+		{
+			m_fAxis = {-1,-1};
+			m_fAspectRatio = 0.01;
+			bEnable = false;
+		}
+
+	}FCrossHair;
+
 	typedef struct Node
 	{
 		FActor data;
@@ -124,4 +144,8 @@ namespace Object
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자
 	void LoadAnimationData(FPlayerCharacter* pc);
 	void Release(FPlayerCharacter* pc);
+
+	void CreateCrossHair(FCrossHair* pCross);
+	void UpdateCrossHair(FCrossHair* pCross);
+	void RenderCrossHair(FCrossHair* pCross);
 }
