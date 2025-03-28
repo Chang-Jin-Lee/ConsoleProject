@@ -15,8 +15,8 @@ namespace Object
 
 	void CreateAndAttachHealthBar(FPlayerCharacter* pc, COORD axis, int Color)	// 캐릭터 안에서 상대적 위치
 	{
-		int height = ConsoleRenderer::ScreenHeight() * 0.01;
-		int width = ConsoleRenderer::ScreenWidth() * 0.2;
+		size_t height = int(ConsoleRenderer::ScreenHeight() * 0.01);
+		size_t width = int(ConsoleRenderer::ScreenWidth() * 0.2);
 		pc->m_fHealthBar.m_fAxis.Y = pc->m_fAxis.Y + axis.Y;
 		pc->m_fHealthBar.m_fAxis.X = ConsoleRenderer::ScreenWidth() / 2 - width / 2 + axis.X;
 		pc->m_fHealthBar.m_ippcontentSize = height;
@@ -142,7 +142,7 @@ namespace Object
 		pCross->m_sXDistanceFromCenter = nwidth / 2;
 		pCross->m_sYDistanceFromCenter = nwidth / 4;
 
-		const wchar_t crossHairch = L'⬛';
+		const char crossHairch = L'⬛';
 
 		pCross->Top.m_fui.m_ippcontentSize = TopBottomHeight;
 		pCross->Bottom.m_fui.m_ippcontentSize = TopBottomHeight;
@@ -200,7 +200,8 @@ namespace Object
 				pCross->Left.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * LeftRightWidth);
 				for (int j = 0; j < LeftRightWidth; j++)
 				{
-					pCross->Left.m_fui.m_ppcontent[i][j] = crossHairch;
+					if(pCross->Left.m_fui.m_ppcontent[i])
+						pCross->Left.m_fui.m_ppcontent[i][j] = crossHairch;
 				}
 			}
 			if (pCross && pCross->Left.m_fui.m_ppcontent)
@@ -216,10 +217,10 @@ namespace Object
 			}
 			for (int j = 0; j < LeftRightWidth; j++)
 			{
-				if (pCross->Right.m_fui.m_ppcontent[i])
+				if (pCross && pCross->Right.m_fui.m_ppcontent[i])
 					pCross->Right.m_fui.m_ppcontent[i][j] = crossHairch;
 			}
-			if (pCross && pCross->Right.m_fui.m_ppcontent)
+			if (pCross && pCross->Right.m_fui.m_ppcontent[i])
 				pCross->Right.m_fui.m_ppcontent[i][LeftRightWidth - 1] = '\0';
 		}
 	}

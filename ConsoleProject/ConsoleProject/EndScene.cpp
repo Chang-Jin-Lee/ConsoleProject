@@ -53,13 +53,13 @@ void EndScene::Update()
 
 void EndScene::Render()
 {
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cgameEndingGuideEndScene), ConsoleRenderer::ScreenHeight() * 0.2, m_cgameEndingGuideEndScene, FG_WHITE);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_crestartEndScene), ConsoleRenderer::ScreenHeight() * 0.5, m_crestartEndScene, FG_WHITE);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cexitEndScene), ConsoleRenderer::ScreenHeight() * 0.6, m_cexitEndScene, FG_WHITE);
+	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cgameEndingGuideEndScene), int(ConsoleRenderer::ScreenHeight() * 0.2), m_cgameEndingGuideEndScene, FG_WHITE);
+	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_crestartEndScene), int(ConsoleRenderer::ScreenHeight() * 0.5), m_crestartEndScene, FG_WHITE);
+	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cexitEndScene), int(ConsoleRenderer::ScreenHeight() * 0.6), m_cexitEndScene, FG_WHITE);
 
 	char array[70];
 	sprintf_s(array, "%.2f", m_fLastTime);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cnextSceneGuideEndScene), ConsoleRenderer::ScreenHeight() * 0.7, m_cnextSceneGuideEndScene, FG_WHITE);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(array), ConsoleRenderer::ScreenHeight() * 0.8, array, FG_SKY_DARK);
+	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cnextSceneGuideEndScene), int(ConsoleRenderer::ScreenHeight() * 0.7), m_cnextSceneGuideEndScene, FG_WHITE);
+	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(array), int(ConsoleRenderer::ScreenHeight() * 0.8), array, FG_SKY_DARK);
 
 }

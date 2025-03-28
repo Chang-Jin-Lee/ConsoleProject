@@ -152,6 +152,8 @@ namespace Object
 			m_fAspectRatio = 0.01f;
 			bEnable = false;
 			m_iColor = FG_WHITE;
+			m_sXDistanceFromCenter = 0;
+			m_sYDistanceFromCenter = 0;
 		}
 
 	}FCrossHair;

@@ -16,8 +16,8 @@ namespace UI
 		COORD m_fAxis;
 		char* m_pcontent = NULL;
 		char** m_ppcontent = NULL;
-		int m_ipcontentSize = -1;
-		int m_ippcontentSize = -1;
+		size_t m_ipcontentSize = -1;
+		size_t m_ippcontentSize = -1;
 		int m_iUIColor = 0;
 		FCOORDSNode* m_pDrawCOORDS = NULL;
 

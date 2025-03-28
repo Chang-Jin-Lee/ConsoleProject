@@ -227,23 +227,7 @@ void PlayScene::ProcessInput()
 	{
 		m_fSpeechContentIndex - 1 < 0 ? m_fSpeechContentIndex = m_fgameDialogSize - 1 : m_fSpeechContentIndex = (m_fSpeechContentIndex - 1);
 	}
-	
-	if (Input::IsKeyDown(VK_RIGHT))
-	{
-		m_fCrossHair.m_fAxis.X += m_iCrossHairMoveXAmountPlayScene;
-	}
-	if (Input::IsKeyDown(VK_LEFT))
-	{
-		m_fCrossHair.m_fAxis.X -= m_iCrossHairMoveXAmountPlayScene;
-	}
-	if (Input::IsKeyDown(VK_UP))
-	{
-		m_fCrossHair.m_fAxis.Y -= m_iCrossHairMoveYAmountPlayScene;
-	}
-	if (Input::IsKeyDown(VK_DOWN))
-	{
-		m_fCrossHair.m_fAxis.Y += m_iCrossHairMoveYAmountPlayScene;
-	}
+
 	if (Input::IsKeyPressed(VK_R))
 	{
 		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::RELOAD;
@@ -259,6 +243,23 @@ void PlayScene::ProcessInput()
 
 	if (Input::IsKeyDown(VK_RIGHT) || Input::IsKeyDown(VK_LEFT) || Input::IsKeyDown(VK_UP) || Input::IsKeyDown(VK_DOWN))
 	{
+		if (Input::IsKeyDown(VK_RIGHT))
+		{
+			m_fCrossHair.m_fAxis.X += m_iCrossHairMoveXAmountPlayScene;
+		}
+		if (Input::IsKeyDown(VK_LEFT))
+		{
+			m_fCrossHair.m_fAxis.X -= m_iCrossHairMoveXAmountPlayScene;
+		}
+		if (Input::IsKeyDown(VK_UP))
+		{
+			m_fCrossHair.m_fAxis.Y -= m_iCrossHairMoveYAmountPlayScene;
+		}
+		if (Input::IsKeyDown(VK_DOWN))
+		{
+			m_fCrossHair.m_fAxis.Y += m_iCrossHairMoveYAmountPlayScene;
+		}
+
 		if (Input::IsKeyDown(VK_SPACE))
 		{
 			bCrossHairMove = true;

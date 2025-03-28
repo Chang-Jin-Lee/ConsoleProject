@@ -273,9 +273,13 @@ namespace ConsoleRenderer
             ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
         }
 
-        for (int i = 0; i < healthBar->m_ippcontentSize; i++)
+        if (healthBar->m_ppcontent != NULL)
         {
-            ScreenDrawString(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], attr);
+            for (int i = 0; i < healthBar->m_ippcontentSize; i++)
+            {
+                ScreenDrawString(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], attr);
+            }
+
         }
     }
 
