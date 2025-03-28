@@ -28,4 +28,33 @@ namespace UI
 		}
 		
 	}
+
+	FCOORDSNode* AddCOORDNode(FCOORDSNode* Root, COORD data) // data를 가지는 Node를 생성해서 붙이기
+	{
+		FCOORDSNode* pAlloc = (FCOORDSNode*)malloc(sizeof(FCOORDSNode));
+		pAlloc->data = data;
+		pAlloc->next = Root; //0
+		Root = pAlloc;
+
+		return Root;
+	}
+
+	void DeleteCOORDNode(FCOORDSNode* curNode, COORD data)
+	{
+		FCOORDSNode* Target = curNode;
+		curNode = curNode->next;
+
+		free(Target);
+	}
+
+	void TravelNodeCOORDNode(FCOORDSNode* Root)
+	{
+		if (Root == NULL)
+			return;
+
+		FCOORDSNode* cur = Root;
+
+		while (cur != NULL)
+			cur = cur->next;
+	}
 }

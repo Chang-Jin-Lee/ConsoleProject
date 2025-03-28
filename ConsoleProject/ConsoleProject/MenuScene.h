@@ -12,6 +12,4 @@ namespace MenuScene
 	void Release();
 	void Update();
 	void Render();
-	void TitleText();
-	void MenuSlect();
 }

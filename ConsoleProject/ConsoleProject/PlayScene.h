@@ -14,5 +14,4 @@ namespace PlayScene
 	void Render();
 	void BlinkSpeechNextButton();
 	void SpeechContent();
-	void CutScene();
 }

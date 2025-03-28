@@ -12,7 +12,7 @@ namespace ConsoleRenderer
     int nScreenBufferIndex = 0; // 콘솔창이 사용할 스크린버퍼의 인덱스
     HANDLE hScreenBuffer[2]; // 콘솔창이 사용할 스크린버퍼의 핸들
     int nScreenFontSize = 1;
-    SHORT nDesiredWidth = 1020;
+    SHORT nDesiredWidth = 1220;   
     SHORT nDesiredHeight = 436;
     COORD buffer = { nDesiredWidth, nDesiredHeight };
     SMALL_RECT window = { 0, 0, nDesiredWidth - 1, nDesiredHeight - 1 };
@@ -73,6 +73,7 @@ namespace ConsoleRenderer
         //    printf("창 크기 설정 실패: %lu\n", GetLastError());
         SetSmallFont(hScreenBuffer[1], nScreenFontSize);
 
+        //ShowWindow(GetConsoleWindow(), SW_RESTORE);
         ShowWindow(GetConsoleWindow(), SW_SHOWNA);
         
         // 기본 콘솔,생성된 콘솔스크린 모두 커서 안보이게 설정
@@ -145,6 +146,22 @@ namespace ConsoleRenderer
         cdPos.Y = y;
 
         bRval = FillConsoleOutputCharacterA(hScreenBuffer[nScreenBufferIndex], ch, 1, cdPos, &dwCharsWritten);
+        if (bRval == false) printf("Error, FillConsoleOutputCharacter()\n");
+
+        bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, 1, cdPos, &dwCharsWritten);
+        if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
+        return bRval;
+    }
+
+    bool ScreenDrawChar(int x, int y, char* ch, WORD attr)
+    {
+        COORD	cdPos;
+        BOOL	bRval = FALSE;
+        DWORD	dwCharsWritten;
+        cdPos.X = x;
+        cdPos.Y = y;
+
+        bRval = FillConsoleOutputCharacterA(hScreenBuffer[nScreenBufferIndex], *ch, 1, cdPos, &dwCharsWritten);
         if (bRval == false) printf("Error, FillConsoleOutputCharacter()\n");
 
         bRval = FillConsoleOutputAttribute(hScreenBuffer[nScreenBufferIndex], attr, 1, cdPos, &dwCharsWritten);
@@ -239,11 +256,21 @@ namespace ConsoleRenderer
 
     void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr)
     {
-        // &ui->m_ppcontent[i] 8B50
+        //// &ui->m_ppcontent[i] 8B50
+        //UI::FCOORDSNode* Root = ui->m_pDrawCOORDS;
+
+        //while (Root != NULL)
+        //{
+        //    int _x = Root->data.X; // 파일에서 행의 수를 먼저 읽기 때문.
+        //    int _y = Root->data.Y;
+        //    ScreenDrawChar(x +_y, y + _x, ui->m_ppcontent[_x][_y], attr);
+        //    Root = Root->next;
+        //}
+
         for (int i = 0; i < ui->m_ippcontentSize; i++)
-        {
-            ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
-        }
+       {
+           ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
+       }
     }
 
     void ScreenDrawUIFromFile(UI::FUI* ui, WORD attr)

@@ -205,7 +205,8 @@ namespace FileController
 			}
 			
 			pc->m_fanimation[animationState].m_fui[i].m_ppcontent = (char**)malloc(sizeof(char*) * (MAX_BUFFER_POOL_SIZE + 1));
-
+			//pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = (UI::FCOORDSNode*)malloc(sizeof(UI::FCOORDSNode));
+			//pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = NULL;
 			int m_ioutBufferIndex = 0;
 
 			while (true)
@@ -218,7 +219,14 @@ namespace FileController
 				pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex] = (char*)malloc(sizeof(char) * (g_cszBuff_size + 1));
 
 				for (int j = 0; j < g_cszBuff_size; j++)
+				{
+					if (g_cszBuff[j] != ' ')
+					{
+						COORD tAxis = { m_ioutBufferIndex, j };
+						pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = UI::AddCOORDNode(pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS, tAxis);
+					}
 					pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][j] = g_cszBuff[j];
+				}
 				pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][g_cszBuff_size] = NULL;
 
 				m_ioutBufferIndex++;
