@@ -42,6 +42,7 @@ UI::FUI m_fVideoPlayScene[MAX_VIDEO_SIZE];	// 400 * 233
 int m_ivideoPlayClipMax = 0;
 int m_ivideoPlaycursor = 0;
 
+bool bIsReloading = false;
 Object::FPlayerCharacter m_fPlayerCharacter;
 Object::FPlayerCharacter m_fEnemyCharacter;
 Object::FActor m_fBullet;
@@ -58,12 +59,13 @@ int m_iCrossHairMoveYAmountPlayScene = 5;
 void PlayScene::Initialize()	// 게임 시작할 때 초기화
 {
 	// Initialize Player
-	Object::SetPlayerAnimationName(&m_fPlayerCharacter, (char*)"RapiFullBody", (char*)"RapiCover", (char*)"RapiAim", (char*)"RapiAimFire");
+	Object::SetPlayerAnimationName(&m_fPlayerCharacter, (char*)"RapiFullBody", (char*)"RapiCover", (char*)"RapiAim", (char*)"RapiAimFire", (char*)"RapiReload");
 	Object::LoadAnimationData(&m_fPlayerCharacter);
 	m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::COVER;
 	m_fPlayerCharacter.m_bPlayable = true;
 	m_fPlayerCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
 	m_fPlayerCharacter.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.62;
+	m_fPlayerCharacter.m_iColor = FG_WHITE;
 
 	// Initialize Enemy 
 	Object::SetPlayerAnimationName(&m_fEnemyCharacter, (char*)"ModerniaFullBody");
@@ -71,15 +73,19 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODY_IDLE;
 	m_fEnemyCharacter.m_bPlayable = true;
 	m_fEnemyCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fEnemyCharacter.m_fAxis.Y = 0 ;
+	m_fEnemyCharacter.m_fAxis.Y = 0;
+	m_fEnemyCharacter.m_iColor= FG_WHITE;
 
 	// Initialize Crosshair
 	m_fCrossHair.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fCrossHair.m_fui.m_ppcontent[0]);
 	m_fCrossHair.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.5;
+	m_fCrossHair.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.5;
+	m_fCrossHair.m_iColor = FG_RED;
 
 	// Initialize Bullet
 	m_fBullet.m_fAxis.X = ConsoleRenderer::ScreenWidth() * 0.2;
 	m_fBullet.m_fAxis.Y = ConsoleRenderer::ScreenHeight() / 2;
+	m_fBullet.m_iColor = FG_BLUE;
 
 	// Initialize Speech 
 	m_fSpeechContentIndex = 1;
@@ -164,14 +170,14 @@ void PlayScene::ProcessInput()
 		Game::GameExit();
 	}
 
-	if (Input::IsKeyPressed(VK_T))
+	if (Input::IsKeyPressed(VK_0))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
 		ConsoleRenderer::ScreenInit();
 	}
 
-	if (Input::IsKeyPressed(VK_R))
+	if (Input::IsKeyPressed(VK_9))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize - 1);
@@ -204,6 +210,13 @@ void PlayScene::ProcessInput()
 	{
 		m_fCrossHair.m_fAxis.Y += m_iCrossHairMoveYAmountPlayScene;
 	}
+	if (Input::IsKeyPressed(VK_R))
+	{
+		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::RELOAD;
+		bIsReloading = true;
+	}
+
+	if (bIsReloading) return;
 
 	if (Input::IsKeyPressed(VK_E))
 	{
@@ -243,13 +256,15 @@ void PlayScene::ProcessInput()
 	if (Input::IsKeyDown(VK_SPACE))
 	{
 		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::AIMFIRE;
-		Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X + strlen(m_fCrossHair.m_fui.m_ppcontent[0]) / 2, m_fCrossHair.m_fAxis.Y + m_fCrossHair.m_fui.m_ippcontentSize / 2, m_fBullet);
+		//Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X + strlen(m_fCrossHair.m_fui.m_ppcontent[0]) / 2, m_fCrossHair.m_fAxis.Y + m_fCrossHair.m_fui.m_ippcontentSize / 2, m_fBullet);
+		Object::FActor Actor = Object::FActor( ConsoleRenderer::ScreenWidth() / 2, m_fPlayerCharacter.m_fAxis.Y, m_fBullet);
 
  		float xAxis = m_fCrossHair.m_fAxis.X - Actor.m_fAxis.X;
 		float yAxis = m_fCrossHair.m_fAxis.Y - Actor.m_fAxis.Y;
 		float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
 		COORD dirVector = { xAxis / Magnitude * 100, yAxis / Magnitude * 100};
-		m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, m_fDefaultBulletSpeed);
+		COORD DestinationVector = { m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y };
+		m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, DestinationVector, m_fDefaultBulletSpeed);
 	}
 }
 
@@ -293,11 +308,22 @@ void PlayScene::Update()
 		m_fcurrentTimePlayScene = Time::GetTotalTime();
 
 		if (m_fPlayerCharacter.m_bPlayable)
+		{
+			if (bIsReloading && m_fPlayerCharacter.m_eAnimationState == Object::EAnimationState::RELOAD)
+			{
+				if (m_fPlayerCharacter.m_iPlaybackCurrentSeconds >= m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_iMaxLength - 1)
+				{
+					bIsReloading = false;
+				}
+			}
 			m_fPlayerCharacter.m_iPlaybackCurrentSeconds = (m_fPlayerCharacter.m_iPlaybackCurrentSeconds + 1) % m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_iMaxLength;
+		}
 
 		if (m_fEnemyCharacter.m_bPlayable)
 			m_fEnemyCharacter.m_iPlaybackCurrentSeconds = (m_fEnemyCharacter.m_iPlaybackCurrentSeconds + 1) % m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_iMaxLength;
 	}
+
+	Object::UpdateAllNodeAxis(m_pBulletHead, Time::GetElapsedTime());
 }
 
 void PlayScene::Render()
@@ -320,16 +346,16 @@ void PlayScene::Render()
 		//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[PlayerCharacter.m_eAnimationState].m_fui[PlayerCharacter.m_iPlaybackCurrentSeconds], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[1].m_fui[0], FG_WHITE);
-		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds],  FG_WHITE);
-		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], FG_WHITE);
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds], m_fEnemyCharacter.m_iColor);
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], m_fPlayerCharacter.m_iColor);
 		break;
 	default:
 		break;
 	}
 
-	ConsoleRenderer::ScreenDrawFileStrings(m_fBullet.m_fAxis.X, m_fBullet.m_fAxis.Y, m_fBullet.m_fui.m_ppcontent, m_fBullet.m_fui.m_ippcontentSize, FG_WHITE);
-	ConsoleRenderer::ScreenDrawFileStrings(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y, m_fCrossHair.m_fui.m_ppcontent, m_fCrossHair.m_fui.m_ippcontentSize, FG_WHITE);
-	Object::RenderAllNode(m_pBulletHead);
+	ConsoleRenderer::ScreenDrawFileStrings(m_fBullet.m_fAxis.X, m_fBullet.m_fAxis.Y, m_fBullet.m_fui.m_ppcontent, m_fBullet.m_fui.m_ippcontentSize, m_fBullet.m_iColor);
+	ConsoleRenderer::ScreenDrawFileStrings(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y, m_fCrossHair.m_fui.m_ppcontent, m_fCrossHair.m_fui.m_ippcontentSize, m_fCrossHair.m_iColor);
+	Object::RenderAllNode(m_pBulletHead, m_fBullet.m_iColor);
 }
 void PlayScene::BlinkSpeechNextButton()
 {

@@ -220,11 +220,11 @@ namespace FileController
 
 				for (int j = 0; j < g_cszBuff_size; j++)
 				{
-					if (g_cszBuff[j] != ' ')
-					{
-						COORD tAxis = { m_ioutBufferIndex, j };
-						pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = UI::AddCOORDNode(pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS, tAxis);
-					}
+					//if (g_cszBuff[j] != ' ')
+					//{
+					//	COORD tAxis = { m_ioutBufferIndex, j };
+					//	pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = UI::AddCOORDNode(pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS, tAxis);
+					//}
 					pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][j] = g_cszBuff[j];
 				}
 				pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][g_cszBuff_size] = NULL;

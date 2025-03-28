@@ -11,8 +11,8 @@ namespace ConsoleRenderer
     unsigned int nScreenBufferSize = 0; // 콘솔창의 스크린버퍼 크기
     int nScreenBufferIndex = 0; // 콘솔창이 사용할 스크린버퍼의 인덱스
     HANDLE hScreenBuffer[2]; // 콘솔창이 사용할 스크린버퍼의 핸들
-    int nScreenFontSize = 1;
-    SHORT nDesiredWidth = 1220;   
+    int nScreenFontSize = 2;
+    SHORT nDesiredWidth = 1020;   
     SHORT nDesiredHeight = 436;
     COORD buffer = { nDesiredWidth, nDesiredHeight };
     SMALL_RECT window = { 0, 0, nDesiredWidth - 1, nDesiredHeight - 1 };

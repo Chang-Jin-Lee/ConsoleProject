@@ -5,13 +5,14 @@
 
 namespace Object
 {
-#define MAX_ANIMATIONSTATE_SIZE 4
+#define MAX_ANIMATIONSTATE_SIZE 5
 	enum EAnimationState
 	{
 		FULLBODY_IDLE = 0,
 		COVER,
 		AIM,
 		AIMFIRE,
+		RELOAD
 	};
 
 	typedef struct Animation
@@ -35,11 +36,11 @@ namespace Object
 		COORD m_fAxis;
 
 		EAnimationState m_eAnimationState = AIM;
+		Animation m_fanimation[MAX_ANIMATIONSTATE_SIZE];
 
 		bool m_bPlayable;
 		int m_iPlaybackCurrentSeconds;
-
-		Animation m_fanimation[MAX_ANIMATIONSTATE_SIZE];
+		int m_iColor;
 
 		FPlayerCharacter()
 		{
@@ -70,6 +71,7 @@ namespace Object
 	{
 		COORD m_fAxis;
 		UI::FUI m_fui;
+		int m_iColor;
 
 		FActor()
 		{
@@ -108,16 +110,18 @@ namespace Object
 	{
 		FActor data;
 		COORD DirVector;
+		COORD DestinationVector;
 		float Speed;
 		struct Node* next;
 	} Node;
 
-	Node* Add(Node* Root, FActor data, COORD dirVector, float speed); // data를 가지는 Node를 생성해서 붙이기
-	void Delete(Node* curNode, FActor data);
+	Node* Add(Node* Root, FActor data, COORD dirVector, COORD DestinationVector, float speed); // data를 가지는 Node를 생성해서 붙이기
+	Node* Delete(Node* curNode);
 	void TravelNode(Node* Root);
-	void RenderAllNode(Node* Root);
+	void RenderAllNode(Node* Root, int Color);
+	void UpdateAllNodeAxis(Node* Root, float deltatime);
 	
-	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL);	// 각 폴더의 이름을 설정해주자
+	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자
 	void LoadAnimationData(FPlayerCharacter* pc);
 	void Release(FPlayerCharacter* pc);
 }
