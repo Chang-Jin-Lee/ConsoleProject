@@ -14,9 +14,9 @@ namespace ConsoleRenderer
     int nScreenFontSize = 2;
     SHORT nDesiredWidth = 1920;   
     SHORT nDesiredHeight = 1080;
-    float nAspectRatio = 0.4;
-    COORD buffer = { nDesiredWidth * nAspectRatio, nDesiredHeight * nAspectRatio };
-    SMALL_RECT window = { 0, 0, nDesiredWidth * nAspectRatio - 1, nDesiredHeight * nAspectRatio - 1 };
+    float nAspectRatio = 0.4f;
+    COORD buffer = { (SHORT)(nDesiredWidth * nAspectRatio), (SHORT)(nDesiredHeight * nAspectRatio) };
+    SMALL_RECT window = { 0, 0,(SHORT)(nDesiredWidth * nAspectRatio) - 1, (SHORT)(nDesiredHeight * nAspectRatio) - 1 };
 
     void ScreenInit()
     {
@@ -255,7 +255,7 @@ namespace ConsoleRenderer
         ScreenDrawString(ui->m_fAxis.X, ui->m_fAxis.Y, ui->m_pcontent, attr);
     }
 
-    void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr)
+    void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, UI::FUI* healthBar, WORD attr)
     {
         //// &ui->m_ppcontent[i] 8B50
         //UI::FCOORDSNode* Root = ui->m_pDrawCOORDS;
@@ -269,9 +269,14 @@ namespace ConsoleRenderer
         //}
 
         for (int i = 0; i < ui->m_ippcontentSize; i++)
-       {
-           ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
-       }
+        {
+            ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
+        }
+
+        for (int i = 0; i < healthBar->m_ippcontentSize; i++)
+        {
+            ScreenDrawString(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], attr);
+        }
     }
 
     void ScreenDrawUIFromFile(UI::FUI* ui, WORD attr)
@@ -333,12 +338,12 @@ namespace ConsoleRenderer
 
     int ScreenCenter(const char* ch)
     {
-        return nScreenWidth / 2 - strlen(ch) / 2;
+        return nScreenWidth / 2 - (int)strlen(ch) / 2;
     }
 
     int ScreenCenterW(const wchar_t* ch)
     {
-        return nScreenWidth / 2 - wcslen(ch) / 2;
+        return nScreenWidth / 2 - (int)wcslen(ch) / 2;
     }
     int GetScreenFontSize()
     {

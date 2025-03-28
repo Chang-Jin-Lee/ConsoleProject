@@ -18,6 +18,7 @@ namespace UI
 		char** m_ppcontent = NULL;
 		int m_ipcontentSize = -1;
 		int m_ippcontentSize = -1;
+		int m_iUIColor = 0;
 		FCOORDSNode* m_pDrawCOORDS = NULL;
 
 		FUI()
@@ -26,25 +27,34 @@ namespace UI
 			m_fAxis.Y = 0;
 			m_pcontent = NULL;
 			m_ppcontent = NULL;
+			m_ipcontentSize = -1;
+			m_ippcontentSize = -1;
 			m_pDrawCOORDS = NULL;
+			m_iUIColor = 0;
 		}
 
 		FUI(int x, int y)
 		{
 			m_pcontent = NULL;
 			m_ppcontent = NULL;
+			m_ipcontentSize = -1;
+			m_ippcontentSize = -1;
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
+			m_iUIColor = 0;
 		}
 
 		FUI(int x, int y, char* content)
 		{
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
+			m_ipcontentSize = -1;
+			m_ippcontentSize = -1;
 			m_pcontent = content;
 			m_ppcontent = NULL;
+			m_iUIColor = 0;
 		}
-	};
+	} FUI;
 
 	struct FGAMEDIALOG
 	{
@@ -119,7 +129,7 @@ namespace UI
 			m_iPlaybackSeconds = 0;
 			m_iMaxLength = 0;
 		}
-	};
+	} FVideo;
 
 	void Release(FUI* ui);
 	void Release(FVideo* video);
