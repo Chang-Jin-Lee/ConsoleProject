@@ -214,6 +214,7 @@ namespace FileController
 			}
 			
 			pc->m_fanimation[animationState].m_fui[i].m_ppcontent = (char**)malloc(sizeof(char*) * (MAX_BUFFER_POOL_SIZE + 1));
+			//pc->m_fanimation[animationState].m_fui[i].m_ppInfoContent = (CHAR_INFO*)malloc(sizeof(CHAR_INFO) * (MAX_BUFFER_POOL_SIZE + 1));
 			//pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = (UI::FCOORDSNode*)malloc(sizeof(UI::FCOORDSNode));
 			//pc->m_fanimation[animationState].m_fui[i].m_pDrawCOORDS = NULL;
 			int m_ioutBufferIndex = 0;
@@ -226,6 +227,9 @@ namespace FileController
 
 				size_t g_cszBuff_size = strlen(g_cszBuff);
 				pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex] = (char*)malloc(sizeof(char) * (g_cszBuff_size + 1));
+				//pc->m_fanimation[animationState].m_fui[i].m_ppInfoContent[m_ioutBufferIndex] = (CHAR_INFO*)malloc(sizeof(CHAR_INFO) * (g_cszBuff_size + 1));
+				/*if(pc->m_fanimation[animationState].m_fui[i].m_ipcontentSize == -1)
+					pc->m_fanimation[animationState].m_fui[i].m_ipcontentSize = g_cszBuff_size;*/
 
 				for (int j = 0; j < g_cszBuff_size; j++)
 				{
@@ -236,6 +240,11 @@ namespace FileController
 					//}
 					if(pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex])
 						pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][j] = g_cszBuff[j];
+					//if (pc->m_fanimation[animationState].m_fui[i].m_ppInfoContent)
+					//{
+					//	pc->m_fanimation[animationState].m_fui[i].m_ppInfoContent[i * g_cszBuff_size + j].Char.UnicodeChar = g_cszBuff[j];
+					//	pc->m_fanimation[animationState].m_fui[i].m_ppInfoContent[i * g_cszBuff_size + j].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+					//}
 				}
 				if(pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex])
 					pc->m_fanimation[animationState].m_fui[i].m_ppcontent[m_ioutBufferIndex][g_cszBuff_size] = NULL;

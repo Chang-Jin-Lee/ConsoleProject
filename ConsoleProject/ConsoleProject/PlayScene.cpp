@@ -9,20 +9,6 @@ float m_fcurrentTimePlayScene = 0;
 float m_fAnimationTimePlayScene = 1/60;
 float m_fMenuLastTimePlayScene = 0;
 
-const char* m_speechNextString = ">>>";
-const char* m_speechNextStringBlank = "   ";
-
-UI::FUI m_fSpeechSlate;
-UI::FUI m_fSpeechNextCursor;
-float m_fspeechNextCountOneSecond = 0;
-
-UI::FGAMEDIALOG m_fgameDialog[MAX_DIALOG_SIZE];
-int m_fgameDialogSize = 0;
-int m_fSpeechContentIndex = 1;
-
-UI::PlaySceneObj m_fplaySceneobj;
-float PlaySceneMagnitudeX = 0.5;
-
 enum EPlaySceneState
 {
 	DIALOGUE,
@@ -33,10 +19,6 @@ enum EPlaySceneState
 
 EPlaySceneState m_eplaySceneState = SHOOTING;
 
-UI::PlayScenePlayerObj m_fpossiblePlayerCharacterobj;
-UI::FUI* m_pCurPlayerCharacter = NULL;
-UI::FUI m_fSpeechCursorPlayScene;
-
 UI::FUI m_fVideoPlayScene[MAX_VIDEO_SIZE];	// 400 * 233
 int m_ivideoPlayClipMax = 0;
 int m_ivideoPlaycursor = 0;
@@ -44,7 +26,7 @@ int m_ivideoPlaycursor = 0;
 bool bIsReloading = false;
 Object::FPlayerCharacter m_fPlayerCharacter;
 Object::FPlayerCharacter m_fEnemyCharacter;
-Object::FActor m_fBullet;
+Object::FLeftAmmoUI m_fLeftAmmoUIPlayScene;
 Object::FCrossHair m_fCrossHair;
 Object::Node* m_pBulletHead = NULL;
 float m_fDefaultBulletSpeed = 10.0f;
@@ -107,51 +89,10 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fCrossHair.m_iColor = FG_RED;
 	bCrossHairMove = false;
 
-	// Initialize Bullet
-	m_fBullet.m_fAxis.X = ConsoleRenderer::ScreenWidth() * 0.2;
-	m_fBullet.m_fAxis.Y = ConsoleRenderer::ScreenHeight() / 2;
-	m_fBullet.m_iColor = FG_BLUE;
-
-	// Initialize Speech 
-	m_fSpeechContentIndex = 1;
-	m_fSpeechCursorPlayScene = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.4), int(ConsoleRenderer::ScreenHeight() * 0.7), (char*)" > ");
-
-	int SpeechSlateYSize = ConsoleRenderer::ScreenHeight() * 0.3;
-	int SpeechSlateXSize = ConsoleRenderer::ScreenWidth();
-	m_fSpeechSlate.m_ppcontent = (char**)malloc(sizeof(char*) * SpeechSlateYSize);
-	for (int i = 0; i < SpeechSlateYSize; i++)
-		m_fSpeechSlate.m_ppcontent[i] = (char*)malloc(sizeof(char) * SpeechSlateXSize);
-	m_fSpeechSlate.m_ippcontentSize = SpeechSlateYSize;
-	m_fSpeechSlate.m_fAxis.X = 0;
-	m_fSpeechSlate.m_fAxis.Y = ConsoleRenderer::ScreenHeight() - SpeechSlateYSize;
-	for (int i = 0; i < SpeechSlateYSize; i++)
-	{
-		for (int j = 0; j < SpeechSlateXSize; j++)
-		{
-			if (i == 0 || i == SpeechSlateYSize - 1)
-				m_fSpeechSlate.m_ppcontent[i][j] = '-';
-			else if (j == 0 || j == SpeechSlateXSize - 1)
-				m_fSpeechSlate.m_ppcontent[i][j] = '|';
-			else
-				m_fSpeechSlate.m_ppcontent[i][j] = ' ';
-		}
-	}
-
-	m_fSpeechNextCursor = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.95), int(ConsoleRenderer::ScreenHeight() * 0.9), (char*)m_speechNextString);
-	for (int i = 0; i < MAX_DIALOG_SIZE; i++)
-	{
-		m_fgameDialog[i].Dialog.m_fAxis.X = m_fSpeechSlate.m_fAxis.X + ConsoleRenderer::ScreenWidth() * 0.2;
-		m_fgameDialog[i].Dialog.m_fAxis.Y = m_fSpeechSlate.m_fAxis.Y + SpeechSlateYSize * 0.5;
-
-		m_fgameDialog[i].Speaker.m_fAxis.X = m_fSpeechSlate.m_fAxis.X + ConsoleRenderer::ScreenWidth() * 0.1;
-		m_fgameDialog[i].Speaker.m_fAxis.Y = m_fSpeechSlate.m_fAxis.Y + SpeechSlateYSize * 0.3;
-
-		m_fgameDialog[i].Type.m_fAxis.X = m_fSpeechSlate.m_fAxis.X + ConsoleRenderer::ScreenWidth() * 0.8;
-		m_fgameDialog[i].Type.m_fAxis.Y = m_fSpeechSlate.m_fAxis.Y + SpeechSlateYSize * 0.3;
-
-		m_fgameDialog[i].Likeability.m_fAxis.X = ConsoleRenderer::ScreenWidth() * 0.9;
-		m_fgameDialog[i].Likeability.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
-	}
+	// Initialize LeftAmmoUI
+	m_fLeftAmmoUIPlayScene.m_fAxis.X = m_fPlayerCharacter.m_fAxis.X - ConsoleRenderer::ScreenWidth() * 0.05;
+	m_fLeftAmmoUIPlayScene.m_fAxis.Y = m_fPlayerCharacter.m_fAxis.Y + ConsoleRenderer::ScreenHeight() * 0.2;
+	m_fLeftAmmoUIPlayScene.m_iColor = FG_BLUE;
 
 	// Initialize Timer
 	m_fcurrentTimePlayScene = Time::GetTotalTime();
@@ -173,11 +114,21 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 		}
 	}
 
-	if (FileController::FileReadFromCSV("Dialogue.csv", "r", m_fgameDialog, &m_fgameDialogSize) == false)
-		ConsoleRenderer::print((char*)"PlayScene_FileReadError\n");
 
-	if (FileController::FileRead("Bullet.txt", "r", &m_fBullet.m_fui.m_ppcontent, &m_fBullet.m_fui.m_ippcontentSize) == false)
-		ConsoleRenderer::print((char*)"PlayScene_FileReadError CatIdle\n");
+	int LeftAmmoYSize = ConsoleRenderer::ScreenHeight() * 0.05;
+	int LeftAmmoXSize = ConsoleRenderer::ScreenWidth() * 0.02;
+	m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent = (char**)malloc(sizeof(char*) * LeftAmmoYSize);
+	for (int i = 0; i < LeftAmmoYSize; i++)
+		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * LeftAmmoXSize);
+	m_fLeftAmmoUIPlayScene.m_fui.m_ippcontentSize = LeftAmmoYSize;
+	for (int i = 0; i < LeftAmmoYSize; i++)
+	{
+		for (int j = 0; j < LeftAmmoXSize; j++)
+		{
+			m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][j] = L'⬛';
+		}
+		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][LeftAmmoXSize-1] = '\0';
+	}
 }
 
 void PlayScene::ProcessInput()
@@ -219,18 +170,10 @@ void PlayScene::ProcessInput()
 		ConsoleRenderer::ScreenInit();
 	}
 
-	if (Input::IsKeyPressed(VK_SPACE) || Input::IsKeyPressed(VK_RETURN))
-	{
-		m_fSpeechContentIndex = (m_fSpeechContentIndex + 1) % m_fgameDialogSize;
-	}
-
-	if (Input::IsKeyPressed(VK_BACK))
-	{
-		m_fSpeechContentIndex - 1 < 0 ? m_fSpeechContentIndex = m_fgameDialogSize - 1 : m_fSpeechContentIndex = (m_fSpeechContentIndex - 1);
-	}
-
 	if (Input::IsKeyPressed(VK_R))
 	{
+		if (m_fPlayerCharacter.m_iAmmo <= m_fPlayerCharacter.m_iMaxAmmo)
+			m_fPlayerCharacter.m_iAmmo = m_fPlayerCharacter.m_iMaxAmmo;
 		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::RELOAD;
 		bIsReloading = true;
 	}
@@ -263,6 +206,9 @@ void PlayScene::ProcessInput()
 
 		if (Input::IsKeyDown(VK_SPACE))
 		{
+			if (m_fPlayerCharacter.m_iAmmo <= 0) return;
+			m_fPlayerCharacter.m_iAmmo--;
+
 			bCrossHairMove = true;
 			m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::AIMFIRE;
 
@@ -301,9 +247,12 @@ void PlayScene::ProcessInput()
 
 	if (Input::IsKeyDown(VK_SPACE))
 	{
+		if (m_fPlayerCharacter.m_iAmmo <= 0) return;
+		m_fPlayerCharacter.m_iAmmo--;
+
 		bCrossHairMove = true;
 		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::AIMFIRE;
-
+		
 		// Damage
 		if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
 			m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
@@ -332,29 +281,6 @@ void PlayScene::ProcessInput()
 
 void PlayScene::Release()
 {
-	UI::Release(&m_fSpeechSlate);
-	for (int i = 0; i < MAX_DIALOG_SIZE; i++)
-	{
-		UI::Release(&m_fgameDialog[i].Speaker);
-		UI::Release(&m_fgameDialog[i].Answer);
-		UI::Release(&m_fgameDialog[i].Dialog);
-		UI::Release(&m_fgameDialog[i].Likeability);
-		UI::Release(&m_fgameDialog[i].SceneName);
-		UI::Release(&m_fgameDialog[i].Type);
-	}
-	UI::Release(&m_fplaySceneobj.CatIdle);
-	UI::Release(&m_fplaySceneobj.CatCurios);
-	UI::Release(&m_fplaySceneobj.CatEyeOpen);
-	UI::Release(&m_fplaySceneobj.CatEyeOpen_TailDown);
-	UI::Release(&m_fplaySceneobj.CatFace);
-	UI::Release(&m_fplaySceneobj.CatJump);
-	UI::Release(&m_fplaySceneobj.CatOnRoof);
-	UI::Release(&m_fplaySceneobj.CatScared);
-	UI::Release(&m_fplaySceneobj.CatWalking);
-	UI::Release(&m_fplaySceneobj.CatWeird);
-	UI::Release(&m_fplaySceneobj.BirdAttack);
-	UI::Release(&m_fplaySceneobj.BirdIdle);
-
 	Object::Release(&m_fPlayerCharacter);
 	Object::Release(&m_fEnemyCharacter);
 	Object::Release(&m_fCrossHair.Top);
@@ -404,10 +330,6 @@ void PlayScene::Render()
 	switch (m_eplaySceneState)
 	{
 	case DIALOGUE:
-		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechSlate, FG_SKY);
-		ConsoleRenderer::ScreenDrawUI(&m_fSpeechNextCursor, FG_WHITE);
-		//BlinkSpeechNextButton();
-		//SpeechContent();
 		break;
 	case SHOOTING:
 		//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
@@ -422,28 +344,11 @@ void PlayScene::Render()
 		break;
 	case PUZZLE:
 		break;
-		break;
 	default:
 		break;
 	}
 
-	ConsoleRenderer::ScreenDrawFileStrings(m_fBullet.m_fAxis.X, m_fBullet.m_fAxis.Y, m_fBullet.m_fui.m_ppcontent, m_fBullet.m_fui.m_ippcontentSize, m_fBullet.m_iColor);
+	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter.m_iAmmo, m_fPlayerCharacter.m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
 	Object::RenderCrossHair(&m_fCrossHair);
-	Object::RenderAllNode(m_pBulletHead, m_fBullet.m_iColor);
-}
-void PlayScene::BlinkSpeechNextButton()
-{
-	if (Time::GetTotalTime() - m_fspeechNextCountOneSecond >= 0.7)	// 1초에 한 번씩
-	{
-		m_fSpeechNextCursor.m_pcontent == (char*)m_speechNextString ? m_fSpeechNextCursor.m_pcontent = (char*)m_speechNextStringBlank : m_fSpeechNextCursor.m_pcontent = (char*)m_speechNextString;
-		m_fspeechNextCountOneSecond = Time::GetTotalTime();
-	}
-}
-
-void PlayScene::SpeechContent()
-{
-	ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Speaker, FG_WHITE);
-	ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Dialog, FG_WHITE);
-	ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Type, FG_WHITE);
-	ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Likeability, FG_WHITE);
+	Object::RenderAllNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);
 }

@@ -165,6 +165,50 @@ namespace Object
 
 	}FCrossHair;
 
+	typedef struct FLeftAmmoUI	// LeftAmmoUI에 대한 것. 총알 등
+	{
+		COORD m_fAxis;
+		UI::FUI m_fui;
+		int m_iColor;
+
+		FLeftAmmoUI()
+		{
+			m_fAxis.X = 0;
+			m_fAxis.Y = 0;
+			m_iColor = FG_WHITE;
+		}
+
+		FLeftAmmoUI(int x, int y)
+		{
+			m_fAxis.X = x;
+			m_fAxis.Y = y;
+			m_iColor = FG_WHITE;
+		}
+
+		FLeftAmmoUI(int x, int y, char* content)
+		{
+			m_fAxis.X = x;
+			m_fAxis.Y = y;
+			m_iColor = FG_WHITE;
+		}
+
+		FLeftAmmoUI(int x, int y, const FLeftAmmoUI& leftammoui)
+		{
+			m_fAxis.X = x;
+			m_fAxis.Y = y;
+			m_fui = leftammoui.m_fui;
+			m_iColor = FG_WHITE;
+		}
+
+		FLeftAmmoUI(const FLeftAmmoUI& leftammoui)
+		{
+			m_fAxis.X = leftammoui.m_fAxis.X;
+			m_fAxis.Y = leftammoui.m_fAxis.Y;
+			m_fui = leftammoui.m_fui;
+			m_iColor = FG_WHITE;
+		}
+	} FLeftAmmoUI;
+
 	typedef struct Node
 	{
 		FActor data;

@@ -16,6 +16,7 @@ namespace UI
 		COORD m_fAxis;
 		char* m_pcontent = NULL;
 		char** m_ppcontent = NULL;
+		CHAR_INFO* m_ppInfoContent = NULL;
 		size_t m_ipcontentSize = -1;
 		size_t m_ippcontentSize = -1;
 		int m_iUIColor = 0;

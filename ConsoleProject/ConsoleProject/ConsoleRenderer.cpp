@@ -284,6 +284,17 @@ namespace ConsoleRenderer
         //    Root = Root->next;
         //}
 
+        // CHAR_INFO로 띄우기. 램 사용량 급증함
+        /*int width = ui->m_ipcontentSize;
+        int height = ui->m_ippcontentSize;
+
+        COORD bufferSize = { width, height };
+        COORD bufferCoord = { 0, 0 };
+        SMALL_RECT writeRegion = { x, y, x + width - 1, y + height - 1 };
+
+        WriteConsoleOutputA(hScreenBuffer[nScreenBufferIndex], ui->m_ppInfoContent, bufferSize, bufferCoord, &writeRegion);*/
+
+
         for (int i = 0; i < ui->m_ippcontentSize; i++)
         {
             ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
@@ -297,11 +308,24 @@ namespace ConsoleRenderer
             for (int i = 0; i < healthBar->m_ippcontentSize; i++)
             {
                 size_t totalSize = strlen(healthBar->m_ppcontent[i]);
-                float ratio = (1 - float(maxHealth - curHealth) / maxHealth);
+                float ratio = float(curHealth) / maxHealth;
                 size_t targetSize = totalSize * ratio;
                 ScreenDrawStringWithSize(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], targetSize, attr);
             }
+        }
+    }
 
+    void ScreenDrawPlayerLeftAmmo(int x, int y, UI::FUI* ammo, const int& curAmmo, const int& maxAmmo, WORD attr)
+    {
+        if (ammo->m_ppcontent != NULL)
+        {
+            size_t totalSize = ammo->m_ippcontentSize;
+            float ratio = (1 - float(curAmmo) / maxAmmo);
+            size_t targetSize = totalSize * ratio;
+            for (int i = targetSize; i < ammo->m_ippcontentSize; i++)
+            {
+                ScreenDrawString(x, y + i, ammo->m_ppcontent[i], attr);
+            }
         }
     }
 

@@ -71,6 +71,7 @@ namespace ConsoleRenderer
 	void ScreenDrawUI(UI::FUI* ui, WORD attr);
 	void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr);
 	void ScreenDrawPlayerHealthUI(int x, int y, UI::FUI* healthBar, const int& curHealth, const int& maxHealth, WORD attr);
+	void ScreenDrawPlayerLeftAmmo(int x, int y, UI::FUI* ammo, const int& curHealth, const int& maxHealth, WORD attr);
 	void ScreenDrawUIFromFile(UI::FUI* ui, WORD attr);
 
 	void ScreenDrawFileStrings(int x, int y, char** str, int str_size, WORD attr);
