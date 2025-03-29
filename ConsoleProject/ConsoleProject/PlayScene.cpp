@@ -29,10 +29,9 @@ enum EPlaySceneState
 	SHOOTING,
 	RHYTHM,
 	PUZZLE,
-	ANIMATION,
 };
 
-EPlaySceneState m_eplaySceneState = ANIMATION;
+EPlaySceneState m_eplaySceneState = SHOOTING;
 
 UI::PlayScenePlayerObj m_fpossiblePlayerCharacterobj;
 UI::FUI* m_pCurPlayerCharacter = NULL;
@@ -83,7 +82,7 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	// Initialize Enemy 
 	Object::SetPlayerAnimationName(&m_fEnemyCharacter, (char*)"ModerniaFullBody");
 	Object::LoadAnimationData(&m_fEnemyCharacter);
-	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODY_IDLE;
+	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
 	m_fEnemyCharacter.m_bPlayable = true;
 	m_fEnemyCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
 	m_fEnemyCharacter.m_fAxis.Y = -ConsoleRenderer::ScreenHeight() * 0.1;
@@ -411,12 +410,6 @@ void PlayScene::Render()
 		//SpeechContent();
 		break;
 	case SHOOTING:
-		break;
-	case RHYTHM:
-		break;
-	case PUZZLE:
-		break;
-	case ANIMATION:
 		//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[PlayerCharacter.m_eAnimationState].m_fui[PlayerCharacter.m_iPlaybackCurrentSeconds], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[1].m_fui[0], FG_WHITE);
@@ -424,7 +417,11 @@ void PlayScene::Render()
 		ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fHealthBar, m_fEnemyCharacter.m_iHealth, m_fEnemyCharacter.m_iMaxHealth,  m_fEnemyCharacter.m_fHealthBar.m_iUIColor);
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], m_fPlayerCharacter.m_iColor);
 		ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fHealthBar, m_fPlayerCharacter.m_iHealth, m_fPlayerCharacter.m_iMaxHealth, m_fPlayerCharacter.m_fHealthBar.m_iUIColor);
-
+		break;
+	case RHYTHM:
+		break;
+	case PUZZLE:
+		break;
 		break;
 	default:
 		break;

@@ -29,8 +29,9 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 {
 	Object::SetPlayerAnimationName(&m_fIntroVideo, (char*)"RapiLobby");
 	Object::LoadAnimationData(&m_fIntroVideo);
-	m_fIntroVideo.m_eAnimationState = Object::EAnimationState::FULLBODY_IDLE;
+	m_fIntroVideo.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
 	m_fIntroVideo.m_bPlayable = true;
+	m_fIntroVideo.m_iColor = FG_WHITE;
 	//m_fIntroVideo.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui->m_ppcontent[0]);
 	//m_fIntroVideo.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
 
@@ -119,5 +120,5 @@ void MenuScene::Update()
 void MenuScene::Render()
 {
 	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fTitleFile, FG_WHITE);
-	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], &m_fIntroVideo.m_fHealthBar, FG_WHITE);
+	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], m_fIntroVideo.m_iColor);
 }

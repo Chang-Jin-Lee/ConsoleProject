@@ -6,11 +6,18 @@ namespace Object
 {
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover, char* aim, char* aimfire, char* reload)
 	{
-		pc->m_fanimation[EAnimationState::FULLBODY_IDLE].m_pAnimationName = fullbody_dile;
+		pc->m_fanimation[EAnimationState::FULLBODYIDLE].m_pAnimationName = fullbody_dile;
 		pc->m_fanimation[EAnimationState::COVER].m_pAnimationName = cover;
 		pc->m_fanimation[EAnimationState::AIM].m_pAnimationName = aim;
 		pc->m_fanimation[EAnimationState::AIMFIRE].m_pAnimationName = aimfire;
 		pc->m_fanimation[EAnimationState::RELOAD].m_pAnimationName = reload;
+	}
+
+	void SetPlayerAnimationNameFullBody(FPlayerCharacter* pc, char* fullbody_dile, char* fullbody_talk, char* fullbody_expression)
+	{
+		pc->m_fanimation[EAnimationState::FULLBODYIDLE].m_pAnimationName = fullbody_dile;
+		pc->m_fanimation[EAnimationState::FULLBODYTALK].m_pAnimationName = fullbody_talk;
+		pc->m_fanimation[EAnimationState::FULLBODYEXPRESSION].m_pAnimationName = fullbody_expression;
 	}
 
 	void CreateAndAttachHealthBar(FPlayerCharacter* pc, COORD axis, int Color)	// 캐릭터 안에서 상대적 위치

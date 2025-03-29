@@ -4,53 +4,101 @@
 #include "UI.h"
 
 // Time 관련
-float m_fcurrentTime = 0;
-float m_floadingTime = 5;
-float m_fMenuLastTime = 0;
+float m_m_fcurrentTimeAnimationScene = 0;
+float m_floadingTimeAnimationScene = 5;
+float m_fMenuLastTimeAnimationScene = 0;
 
-float m_finitialOneSecond = 0;
-float m_fcountOneSeconds = 0;
-float m_fPlayer_x = 0;
-float m_fPlayer_y = 0;
+float m_finitialOneSecondAnimationScene = 0;
+float m_m_fcountOneSecondAnimationScenesAnimationScene = 0;
+float m_fPlayer_xAnimationScene = 0;
+float m_fPlayer_yAnimationScene = 0;
 
 float m_fFPSTimeAnimationScene = 1 / 60;
 //float m_fFPSTimeAnimationScene = 60;
-float m_fcountOneSecond = 0;
-bool bcatBlink = false;
+float m_fcountOneSecondAnimationScene = 0;
 
-UI::FUI m_fTitleFile;
-UI::FUI m_fCursor;
-UI::FUI m_fStartButton;
-UI::FUI m_fExitButton;
+UI::FUI m_fBackGroundUI;
 
-Object::FPlayerCharacter m_fIntroVideo;
+UI::FUI m_fSpeechBubbleAnimationScene;
+UI::FUI m_fCursorAnimationScene;
+
+Object::FPlayerCharacter m_fRapiAnimationScene;
+Object::FPlayerCharacter m_fAniscAnimationScene;
+Object::FPlayerCharacter m_fNeonAnimationScene;
 
 void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
-	Object::SetPlayerAnimationName(&m_fIntroVideo, (char*)"RapiLobby");
-	Object::LoadAnimationData(&m_fIntroVideo);
-	m_fIntroVideo.m_eAnimationState = Object::EAnimationState::FULLBODY_IDLE;
-	m_fIntroVideo.m_bPlayable = true;
-	//m_fIntroVideo.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui->m_ppcontent[0]);
-	//m_fIntroVideo.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
+	m_fBackGroundUI.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fBackGroundUI.m_ppcontent[0]);
+	m_fBackGroundUI.m_fAxis.Y = ConsoleRenderer::ScreenHeight() / 2 - m_fBackGroundUI.m_ippcontentSize /2 ;
+	m_fBackGroundUI.m_iUIColor = FG_WHITE;
 
-	m_fIntroVideo.m_fAxis.X = 0;
-	m_fIntroVideo.m_fAxis.Y = 0;
-	m_fIntroVideo.m_iPlaybackCurrentSeconds = 0;
+	m_fMenuLastTimeAnimationScene = Time::GetTotalTime();
+	m_finitialOneSecondAnimationScene = Time::GetTotalTime();
+	m_fcountOneSecondAnimationScene = Time::GetTotalTime();
 
-	m_fMenuLastTime = Time::GetTotalTime();
-	m_finitialOneSecond = Time::GetTotalTime();
-	m_fcountOneSecond = Time::GetTotalTime();
+	// Initialize m_fRapiAnimationScene
+	Object::SetPlayerAnimationNameFullBody(&m_fRapiAnimationScene, (char*)"RapiFullBodyIdle", (char*)"RapiFullBodyIdleTalk", (char*)"RapiFullBodyExpression");
+	Object::LoadAnimationData(&m_fRapiAnimationScene);
+	m_fRapiAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
+	m_fRapiAnimationScene.m_bPlayable = true;
+	m_fRapiAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
+	m_fRapiAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.32;
+	m_fRapiAnimationScene.m_iColor = FG_WHITE;
+	
+
+	// Initialize SpeechBubble 
+	int SpeechSlateYSize = ConsoleRenderer::ScreenHeight() * 0.3;
+	int SpeechSlateXSize = ConsoleRenderer::ScreenWidth();
+	m_fSpeechBubbleAnimationScene.m_ppcontent = (char**)malloc(sizeof(char*) * SpeechSlateYSize);
+	for (int i = 0; i < SpeechSlateYSize; i++)
+	{
+		m_fSpeechBubbleAnimationScene.m_ppcontent[i] = (char*)malloc(sizeof(char) * SpeechSlateXSize);
+		memset(m_fSpeechBubbleAnimationScene.m_ppcontent[i], ' ', SpeechSlateXSize);
+	}
+	m_fSpeechBubbleAnimationScene.m_ippcontentSize = SpeechSlateYSize;
+	m_fSpeechBubbleAnimationScene.m_fAxis.X = 0;
+	m_fSpeechBubbleAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() - SpeechSlateYSize;
+	m_fSpeechBubbleAnimationScene.m_iUIColor = FG_GRAY;
+	
+	float BubbleTicknessRatio = 0.005f;
+	for (int i = 0; i < SpeechSlateYSize * BubbleTicknessRatio; i++)
+	{
+		for (int j = 0; j < SpeechSlateXSize; j++)
+		{
+			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
+		}
+	}
+	for (int i = SpeechSlateYSize * (1-BubbleTicknessRatio); i < SpeechSlateYSize; i++)
+	{
+		for (int j = 0; j < SpeechSlateXSize; j++)
+		{
+			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
+		}
+	}
+	for (int j = 0; j < SpeechSlateXSize * BubbleTicknessRatio / 2; j++)
+	{
+		for (int i = SpeechSlateYSize * BubbleTicknessRatio ; i < SpeechSlateYSize * (1-BubbleTicknessRatio); i++)
+		{
+			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
+		}
+	}
+	for (int j = SpeechSlateXSize * (1-BubbleTicknessRatio / 2) ; j < SpeechSlateXSize; j++)
+	{
+		for (int i = SpeechSlateYSize * BubbleTicknessRatio; i < SpeechSlateYSize *( 1-BubbleTicknessRatio); i++)
+		{
+			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
+		}
+	}
 }
 
 void AnimationScene::LoadData()
 {
 	//Images/CityForest01/CityForest_01.txt
 	//Video/Aru/frame_0001.txt
-	if (FileController::FileRead("Images/CityForest01/CityForest_01.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_ippcontentSize))
+	if (FileController::FileRead("Images/CityForest01/CityForest_01.txt", "r", &m_fBackGroundUI.m_ppcontent, &m_fBackGroundUI.m_ippcontentSize))
 	{
-		m_fTitleFile.m_fAxis.X = 0;
-		m_fTitleFile.m_fAxis.Y = 0;
+		m_fBackGroundUI.m_fAxis.X = 0;
+		m_fBackGroundUI.m_fAxis.Y = 0;
 	}
 }
 
@@ -83,8 +131,8 @@ void AnimationScene::ProcessInput()
 
 void AnimationScene::Release()
 {
-	UI::Release(&m_fTitleFile);
-	Object::Release(&m_fIntroVideo);
+	UI::Release(&m_fBackGroundUI);
+	UI::Release(&m_fSpeechBubbleAnimationScene);
 }
 
 void AnimationScene::Update()
@@ -92,32 +140,42 @@ void AnimationScene::Update()
 	Input::Update();
 	AnimationScene::ProcessInput();
 
-	m_fMenuLastTime = Time::GetTotalTime() - m_fcurrentTime;
-	if (m_fMenuLastTime >= m_floadingTime + 1)
+	m_fMenuLastTimeAnimationScene = Time::GetTotalTime() - m_m_fcurrentTimeAnimationScene;
+	if (m_fMenuLastTimeAnimationScene >= m_floadingTimeAnimationScene + 1)
 	{
 		//Game::ChangeScene(ESceneState::PLAY);
 	}
 
-	m_fcountOneSeconds = Time::GetTotalTime() - m_finitialOneSecond;
-	if (m_fcountOneSeconds >= 1)
+	m_m_fcountOneSecondAnimationScenesAnimationScene = Time::GetTotalTime() - m_finitialOneSecondAnimationScene;
+	if (m_m_fcountOneSecondAnimationScenesAnimationScene >= 1)
 	{
-		m_finitialOneSecond = Time::GetTotalTime();
-		m_fPlayer_x += 3;
-		m_fcountOneSeconds = 0;
+		m_finitialOneSecondAnimationScene = Time::GetTotalTime();
+		m_fPlayer_xAnimationScene += 3;
+		m_m_fcountOneSecondAnimationScenesAnimationScene = 0;
 	}
 
-	if (Time::GetTotalTime() - m_fcountOneSecond >= m_fFPSTimeAnimationScene)	// 0.5초에 한 번씩
+	if (Time::GetTotalTime() - m_fcountOneSecondAnimationScene >= m_fFPSTimeAnimationScene)	// 1/60 초에 한 번씩
 	{
-		if (m_fIntroVideo.m_bPlayable)
+		//if (m_fIntroVideo.m_bPlayable)
+		//{
+		//	m_fIntroVideo.m_iPlaybackCurrentSeconds = (m_fIntroVideo.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_iMaxLength;
+		//}
+		if (m_fRapiAnimationScene.m_bPlayable)
 		{
-			m_fIntroVideo.m_iPlaybackCurrentSeconds = (m_fIntroVideo.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_iMaxLength;
+			m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
 		}
-		m_fcountOneSecond = Time::GetTotalTime();
+
+		m_fcountOneSecondAnimationScene = Time::GetTotalTime();
 	}
 }
 
 void AnimationScene::Render()
 {
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fTitleFile, FG_WHITE);
-	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], &m_fIntroVideo.m_fHealthBar, FG_WHITE);
+	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fBackGroundUI, FG_WHITE);
+	//ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], &m_fIntroVideo.m_fHealthBar, FG_WHITE);
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fBackGroundUI, m_fBackGroundUI.m_iUIColor);
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechBubbleAnimationScene, m_fSpeechBubbleAnimationScene.m_iUIColor);
+
+	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
+
 }

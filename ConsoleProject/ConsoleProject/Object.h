@@ -6,14 +6,17 @@
 
 namespace Object
 {
-#define MAX_ANIMATIONSTATE_SIZE 5
+#define MAX_ANIMATIONSTATE_SIZE 7
 	typedef enum EAnimationState
 	{
-		FULLBODY_IDLE = 0,
-		COVER,
+		COVER = 0,
 		AIM,
 		AIMFIRE,
-		RELOAD
+		RELOAD,
+		FULLBODYIDLE,
+		FULLBODYTALK,
+		FULLBODYEXPRESSION,
+		
 	} EAnimationState;
 
 	typedef struct Animation
@@ -178,6 +181,7 @@ namespace Object
 	void UpdateAllNodeAxis(Node* Root, float deltatime);
 	
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자
+	void SetPlayerAnimationNameFullBody(FPlayerCharacter* pc, char* fullbody_dile, char* fullbody_talk, char* fullbody_expression);
 	void CreateAndAttachHealthBar(FPlayerCharacter* pc, COORD axis, int Color);
 	void LoadAnimationData(FPlayerCharacter* pc);
 	void Release(FPlayerCharacter* pc);
