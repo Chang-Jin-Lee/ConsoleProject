@@ -135,6 +135,8 @@ namespace UI
 	void Release(FUI* ui);
 	void Release(FVideo* video);
 
+	void MakeBubbleUI(FUI* ui, int width, int height, int xAxis, int yAxis, float thickNess, int color);
+
 	FCOORDSNode* AddCOORDNode(FCOORDSNode* Root, COORD data);
 	void DeleteCOORDNode(FCOORDSNode* curNode, COORD data);
 	void TravelNodeCOORDNode(FCOORDSNode* Root);

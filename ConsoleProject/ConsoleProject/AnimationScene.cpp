@@ -20,11 +20,20 @@ float m_fcountOneSecondAnimationScene = 0;
 UI::FUI m_fBackGroundUI;
 
 UI::FUI m_fSpeechBubbleAnimationScene;
+#define MAX_SELECTBUBBLE_SIZE 3
+UI::FUI m_fSelectBubbleAnimationScene[MAX_SELECTBUBBLE_SIZE];
 UI::FUI m_fCursorAnimationScene;
 
 Object::FPlayerCharacter m_fRapiAnimationScene;
 Object::FPlayerCharacter m_fAniscAnimationScene;
 Object::FPlayerCharacter m_fNeonAnimationScene;
+
+enum ECurCharacter
+{
+	RAPI,ANIS,NEON,NONE
+};
+
+ECurCharacter ch1 = RAPI, ch2 = NONE;
 
 void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
@@ -36,80 +45,50 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	m_fFPSLastTimeAnimationScene = Time::GetTotalTime();
 
 	// Initialize m_fRapiAnimationScene
-	Object::SetPlayerAnimationNameFullBody(&m_fRapiAnimationScene, (char*)"RapiFullBodyIdle", (char*)"RapiFullBodyIdleTalk", (char*)"RapiFullBodyExpression");
-	Object::LoadAnimationData(&m_fRapiAnimationScene);
 	m_fRapiAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
 	m_fRapiAnimationScene.m_bPlayable = true;
-	//m_fRapiAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fRapiAnimationScene.m_fAxis.X = 0;
-	m_fRapiAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.02;
+	m_fRapiAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
+	m_fRapiAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.12;
 	m_fRapiAnimationScene.m_iColor = FG_WHITE;
 
 	// Initialize m_fAniscAnimationScene
-	Object::SetPlayerAnimationNameFullBody(&m_fAniscAnimationScene, (char*)"AnisFullBodyIdle", (char*)"AnisFullBodyIdleTalk", (char*)"AnisFullBodyExpression");
-	Object::LoadAnimationData(&m_fAniscAnimationScene);
 	m_fAniscAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
 	m_fAniscAnimationScene.m_bPlayable = true;
-	//m_fAniscAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fAniscAnimationScene.m_fAxis.X = 320;
-	m_fAniscAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.02;
+	m_fAniscAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
+	//m_fAniscAnimationScene.m_fAxis.X = 0;
+	m_fAniscAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.12;
 	m_fAniscAnimationScene.m_iColor = FG_WHITE;
 
 	// Initialize m_fNeonAnimationScene
-	Object::SetPlayerAnimationNameFullBody(&m_fNeonAnimationScene, (char*)"NeonFullBodyIdle", (char*)"NeonFullBodyIdleTalk", (char*)"NeonFullBodyExpression");
-	Object::LoadAnimationData(&m_fNeonAnimationScene);
 	m_fNeonAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
 	m_fNeonAnimationScene.m_bPlayable = true;
-	//m_fNeonAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fNeonAnimationScene.m_fAxis.X = 0;
-	m_fNeonAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.62;
+	m_fNeonAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
+	m_fNeonAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.12;
 	m_fNeonAnimationScene.m_iColor = FG_WHITE;
 
 	// Initialize SpeechBubble 
-	int SpeechSlateYSize = ConsoleRenderer::ScreenHeight() * 0.3;
-	int SpeechSlateXSize = ConsoleRenderer::ScreenWidth();
-	m_fSpeechBubbleAnimationScene.m_ppcontent = (char**)malloc(sizeof(char*) * SpeechSlateYSize);
-	for (int i = 0; i < SpeechSlateYSize; i++)
+	UI::MakeBubbleUI(&m_fSpeechBubbleAnimationScene,
+		(int)(ConsoleRenderer::ScreenWidth()),
+		(int)(ConsoleRenderer::ScreenHeight() * 0.3),
+		0,
+		(int)(ConsoleRenderer::ScreenHeight() * 0.7),
+		0.01f,
+		FG_GRAY
+	);
+
+	// Initialize SelectBubble
+	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
 	{
-		m_fSpeechBubbleAnimationScene.m_ppcontent[i] = (char*)malloc(sizeof(char) * SpeechSlateXSize);
-		memset(m_fSpeechBubbleAnimationScene.m_ppcontent[i], ' ', SpeechSlateXSize);
+		UI::MakeBubbleUI(&m_fSelectBubbleAnimationScene[i],
+			(int)(ConsoleRenderer::ScreenWidth() * 0.3),
+			(int)(ConsoleRenderer::ScreenHeight() * 0.05),
+			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
+			(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06*float(i))),
+			0.01f,
+			FG_GRAY
+		);
 	}
-	m_fSpeechBubbleAnimationScene.m_ippcontentSize = SpeechSlateYSize;
-	m_fSpeechBubbleAnimationScene.m_fAxis.X = 0;
-	m_fSpeechBubbleAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() - SpeechSlateYSize;
-	m_fSpeechBubbleAnimationScene.m_iUIColor = FG_GRAY;
 	
-	float BubbleTicknessRatio = 0.005f;
-	for (int i = 0; i < SpeechSlateYSize * BubbleTicknessRatio; i++)
-	{
-		for (int j = 0; j < SpeechSlateXSize; j++)
-		{
-			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
-		}
-	}
-	for (int i = SpeechSlateYSize * (1-BubbleTicknessRatio); i < SpeechSlateYSize; i++)
-	{
-		for (int j = 0; j < SpeechSlateXSize; j++)
-		{
-			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
-		}
-	}
-	for (int j = 0; j < SpeechSlateXSize * BubbleTicknessRatio / 2; j++)
-	{
-		for (int i = SpeechSlateYSize * BubbleTicknessRatio ; i < SpeechSlateYSize * (1-BubbleTicknessRatio); i++)
-		{
-			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
-		}
-	}
-	for (int j = SpeechSlateXSize * (1-BubbleTicknessRatio / 2) ; j < SpeechSlateXSize; j++)
-	{
-		for (int i = SpeechSlateYSize * BubbleTicknessRatio; i < SpeechSlateYSize *( 1-BubbleTicknessRatio); i++)
-		{
-			m_fSpeechBubbleAnimationScene.m_ppcontent[i][j] = L'⬛';
-		}
-	}
-
-
 	// Initialize Speech 
 	/*m_fSpeechContentIndex = 1;
 	m_fSpeechCursorPlayScene = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.4), int(ConsoleRenderer::ScreenHeight() * 0.7), (char*)" > ");
@@ -162,6 +141,15 @@ void AnimationScene::LoadData()
 		m_fBackGroundUI.m_fAxis.Y = 0;
 	}
 
+	Object::SetPlayerAnimationNameFullBody(&m_fRapiAnimationScene, (char*)"RapiFullBodyIdle", (char*)"RapiFullBodyIdleTalk", (char*)"RapiFullBodyExpression");
+	Object::LoadAnimationData(&m_fRapiAnimationScene);
+
+	Object::SetPlayerAnimationNameFullBody(&m_fAniscAnimationScene, (char*)"AnisFullBodyIdle", (char*)"AnisFullBodyIdleTalk", (char*)"AnisFullBodyExpression");
+	Object::LoadAnimationData(&m_fAniscAnimationScene);
+
+	Object::SetPlayerAnimationNameFullBody(&m_fNeonAnimationScene, (char*)"NeonFullBodyIdle", (char*)"NeonFullBodyIdleTalk", (char*)"NeonFullBodyExpression");
+	Object::LoadAnimationData(&m_fNeonAnimationScene);
+
 	//if (FileController::FileReadFromCSV("Dialogue.csv", "r", m_fgameDialog, &m_fgameDialogSize) == false)
 	//	ConsoleRenderer::print((char*)"PlayScene_FileReadError\n");
 }
@@ -186,6 +174,26 @@ void AnimationScene::ProcessInput()
 	if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
 	{
 		Game::ChangeScene(ESceneState::PLAY);
+	}
+	if (Input::IsKeyPressed(VK_T))  //종료
+	{
+		switch (ch1)
+		{
+		case RAPI:
+			ch1 = ANIS;
+			break;
+		case ANIS:
+			ch1 = NEON;
+			break;
+		case NEON:
+			ch1 = NONE;
+			break;
+		case NONE:
+			ch1 = RAPI;
+			break;
+		default:
+			break;
+		}
 	}
 
 	if (Input::IsKeyPressed(VK_R))  //종료
@@ -296,18 +304,18 @@ void AnimationScene::Update()
 		//{
 		//	m_fIntroVideo.m_iPlaybackCurrentSeconds = (m_fIntroVideo.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_iMaxLength;
 		//}
-		if (m_fRapiAnimationScene.m_bPlayable)
-		{
-			m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
-		if (m_fAniscAnimationScene.m_bPlayable)
-		{
-			m_fAniscAnimationScene.m_iPlaybackCurrentSeconds = (m_fAniscAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
-		if (m_fNeonAnimationScene.m_bPlayable)
-		{
-			m_fNeonAnimationScene.m_iPlaybackCurrentSeconds = (m_fNeonAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
+		//if (m_fRapiAnimationScene.m_bPlayable)
+		//{
+		//	m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
+		//}
+		//if (m_fAniscAnimationScene.m_bPlayable)
+		//{
+		//	m_fAniscAnimationScene.m_iPlaybackCurrentSeconds = (m_fAniscAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_iMaxLength;
+		//}
+		//if (m_fNeonAnimationScene.m_bPlayable)
+		//{
+		//	m_fNeonAnimationScene.m_iPlaybackCurrentSeconds = (m_fNeonAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_iMaxLength;
+		//}
 	}
 }
 
@@ -325,9 +333,15 @@ void AnimationScene::Render()
 	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Type, FG_WHITE);
 	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Likeability, FG_WHITE);
 
-	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
+	if(ch1 == RAPI || ch2 == RAPI)
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
+	if (ch1 == ANIS || ch2 == ANIS)
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
-	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
-
+	if (ch1 == NEON || ch2 == NEON)
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
+	
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechBubbleAnimationScene, m_fSpeechBubbleAnimationScene.m_iUIColor);
+
+	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
+		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i], m_fSelectBubbleAnimationScene[i].m_iUIColor);
 }

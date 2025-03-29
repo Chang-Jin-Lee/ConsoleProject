@@ -36,7 +36,7 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	//m_fIntroVideo.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
 
 	m_fIntroVideo.m_fAxis.X = 0;
-	m_fIntroVideo.m_fAxis.Y = 0;
+	m_fIntroVideo.m_fAxis.Y = (ConsoleRenderer::ScreenHeight() * 0.3) ;
 	m_fIntroVideo.m_iPlaybackCurrentSeconds = 0;
 
 	m_fMenuLastTime = Time::GetTotalTime();

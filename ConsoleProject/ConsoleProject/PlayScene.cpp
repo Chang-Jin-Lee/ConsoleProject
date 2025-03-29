@@ -47,8 +47,6 @@ int m_icrossHairOriginalYSize = 0;
 void PlayScene::Initialize()	// 게임 시작할 때 초기화
 {
 	// Initialize Player
-	Object::SetPlayerAnimationName(&m_fPlayerCharacter, (char*)"RapiFullBody", (char*)"RapiCover", (char*)"RapiAim", (char*)"RapiAimFire", (char*)"RapiReload");
-	Object::LoadAnimationData(&m_fPlayerCharacter);
 	m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::COVER;
 	m_fPlayerCharacter.m_bPlayable = true;
 	m_fPlayerCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
@@ -62,8 +60,6 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fPlayerCharacter.m_iFireDamage = 2;
 
 	// Initialize Enemy 
-	Object::SetPlayerAnimationName(&m_fEnemyCharacter, (char*)"ModerniaFullBody");
-	Object::LoadAnimationData(&m_fEnemyCharacter);
 	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
 	m_fEnemyCharacter.m_bPlayable = true;
 	m_fEnemyCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
@@ -100,6 +96,12 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 
 void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
 {
+	Object::SetPlayerAnimationName(&m_fPlayerCharacter, (char*)"RapiFullBody", (char*)"RapiCover", (char*)"RapiAim", (char*)"RapiAimFire", (char*)"RapiReload");
+	Object::LoadAnimationData(&m_fPlayerCharacter);
+
+	Object::SetPlayerAnimationName(&m_fEnemyCharacter, (char*)"ModerniaFullBody");
+	Object::LoadAnimationData(&m_fEnemyCharacter);
+
 	for (int i = 0; i < MAX_VIDEO_SIZE; i++)
 	{
 		char filename[256];
