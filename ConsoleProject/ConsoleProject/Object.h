@@ -42,7 +42,8 @@ namespace Object
 		bool m_bPlayable;
 		int m_iPlaybackCurrentSeconds;
 		int m_iColor;
-		int m_iHP;
+		int m_iHealth;
+		int m_iMaxHealth;
 		int m_iAmmo;		// 현재 탄약집에 있는 총알 수
 		int m_iMaxAmmo;		// 장전을 위한 탄약집의 총알 수
 		int m_iFireDamage; // 총알 데미지
@@ -54,7 +55,8 @@ namespace Object
 			m_bPlayable = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
-			m_iHP = 0;
+			m_iHealth = 0;
+			m_iMaxHealth = 0;
 			m_iAmmo = 0;
 			m_iMaxAmmo = 0;
 			m_iFireDamage = 0;
@@ -67,7 +69,8 @@ namespace Object
 			m_bPlayable = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
-			m_iHP = 0;
+			m_iHealth = 0;
+			m_iMaxHealth = 0;
 			m_iAmmo = 0;
 			m_iMaxAmmo = 0;
 			m_iFireDamage = 0;
@@ -81,7 +84,8 @@ namespace Object
 			m_bPlayable = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
-			m_iHP = 0;
+			m_iHealth = 0;
+			m_iMaxHealth = 0;
 			m_iAmmo = 0;
 			m_iMaxAmmo = 0;
 			m_iFireDamage = 0;

@@ -74,7 +74,8 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fPlayerCharacter.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.52;
 	Object::CreateAndAttachHealthBar(&m_fPlayerCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.005) }, FG_GREEN);
 	m_fPlayerCharacter.m_iColor = FG_WHITE;
-	m_fPlayerCharacter.m_iHP = 100;
+	m_fPlayerCharacter.m_iHealth = 100;
+	m_fPlayerCharacter.m_iMaxHealth = 100;
 	m_fPlayerCharacter.m_iAmmo = 30;
 	m_fPlayerCharacter.m_iMaxAmmo = 30;
 	m_fPlayerCharacter.m_iFireDamage = 2;
@@ -88,7 +89,8 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fEnemyCharacter.m_fAxis.Y = -ConsoleRenderer::ScreenHeight() * 0.1;
 	Object::CreateAndAttachHealthBar(&m_fEnemyCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.12) }, FG_RED);
 	m_fEnemyCharacter.m_iColor= FG_WHITE;
-	m_fEnemyCharacter.m_iHP = 500;
+	m_fEnemyCharacter.m_iHealth = 500;
+	m_fEnemyCharacter.m_iMaxHealth = 500;
 	m_fEnemyCharacter.m_iAmmo = 30;
 	m_fEnemyCharacter.m_iMaxAmmo = 30;
 	m_fEnemyCharacter.m_iFireDamage = 10;
@@ -96,7 +98,7 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	// Initialize Crosshair
 	m_fCrossHair.m_fAxis.X = ConsoleRenderer::ScreenHeight() * 0.5;
 	m_fCrossHair.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.5;
-	m_fCrossHair.m_fAspectRatio = 0.012;
+	m_fCrossHair.m_fAspectRatio = 0.012f;
 	Object::CreateCrossHair(&m_fCrossHair);
 	m_icrossHairOriginalXSize = m_fCrossHair.m_sXDistanceFromCenter;
 	m_icrossHairOriginalYSize = m_fCrossHair.m_sYDistanceFromCenter;
@@ -193,14 +195,14 @@ void PlayScene::ProcessInput()
 
 	if (Input::IsKeyPressed(VK_OEM_6)) // ]
 	{
-		m_iCrossHairMoveXAmountPlayScene *= 1.5;
-		m_iCrossHairMoveYAmountPlayScene *= 1.5;
+		m_iCrossHairMoveXAmountPlayScene = m_iCrossHairMoveXAmountPlayScene * 1.5;
+		m_iCrossHairMoveYAmountPlayScene = m_iCrossHairMoveYAmountPlayScene * 1.5;
 	}
 
 	if (Input::IsKeyPressed(VK_OEM_4)) // [
 	{
-		m_iCrossHairMoveXAmountPlayScene /= 1.5;
-		m_iCrossHairMoveYAmountPlayScene /= 1.5;
+		m_iCrossHairMoveXAmountPlayScene = m_iCrossHairMoveXAmountPlayScene / 1.5;
+		m_iCrossHairMoveYAmountPlayScene = m_iCrossHairMoveYAmountPlayScene / 1.5;
 	}
 	
 
@@ -264,6 +266,14 @@ void PlayScene::ProcessInput()
 		{
 			bCrossHairMove = true;
 			m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::AIMFIRE;
+
+			//Damage
+			if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
+				m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
+				m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
+			{ 
+  				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter.m_iFireDamage;
+			}
 		}
 		else
 		{
@@ -294,6 +304,14 @@ void PlayScene::ProcessInput()
 	{
 		bCrossHairMove = true;
 		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::AIMFIRE;
+
+		// Damage
+		if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
+			m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
+			m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
+		{
+			m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter.m_iFireDamage;
+		}
 
 		// Effect Spawn
 
@@ -402,8 +420,11 @@ void PlayScene::Render()
 		//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[PlayerCharacter.m_eAnimationState].m_fui[PlayerCharacter.m_iPlaybackCurrentSeconds], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[1].m_fui[0], FG_WHITE);
-		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds], &m_fEnemyCharacter.m_fHealthBar,  m_fEnemyCharacter.m_iColor);
-		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], &m_fPlayerCharacter.m_fHealthBar, m_fPlayerCharacter.m_iColor);
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds], m_fEnemyCharacter.m_iColor);
+		ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fHealthBar, m_fEnemyCharacter.m_iHealth, m_fEnemyCharacter.m_iMaxHealth,  m_fEnemyCharacter.m_fHealthBar.m_iUIColor);
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], m_fPlayerCharacter.m_iColor);
+		ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fHealthBar, m_fPlayerCharacter.m_iHealth, m_fPlayerCharacter.m_iMaxHealth, m_fPlayerCharacter.m_fHealthBar.m_iUIColor);
+
 		break;
 	default:
 		break;
