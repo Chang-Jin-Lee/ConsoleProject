@@ -79,6 +79,7 @@ namespace ConsoleRenderer
 
 	bool ScreenSetAttributes(WORD attr);
 
+	bool RenderScreenBufferFromGame();
 	void print(char* value);
 
 	int ScreenWidth();
@@ -88,4 +89,6 @@ namespace ConsoleRenderer
 
 	int GetScreenFontSize();
 	void SetScreenFontSize(int value);
+
+	char* GetScreenCHARINFOBuffer();
 };

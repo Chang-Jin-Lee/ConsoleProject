@@ -21,6 +21,9 @@ typedef enum ESceneState {
 #define VK_0 0x41 + '0' - 'a'
 #define VK_9 0x41 + '9' - 'a'
 
+// Console Renderer에서 쓰일 CHAR_INFO의 최대 개수
+#define MAX_CHAR_INFO_SIZE 700001
+
 // File Controller에서 쓰이는 것 
 #define MAX_BUFFER_POOL_SIZE 100001	// 버퍼의 최대 풀 개수 (y 축으로 몇 줄인지.)
 #define MAX_WORD_LENGTH 2000				// 단어의 최대 알파벳 숫자는 14개, 끝은 문자 NULL (값0)으로 채워야한다.== txt 파일로 입력받을 수 있는 한 문장의 최대 글자 수

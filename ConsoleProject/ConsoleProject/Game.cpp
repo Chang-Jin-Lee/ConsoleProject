@@ -7,8 +7,8 @@
 #include "Game.h"
 #include "AnimationScene.h"
 
-ESceneState g_eSceneCurrentState = MENU;
-ESceneState g_eSceneNextState = MENU;
+ESceneState g_eSceneCurrentState = ANIMATION;
+ESceneState g_eSceneNextState = ANIMATION;
 COORD g_Player = { 0,0 };
 bool g_bQuit = false;
 
@@ -49,8 +49,14 @@ void Game::Initialize()	// 게임 시작할 때 초기화
 	default:
 		break;
 	}
-	ConsoleRenderer::ScreenInit();
 
+	for (int i = 0; i < MAX_CHAR_INFO_SIZE; i++)
+	{
+		char* charinfo = ConsoleRenderer::GetScreenCHARINFOBuffer();
+		charinfo[i] = ' ';
+	}
+
+	ConsoleRenderer::ScreenInit();
 }
 
 void Game::LoadData()
@@ -118,6 +124,7 @@ void Game::Render()
 		break;
 	}
 
+	ConsoleRenderer::RenderScreenBufferFromGame();
 	ConsoleRenderer::ScreenFlipping();
 }
 

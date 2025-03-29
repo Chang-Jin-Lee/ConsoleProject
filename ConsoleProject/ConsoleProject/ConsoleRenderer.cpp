@@ -18,6 +18,8 @@ namespace ConsoleRenderer
     COORD buffer = { (SHORT)(nDesiredWidth * nAspectRatio), (SHORT)(nDesiredHeight * nAspectRatio) };
     SMALL_RECT window = { 0, 0,(SHORT)(nDesiredWidth * nAspectRatio) - 1, (SHORT)(nDesiredHeight * nAspectRatio) - 1 };
 
+    char g_fScreenBuffer[MAX_CHAR_INFO_SIZE];  // 전체 스크린 사이즈에 해당하는 버퍼. 이 값만을 렌더링하자
+
     void ScreenInit()
     {
         // 현재 화면크기에 맞는 화면 콘솔스크린버퍼 2개를 만든다.    
@@ -295,10 +297,28 @@ namespace ConsoleRenderer
         WriteConsoleOutputA(hScreenBuffer[nScreenBufferIndex], ui->m_ppInfoContent, bufferSize, bufferCoord, &writeRegion);*/
 
 
+        // 하나의 버퍼로 전부 그리는 방법
         for (int i = 0; i < ui->m_ippcontentSize; i++)
         {
-            ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
+            if (!ui->m_ppcontent[i]) break;
+
+            size_t jSize = strlen(ui->m_ppcontent[i]);
+            size_t offset = (y + i) * nScreenWidth + x;
+            memcpy(&g_fScreenBuffer[offset], ui->m_ppcontent[i], jSize);
+
+            //size_t jSize = strlen(ui->m_ppcontent[i]);
+            //for (int j = 0; j < jSize; j++)
+            //{
+            //    g_fScreenBuffer[(y + i) * nScreenWidth + x + j].Char.AsciiChar = ui->m_ppcontent[i][j];
+            //}
+            //ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
         }
+
+
+        //for (int i = 0; i < ui->m_ippcontentSize; i++)
+        //{
+        //    ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);
+        //}
     }
 
     void ScreenDrawPlayerHealthUI(int x, int y, UI::FUI* healthBar, const int& curHealth, const int& maxHealth, WORD attr)
@@ -372,6 +392,33 @@ namespace ConsoleRenderer
         return bRval;
     }
 
+    bool RenderScreenBufferFromGame()
+    {
+        if (!g_fScreenBuffer) return false;
+
+        int width = ConsoleRenderer::ScreenWidth();
+        int height = ConsoleRenderer::ScreenHeight();
+
+        DWORD dwWritten;
+        COORD origin = { 0, 0 };
+        WriteConsoleOutputCharacterA(hScreenBuffer[nScreenBufferIndex], g_fScreenBuffer, nScreenBufferSize, origin, &dwWritten);
+
+        //COORD bufferSize = { (SHORT)width, (SHORT)height };
+        //COORD bufferCoord = { 0, 0 };
+        //SMALL_RECT writeRegion = {
+        //    (SHORT)0, (SHORT)0,
+        //    (SHORT)(width - 1), (SHORT)(height - 1)
+        //};
+        //
+        //WriteConsoleOutputA(
+        //    hScreenBuffer[nScreenBufferIndex],
+        //    g_fScreenBuffer,
+        //    bufferSize,
+        //    bufferCoord,
+        //    &writeRegion
+        //);
+    }
+
     void print(char* value)
     {
         OutputDebugStringA(value);
@@ -402,6 +449,11 @@ namespace ConsoleRenderer
     void SetScreenFontSize(int value)
     {
         nScreenFontSize = value;
+    }
+
+    char* GetScreenCHARINFOBuffer()
+    {
+        return g_fScreenBuffer;
     }
 };
 
