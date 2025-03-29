@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationScene.cpp" />
     <ClCompile Include="BaseDefine.h" />
     <ClCompile Include="ConsoleRenderer.cpp" />
     <ClCompile Include="EndScene.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationScene.h" />
     <ClInclude Include="ConsoleRenderer.h" />
     <ClInclude Include="EndScene.h" />
     <ClInclude Include="FileController.h" />

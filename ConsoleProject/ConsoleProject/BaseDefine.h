@@ -3,6 +3,7 @@
 
 typedef enum ESceneState {
 	MENU,
+	ANIMATION,
 	PLAY,
 	END
 } ESceneState;

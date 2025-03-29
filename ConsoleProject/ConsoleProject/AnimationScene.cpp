@@ -1,4 +1,4 @@
-#include "MenuScene.h"
+#include "AnimationScene.h"
 #include "Input.h"
 #include "Game.h"
 #include "UI.h"
@@ -13,8 +13,8 @@ float m_fcountOneSeconds = 0;
 float m_fPlayer_x = 0;
 float m_fPlayer_y = 0;
 
-float m_fFPSTimeMenuScene = 1 / 60;
-//float m_fFPSTimeMenuScene = 60;
+float m_fFPSTimeAnimationScene = 1 / 60;
+//float m_fFPSTimeAnimationScene = 60;
 float m_fcountOneSecond = 0;
 bool bcatBlink = false;
 
@@ -25,7 +25,7 @@ UI::FUI m_fExitButton;
 
 Object::FPlayerCharacter m_fIntroVideo;
 
-void MenuScene::Initialize()	// 게임 시작할 때 초기화
+void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
 	Object::SetPlayerAnimationName(&m_fIntroVideo, (char*)"RapiLobby");
 	Object::LoadAnimationData(&m_fIntroVideo);
@@ -43,7 +43,7 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	m_fcountOneSecond = Time::GetTotalTime();
 }
 
-void MenuScene::LoadData()
+void AnimationScene::LoadData()
 {
 	//Images/CityForest01/CityForest_01.txt
 	//Video/Aru/frame_0001.txt
@@ -54,7 +54,7 @@ void MenuScene::LoadData()
 	}
 }
 
-void MenuScene::ProcessInput()
+void AnimationScene::ProcessInput()
 {
 	if (Input::IsKeyPressed(VK_ESCAPE))  //종료
 	{
@@ -63,13 +63,13 @@ void MenuScene::ProcessInput()
 
 	if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
 	{
-		Game::ChangeScene(ESceneState::ANIMATION);
+		Game::ChangeScene(ESceneState::PLAY);
 	}
 
 	if (Input::IsKeyPressed(VK_NUMPAD0))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
-		ConsoleRenderer::SetScreenFontSize(fontsize+1);
+		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
 		ConsoleRenderer::ScreenInit();
 	}
 
@@ -81,16 +81,16 @@ void MenuScene::ProcessInput()
 	}
 }
 
-void MenuScene::Release()
+void AnimationScene::Release()
 {
 	UI::Release(&m_fTitleFile);
 	Object::Release(&m_fIntroVideo);
 }
 
-void MenuScene::Update()
+void AnimationScene::Update()
 {
 	Input::Update();
-	MenuScene::ProcessInput();
+	AnimationScene::ProcessInput();
 
 	m_fMenuLastTime = Time::GetTotalTime() - m_fcurrentTime;
 	if (m_fMenuLastTime >= m_floadingTime + 1)
@@ -106,7 +106,7 @@ void MenuScene::Update()
 		m_fcountOneSeconds = 0;
 	}
 
-	if (Time::GetTotalTime() - m_fcountOneSecond >= m_fFPSTimeMenuScene)	// 0.5초에 한 번씩
+	if (Time::GetTotalTime() - m_fcountOneSecond >= m_fFPSTimeAnimationScene)	// 0.5초에 한 번씩
 	{
 		if (m_fIntroVideo.m_bPlayable)
 		{
@@ -116,7 +116,7 @@ void MenuScene::Update()
 	}
 }
 
-void MenuScene::Render()
+void AnimationScene::Render()
 {
 	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fTitleFile, FG_WHITE);
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], &m_fIntroVideo.m_fHealthBar, FG_WHITE);

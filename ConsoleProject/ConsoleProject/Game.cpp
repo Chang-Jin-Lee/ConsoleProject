@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include "Game.h"
+#include "AnimationScene.h"
 
 ESceneState g_eSceneCurrentState = MENU;
 ESceneState g_eSceneNextState = MENU;
@@ -36,6 +37,9 @@ void Game::Initialize()	// 게임 시작할 때 초기화
 	case MENU:
 		MenuScene::Initialize();
 		break;
+	case ANIMATION:
+		AnimationScene::Initialize();
+		break;
 	case PLAY:
 		PlayScene::Initialize();
 		break;
@@ -56,6 +60,9 @@ void Game::LoadData()
 	case MENU:
 		MenuScene::LoadData();
 		break;
+	case ANIMATION:
+		AnimationScene::LoadData();
+		break;
 	case PLAY:
 		PlayScene::LoadData();
 		break;
@@ -74,6 +81,9 @@ void Game::Update()
 	{
 	case MENU:
 		MenuScene::Update();
+		break;
+	case ANIMATION:
+		AnimationScene::Update();
 		break;
 	case PLAY:
 		PlayScene::Update();
@@ -95,6 +105,9 @@ void Game::Render()
 	case MENU:
 		MenuScene::Render();
 		break;
+	case ANIMATION:
+		AnimationScene::Render();
+		break;
 	case PLAY:
 		PlayScene::Render();
 		break;
@@ -114,6 +127,9 @@ void Game::Release()
 	{
 	case MENU:
 		MenuScene::Release();
+		break;
+	case ANIMATION:
+		AnimationScene::Release();
 		break;
 	case PLAY:
 		PlayScene::Release();
