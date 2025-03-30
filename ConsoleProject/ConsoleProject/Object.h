@@ -42,6 +42,7 @@ namespace Object
 		EAnimationState m_eAnimationState = AIM;
 		Animation m_fanimation[MAX_ANIMATIONSTATE_SIZE];
 
+		bool m_bVisible;
 		bool m_bPlayable;
 		int m_iPlaybackCurrentSeconds;
 		int m_iColor;
@@ -55,6 +56,7 @@ namespace Object
 		{
 			m_fAxis.X = 0;
 			m_fAxis.Y = 0;
+			m_bVisible = false;
 			m_bPlayable = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
@@ -69,6 +71,7 @@ namespace Object
 		{
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
+			m_bVisible = false;
 			m_bPlayable = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
@@ -84,6 +87,7 @@ namespace Object
 		{
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
+			m_bVisible = false;
 			m_bPlayable = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
@@ -225,9 +229,10 @@ namespace Object
 	void UpdateAllNodeAxis(Node* Root, float deltatime);
 	
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자
-	void SetPlayerAnimationNameFullBody(FPlayerCharacter* pc, char* fullbody_dile, char* fullbody_talk, char* fullbody_expression);
+	void SetPlayerAnimationNameFullBody(FPlayerCharacter* pc, char* fullbody_dile, char* fullbody_talk = NULL, char* fullbody_expression = NULL);
 	void CreateAndAttachHealthBar(FPlayerCharacter* pc, COORD axis, int Color);
 	void LoadAnimationData(FPlayerCharacter* pc);
+	void LoadAnimationDataWithFrame(FPlayerCharacter* pc, float frameTickness);
 	void Release(FPlayerCharacter* pc);
 	void Release(FActor* actor);
 

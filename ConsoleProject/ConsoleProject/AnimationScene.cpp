@@ -19,21 +19,38 @@ float m_fcountOneSecondAnimationScene = 0;
 
 UI::FUI m_fBackGroundUI;
 
+// 말풍선, 선택창 UI
 UI::FUI m_fSpeechBubbleAnimationScene;
-#define MAX_SELECTBUBBLE_SIZE 3
+#define MAX_SELECTBUBBLE_SIZE 2
 UI::FBUBBLEUI m_fSelectBubbleAnimationScene[MAX_SELECTBUBBLE_SIZE];
 UI::FUI m_fCursorAnimationScene;
+int m_iselectIndex = 0;
 
+Object::FPlayerCharacter m_fShiftyAnimationScene;
 Object::FPlayerCharacter m_fRapiAnimationScene;
 Object::FPlayerCharacter m_fAniscAnimationScene;
 Object::FPlayerCharacter m_fNeonAnimationScene;
 
+#define MMAX_CHARACTER_SIZE 4
 enum ECurCharacter
 {
 	RAPI,ANIS,NEON,NONE
 };
 
 ECurCharacter ch1 = RAPI, ch2 = NONE;
+
+struct FGAMEDIALOGANIMATIONSCENE	// text_0001_rapi_30_.txt
+{
+	int InSize = 0;
+	UI::FUI Speaker;
+	bool m_aSpeakerTalkable[MMAX_CHARACTER_SIZE] = {false, };
+	UI::FUI Type;
+	SHORT m_iTalkingCharacterSize = 1;
+	SHORT Answer;	// 선택창 최대 개수. MAX_SELECTBUBBLE_SIZE까지.
+	//FUI SceneName;
+};
+
+FGAMEDIALOGANIMATIONSCENE m_fgameDialog[MAX_DIALOG_SIZE];
 
 void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
@@ -43,6 +60,14 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	m_finitialOneSecondAnimationScene = Time::GetTotalTime();
 	m_fcountOneSecondAnimationScene = Time::GetTotalTime();
 	m_fFPSLastTimeAnimationScene = Time::GetTotalTime();
+
+	// Initialize m_fShiftyAnimationScene
+	m_fShiftyAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
+	m_fShiftyAnimationScene.m_bPlayable = true;
+	m_fShiftyAnimationScene.m_fAxis.X = (SHORT)(ConsoleRenderer::ScreenWidth() * 0.02);
+	m_fShiftyAnimationScene.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.01);
+	m_fShiftyAnimationScene.m_iColor = FG_WHITE;
+	m_fShiftyAnimationScene.m_bVisible = true;
 
 	// Initialize m_fRapiAnimationScene
 	m_fRapiAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
@@ -73,7 +98,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 		0,
 		(int)(ConsoleRenderer::ScreenHeight() * 0.7),
 		0.01f,
-		FG_GRAY
+		FG_WHITE
 	);
 
 	// Initialize SelectBubble
@@ -85,7 +110,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
 			(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06*float(i))),
 			0.01f,
-			FG_GRAY
+			FG_WHITE
 		);
 		UI::CreateBubbleUIContent(&m_fSelectBubbleAnimationScene[i], "Images/text/text_anis_30.txt", FG_WHITE);
 	}
@@ -142,6 +167,9 @@ void AnimationScene::LoadData()
 		m_fBackGroundUI.m_fAxis.Y = 0;
 	}
 
+	Object::SetPlayerAnimationNameFullBody(&m_fShiftyAnimationScene, (char*)"ShiftyFullBodyIdle");
+	Object::LoadAnimationDataWithFrame(&m_fShiftyAnimationScene, 0.01f);
+
 	Object::SetPlayerAnimationNameFullBody(&m_fRapiAnimationScene, (char*)"RapiFullBodyIdle", (char*)"RapiFullBodyIdleTalk", (char*)"RapiFullBodyExpression");
 	Object::LoadAnimationData(&m_fRapiAnimationScene);
 
@@ -182,6 +210,16 @@ void AnimationScene::ProcessInput()
 	if (Input::IsKeyPressed(VK_BACK))
 	{
 		//m_fSpeechContentIndex - 1 < 0 ? m_fSpeechContentIndex = m_fgameDialogSize - 1 : m_fSpeechContentIndex = (m_fSpeechContentIndex - 1);
+	}
+
+	if (Input::IsKeyPressed(VK_UP))
+	{
+		m_iselectIndex - 1 < 0 ? m_iselectIndex = MAX_SELECTBUBBLE_SIZE - 1 : m_iselectIndex--;
+	}
+
+	if (Input::IsKeyPressed(VK_DOWN))
+	{
+		m_iselectIndex = (m_iselectIndex + 1) % MAX_SELECTBUBBLE_SIZE;
 	}
 
 	if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
@@ -309,6 +347,14 @@ void AnimationScene::Update()
 		m_m_fcountOneSecondAnimationScenesAnimationScene = 0;
 	}
 
+	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
+	{
+		if(i == m_iselectIndex)
+			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_RED_DARK;
+		else
+			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_WHITE;
+	}
+
 	m_fFPSLastTimeAnimationScene = Time::GetTotalTime() - m_fcountOneSecondAnimationScene;
 	if (m_fFPSLastTimeAnimationScene >= m_fFPSTimeAnimationScene)	// 1/60 초에 한 번씩
 	{
@@ -317,6 +363,11 @@ void AnimationScene::Update()
 		//{
 		//	m_fIntroVideo.m_iPlaybackCurrentSeconds = (m_fIntroVideo.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_iMaxLength;
 		//}
+
+		if (m_fShiftyAnimationScene.m_bPlayable)
+		{
+			m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds = (m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fShiftyAnimationScene.m_fanimation[m_fShiftyAnimationScene.m_eAnimationState].m_iMaxLength;
+		}
 		if (m_fRapiAnimationScene.m_bPlayable)
 		{
 			m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
@@ -352,6 +403,9 @@ void AnimationScene::Render()
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
 	if (ch1 == NEON || ch2 == NEON)
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
+	
+	if(m_fShiftyAnimationScene.m_bVisible)
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fShiftyAnimationScene.m_fAxis.X, m_fShiftyAnimationScene.m_fAxis.Y, &m_fShiftyAnimationScene.m_fanimation[m_fShiftyAnimationScene.m_eAnimationState].m_fui[m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds], m_fShiftyAnimationScene.m_iColor);
 	
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechBubbleAnimationScene, m_fSpeechBubbleAnimationScene.m_iUIColor);
 

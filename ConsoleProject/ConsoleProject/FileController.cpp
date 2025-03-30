@@ -90,8 +90,11 @@ namespace FileController
 
 	int FileReadFromCSV(const char* FileName, const char* Mode, UI::FGAMEDIALOG* dialog, int* dialogSize)
 	{
+		char filename[200];
+		sprintf_s(filename, sizeof(filename), "CSV/%s", FileName);
+
 		FILE* fp = NULL;
-		fopen_s(&fp, FileName, Mode);
+		fopen_s(&fp, filename, Mode);
 
 		if (fp == NULL)
 		{
@@ -198,6 +201,7 @@ namespace FileController
 
 	int FileReadAnimation(const char* VideoName, const int& animationState, Object::FPlayerCharacter* pc)
 	{
+		int dFileRead = true;
 		for (int i = 0; i < MAX_VIDEO_SIZE; i++)
 		{
 			char filename[200];
@@ -210,6 +214,7 @@ namespace FileController
 				pc->m_fanimation[animationState].m_iMaxLength = i;
 				ConsoleRenderer::print(filename);
 				ConsoleRenderer::print((char*)"File Dose not Opened.\n");
+				dFileRead = false;
 				break;
 			}
 			
@@ -256,7 +261,7 @@ namespace FileController
 			fclose(fp);
 		}
 
-		return 1;
+		return dFileRead == true;
 	}
 }
 

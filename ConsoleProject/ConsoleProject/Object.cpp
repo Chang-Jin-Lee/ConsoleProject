@@ -51,6 +51,60 @@ namespace Object
 		}
 	}
 
+	void LoadAnimationDataWithFrame(FPlayerCharacter* pc, float frameTickness)
+	{
+		for (int animState = 0; animState < MAX_ANIMATIONSTATE_SIZE; animState++)
+		{
+			if (pc->m_fanimation[animState].m_pAnimationName == NULL) continue;
+			
+			if (FileController::FileReadAnimation(pc->m_fanimation[animState].m_pAnimationName, animState, pc) == false)
+			{
+				ConsoleRenderer::print((char*)"LoadAnimationData func error...");
+			}
+
+
+			for (int videoClip = 0; videoClip < pc->m_fanimation[animState].m_iMaxLength; videoClip++)
+			{
+				int SpeechSlateYSize = pc->m_fanimation[animState].m_fui[videoClip].m_ippcontentSize;
+				int SpeechSlateXSize = strlen(pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[0]);
+
+				for (int i = 0; i < SpeechSlateYSize * frameTickness; i++)
+				{
+					for (int j = 0; j < SpeechSlateXSize; j++)
+					{
+						pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[i][j] = (char)L'⬛';
+					}
+				}
+				for (int i = (int)(SpeechSlateYSize * (1 - frameTickness)); i < SpeechSlateYSize; i++)
+				{
+					for (int j = 0; j < SpeechSlateXSize; j++)
+					{
+						pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[i][j] = (char)L'⬛';
+					}
+				}
+				for (int j = 0; j < SpeechSlateXSize * frameTickness / 2; j++)
+				{
+					for (int i = int(SpeechSlateYSize * frameTickness); i < int(SpeechSlateYSize * (1 - frameTickness)); i++)
+					{
+						pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[i][j] = (char)L'⬛';
+					}
+				}
+				for (int j = (int)(SpeechSlateXSize * (1 - frameTickness / 2)); j < SpeechSlateXSize; j++)
+				{
+					for (int i = int(SpeechSlateYSize * frameTickness); i < int(SpeechSlateYSize * (1 - frameTickness)); i++)
+					{
+						pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[i][j] = (char)L'⬛';
+					}
+				}
+				for (int i = 0; i < SpeechSlateYSize; i++)
+				{
+					pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[i][SpeechSlateXSize + 1] = '\0';
+				}
+			}
+			
+		}
+	}
+
 	void Release(FPlayerCharacter* pc)
 	{
 		for (int i = 0; i < MAX_ANIMATIONSTATE_SIZE; i++)
