@@ -225,7 +225,7 @@ namespace Object
 	Node* Add(Node* Root, FActor data, COORD dirVector, COORD DestinationVector, float speed); // data를 가지는 Node를 생성해서 붙이기
 	Node* Delete(Node* curNode);
 	void TravelNode(Node* Root);
-	void RenderAllNode(Node* Root, int Color);
+	void RenderAllBulletNode(Node* Root, int Color);
 	void UpdateAllNodeAxis(Node* Root, float deltatime);
 	
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자

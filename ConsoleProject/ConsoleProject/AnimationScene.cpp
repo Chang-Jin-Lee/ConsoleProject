@@ -110,7 +110,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
 			(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06*float(i))),
 			0.01f,
-			FG_WHITE
+			FG_RED
 		);
 		UI::CreateBubbleUIContent(&m_fSelectBubbleAnimationScene[i], "Images/text/text_anis_30.txt", FG_WHITE);
 	}
@@ -350,9 +350,9 @@ void AnimationScene::Update()
 	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
 	{
 		if(i == m_iselectIndex)
-			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_RED_DARK;
-		else
 			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_WHITE;
+		else
+			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_RED;
 	}
 
 	m_fFPSLastTimeAnimationScene = Time::GetTotalTime() - m_fcountOneSecondAnimationScene;
@@ -414,6 +414,4 @@ void AnimationScene::Render()
 		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fbackGround, m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor);
 		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fcontent, m_fSelectBubbleAnimationScene[i].m_fcontent.m_iUIColor);
 	}
-	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[0].m_fcontent, m_fSelectBubbleAnimationScene[0].m_fcontent.m_iUIColor);
-
 }

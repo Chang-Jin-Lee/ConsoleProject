@@ -204,7 +204,7 @@ namespace FileController
 		int dFileRead = true;
 		for (int i = 0; i < MAX_VIDEO_SIZE; i++)
 		{
-			char filename[200];
+			char filename[100];
 			sprintf_s(filename, sizeof(filename), "Video/%s/frame_%04d.txt", VideoName, i + 1);
 
 			FILE* fp = NULL;

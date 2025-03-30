@@ -67,6 +67,7 @@ namespace ConsoleRenderer
 	bool ScreenDrawStringFromFile(int x, int y, const char* pStr, WORD attr);
 	bool ScreenDrawStringFromAnimation(int x, int y, char* pStr, WORD attr);
 	bool ScreenDrawStringFromFile(int x, int y, const wchar_t* pStr, WORD attr);
+	char ReadCharAt(int x, int y);
 
 	void ScreenDrawUI(UI::FUI* ui, WORD attr);
 	void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr);

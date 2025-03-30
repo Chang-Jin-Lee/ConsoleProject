@@ -11,18 +11,21 @@ float m_fMenuLastTimePlayScene = 0;
 
 enum EPlaySceneState
 {
-	DIALOGUE,
+	DESCRIPTION,
+	OPTION,
 	SHOOTING,
 	RHYTHM,
 	PUZZLE,
 };
 
-EPlaySceneState m_eplaySceneState = SHOOTING;
+EPlaySceneState m_eplaySceneState = DESCRIPTION;
 
-UI::FUI m_fVideoPlayScene[MAX_VIDEO_SIZE];	// 400 * 233
-int m_ivideoPlayClipMax = 0;
-int m_ivideoPlaycursor = 0;
+/////// DESCRIPTION ///////
 
+#define MAX_DESCRIPTION_SIZE_PLAY_SCENE 3
+UI::FBUBBLEUI m_fDescriptionUIPlayScene[MAX_DESCRIPTION_SIZE_PLAY_SCENE];	// height를 18로 맞추자.
+
+/////// SHOOTING ///////
 bool bIsReloading = false;
 Object::FPlayerCharacter m_fPlayerCharacter;
 Object::FPlayerCharacter m_fEnemyCharacter;
@@ -30,6 +33,9 @@ Object::FLeftAmmoUI m_fLeftAmmoUIPlayScene;
 Object::FCrossHair m_fCrossHair;
 Object::Node* m_pBulletHead = NULL;
 float m_fDefaultBulletSpeed = 10.0f;
+UI::FUI m_fGuideUIPlayScene; // 설명 UI
+
+Object::FActor m_fBullet;
 
 // Move 관련
 int m_iPlayerMoveXAmountPlayScene = 3;
@@ -44,10 +50,140 @@ int m_icrossHairOriginalXSize = 0;
 int m_icrossHairTargetYSize = 0;
 int m_icrossHairOriginalYSize = 0;
 
-// 설명 UI
-UI::FUI m_fGuideUIPlayScene;
-
 void PlayScene::Initialize()	// 게임 시작할 때 초기화
+{
+	DescriptionPlaySceneInitialize();
+	ShootingPlaySceneInitialize();
+}
+
+void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
+{
+	DescriptionPlaySceneLoadData();
+	ShootingPlaySceneLoadData();
+}
+
+void PlayScene::ProcessInput()
+{
+	switch (m_eplaySceneState)
+	{
+	case DESCRIPTION:
+		DescriptionPlaySceneInput();
+		break;
+	case OPTION:
+		break;
+	case SHOOTING:
+		ShootingPlaySceneInput();
+		break;
+	case RHYTHM:
+		break;
+	case PUZZLE:
+		break;
+	default:
+		break;
+	}
+}
+
+void PlayScene::Release()
+{
+	Object::Release(&m_fPlayerCharacter);
+	Object::Release(&m_fEnemyCharacter);
+	Object::Release(&m_fCrossHair.Top);
+	Object::Release(&m_fCrossHair.Left);
+	Object::Release(&m_fCrossHair.Right);
+	Object::Release(&m_fCrossHair.Bottom);
+}
+
+void PlayScene::Update()
+{
+	Input::Update();
+	PlayScene::ProcessInput();
+
+	switch (m_eplaySceneState)
+	{
+	case DESCRIPTION:
+		DescriptionPlaySceneUpdate();
+		break;
+	case OPTION:
+		break;
+	case SHOOTING:
+		ShootingPlaySceneUpdate();
+		break;
+	case RHYTHM:
+		break;
+	case PUZZLE:
+		break;
+	default:
+		break;
+	}
+}
+
+void PlayScene::Render()
+{
+	switch (m_eplaySceneState)
+	{
+	case DESCRIPTION:
+		DescriptionPlaySceneRender();
+		break;
+	case OPTION:
+		break;
+	case SHOOTING:
+		ShootingPlaySceneRender();
+		break;
+	case RHYTHM:
+		break;
+	case PUZZLE:
+		break;
+	default:
+		break;
+	}
+}
+
+void PlayScene::DescriptionPlaySceneInitialize()
+{
+	for (int i = 0; i < MAX_DESCRIPTION_SIZE_PLAY_SCENE; i++)
+	{
+		// Initialize Guide UI
+		UI::CreateBubbleUI(&m_fDescriptionUIPlayScene[i].m_fbackGround,
+			(int)(ConsoleRenderer::ScreenWidth() * 0.6),
+			(int)(ConsoleRenderer::ScreenHeight() * 0.1),
+			(int)(ConsoleRenderer::ScreenWidth() * 0.2),
+			(int)(ConsoleRenderer::ScreenHeight() * (0.15 + 0.125 * float(i))),
+			0.02f,
+			FG_WHITE
+		);
+
+		char filename[100];
+		sprintf_s(filename, sizeof(filename), "Images/text/text_description%04d_360.txt", i + 1);
+		UI::CreateBubbleUIContent(&m_fDescriptionUIPlayScene[i], filename, FG_WHITE);
+	}
+}
+
+void PlayScene::DescriptionPlaySceneLoadData()
+{
+}
+
+void PlayScene::DescriptionPlaySceneUpdate()
+{
+}
+
+void PlayScene::DescriptionPlaySceneInput()
+{
+	if (Input::IsKeyPressed(VK_Q))
+	{
+		m_eplaySceneState = SHOOTING;
+	}
+}
+
+void PlayScene::DescriptionPlaySceneRender()
+{
+	for (int i = 0; i < MAX_DESCRIPTION_SIZE_PLAY_SCENE; i++)
+	{
+		ConsoleRenderer::ScreenDrawUIFromFile(&m_fDescriptionUIPlayScene[i].m_fbackGround, m_fDescriptionUIPlayScene[i].m_fbackGround.m_iUIColor);
+		ConsoleRenderer::ScreenDrawUIFromFile(&m_fDescriptionUIPlayScene[i].m_fcontent, m_fDescriptionUIPlayScene[i].m_fcontent.m_iUIColor);
+	}
+}
+
+void PlayScene::ShootingPlaySceneInitialize()
 {
 	// Initialize Player
 	m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::COVER;
@@ -66,9 +202,9 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
 	m_fEnemyCharacter.m_bPlayable = true;
 	m_fEnemyCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fEnemyCharacter.m_fAxis.Y = (SHORT)( -ConsoleRenderer::ScreenHeight() * 0.1);
+	m_fEnemyCharacter.m_fAxis.Y = (SHORT)(-ConsoleRenderer::ScreenHeight() * 0.1);
 	Object::CreateAndAttachHealthBar(&m_fEnemyCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.12) }, FG_RED);
-	m_fEnemyCharacter.m_iColor= FG_WHITE;
+	m_fEnemyCharacter.m_iColor = FG_WHITE;
 	m_fEnemyCharacter.m_iHealth = 500;
 	m_fEnemyCharacter.m_iMaxHealth = 500;
 	m_fEnemyCharacter.m_iAmmo = 30;
@@ -108,27 +244,13 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	);
 }
 
-void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
+void PlayScene::ShootingPlaySceneLoadData()
 {
 	Object::SetPlayerAnimationName(&m_fPlayerCharacter, (char*)"RapiFullBody", (char*)"RapiCover", (char*)"RapiAim", (char*)"RapiAimFire", (char*)"RapiReload");
 	Object::LoadAnimationData(&m_fPlayerCharacter);
 
 	Object::SetPlayerAnimationName(&m_fEnemyCharacter, (char*)"ModerniaFullBody");
 	Object::LoadAnimationData(&m_fEnemyCharacter);
-
-	for (int i = 0; i < MAX_VIDEO_SIZE; i++)
-	{
-		char filename[256];
-		sprintf_s(filename, sizeof(filename), "Video/Aru/frame_%04d.txt", i+1);
-		if (FileController::FileRead(filename, "r", &m_fVideoPlayScene[i].m_ppcontent, &m_fVideoPlayScene[i].m_ippcontentSize) == false)
-		{
-			m_ivideoPlayClipMax = i;
-			ConsoleRenderer::print((char*)"PlayScene_FileReadError m_fVideoPlayScene ");
-			ConsoleRenderer::print(filename);
-			ConsoleRenderer::print((char*)"\n");
-			break;
-		}
-	}
 
 	int LeftAmmoYSize = (int)(ConsoleRenderer::ScreenHeight() * 0.05);
 	int LeftAmmoXSize = (int)(ConsoleRenderer::ScreenWidth() * 0.02);
@@ -142,11 +264,45 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 		{
 			m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][j] = (char)L'⬛';
 		}
-		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][LeftAmmoXSize-1] = '\0';
+		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][LeftAmmoXSize - 1] = '\0';
 	}
 }
 
-void PlayScene::ProcessInput()
+void PlayScene::ShootingPlaySceneUpdate()
+{
+	m_fMenuLastTimePlayScene = Time::GetTotalTime() - m_fcurrentTimePlayScene;
+	if (m_fMenuLastTimePlayScene >= m_fAnimationTimePlayScene)
+	{
+		m_fcurrentTimePlayScene = Time::GetTotalTime();
+
+		if (m_fPlayerCharacter.m_bPlayable)
+		{
+			if (bIsReloading && m_fPlayerCharacter.m_eAnimationState == Object::EAnimationState::RELOAD)
+			{
+				if (m_fPlayerCharacter.m_iPlaybackCurrentSeconds >= m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_iMaxLength - 1)
+				{
+					bIsReloading = false;
+				}
+			}
+			m_fPlayerCharacter.m_iPlaybackCurrentSeconds = (m_fPlayerCharacter.m_iPlaybackCurrentSeconds + 1) % m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_iMaxLength;
+		}
+
+		if (m_fEnemyCharacter.m_bPlayable)
+			m_fEnemyCharacter.m_iPlaybackCurrentSeconds = (m_fEnemyCharacter.m_iPlaybackCurrentSeconds + 1) % m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_iMaxLength;
+	}
+
+	Object::UpdateAllNodeAxis(m_pBulletHead, Time::GetElapsedTime());
+	if (bCrossHairMove)
+	{
+		if (m_fCrossHair.m_sXDistanceFromCenter < m_icrossHairTargetXSize)
+			Object::UpdateCrossHairIncreaseSize(&m_fCrossHair, Time::GetElapsedTime());
+		else
+			Object::UpdateCrossHairDecreaseSize(&m_fCrossHair, Time::GetElapsedTime());
+	}
+}
+
+
+void PlayScene::ShootingPlaySceneInput()
 {
 	if (Input::IsKeyPressed(VK_Q))
 	{
@@ -169,7 +325,7 @@ void PlayScene::ProcessInput()
 		m_iCrossHairMoveXAmountPlayScene = (int)(m_iCrossHairMoveXAmountPlayScene / 1.5);
 		m_iCrossHairMoveYAmountPlayScene = (int)(m_iCrossHairMoveYAmountPlayScene / 1.5);
 	}
-	
+
 
 	if (Input::IsKeyPressed(VK_NUMPAD0))
 	{
@@ -231,8 +387,8 @@ void PlayScene::ProcessInput()
 			if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
 				m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
 				m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
-			{ 
-  				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter.m_iFireDamage;
+			{
+				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter.m_iFireDamage;
 			}
 		}
 		else
@@ -267,13 +423,14 @@ void PlayScene::ProcessInput()
 
 		bCrossHairMove = true;
 		m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::AIMFIRE;
-		
+
 		// Damage
 		if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
 			m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
 			m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
 		{
-			m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter.m_iFireDamage;
+			if(ConsoleRenderer::ReadCharAt(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y) != ' ')
+				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter.m_iFireDamage;
 		}
 
 		// Effect Spawn
@@ -281,7 +438,7 @@ void PlayScene::ProcessInput()
 		// Bullet Spawn
 		//Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X + strlen(m_fCrossHair.m_fui.m_ppcontent[0]) / 2, m_fCrossHair.m_fAxis.Y + m_fCrossHair.m_fui.m_ippcontentSize / 2, m_fBullet);
 		//Object::FActor Actor = Object::FActor( ConsoleRenderer::ScreenWidth() / 2, m_fPlayerCharacter.m_fAxis.Y, m_fBullet);
- 		//float xAxis = m_fCrossHair.m_fAxis.X - Actor.m_fAxis.X;
+		//float xAxis = m_fCrossHair.m_fAxis.X - Actor.m_fAxis.X;
 		//float yAxis = m_fCrossHair.m_fAxis.Y - Actor.m_fAxis.Y;
 		//float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
 		//COORD dirVector = { xAxis / Magnitude * 100, yAxis / Magnitude * 100};
@@ -294,77 +451,17 @@ void PlayScene::ProcessInput()
 	}
 }
 
-void PlayScene::Release()
+void PlayScene::ShootingPlaySceneRender()
 {
-	Object::Release(&m_fPlayerCharacter);
-	Object::Release(&m_fEnemyCharacter);
-	Object::Release(&m_fCrossHair.Top);
-	Object::Release(&m_fCrossHair.Left);
-	Object::Release(&m_fCrossHair.Right);
-	Object::Release(&m_fCrossHair.Bottom);
-}
-
-void PlayScene::Update()
-{
-	Input::Update();
-	PlayScene::ProcessInput();
-
-	m_fMenuLastTimePlayScene = Time::GetTotalTime() - m_fcurrentTimePlayScene;
-	if (m_fMenuLastTimePlayScene >= m_fAnimationTimePlayScene)
-	{
-		m_fcurrentTimePlayScene = Time::GetTotalTime();
-
-		if (m_fPlayerCharacter.m_bPlayable)
-		{
-			if (bIsReloading && m_fPlayerCharacter.m_eAnimationState == Object::EAnimationState::RELOAD)
-			{
-				if (m_fPlayerCharacter.m_iPlaybackCurrentSeconds >= m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_iMaxLength - 1)
-				{
-					bIsReloading = false;
-				}
-			}
-			m_fPlayerCharacter.m_iPlaybackCurrentSeconds = (m_fPlayerCharacter.m_iPlaybackCurrentSeconds + 1) % m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_iMaxLength;
-		}
-
-		if (m_fEnemyCharacter.m_bPlayable)
-			m_fEnemyCharacter.m_iPlaybackCurrentSeconds = (m_fEnemyCharacter.m_iPlaybackCurrentSeconds + 1) % m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_iMaxLength;
-	}
-
-	Object::UpdateAllNodeAxis(m_pBulletHead, Time::GetElapsedTime());
-	if (bCrossHairMove)
-	{
-		if(m_fCrossHair.m_sXDistanceFromCenter < m_icrossHairTargetXSize)
-			Object::UpdateCrossHairIncreaseSize(&m_fCrossHair, Time::GetElapsedTime());
-		else
-			Object::UpdateCrossHairDecreaseSize(&m_fCrossHair, Time::GetElapsedTime());
-	}
-}
-
-void PlayScene::Render()
-{
-	switch (m_eplaySceneState)
-	{
-	case DIALOGUE:
-		break;
-	case SHOOTING:
-		//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
+	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[PlayerCharacter.m_eAnimationState].m_fui[PlayerCharacter.m_iPlaybackCurrentSeconds], FG_WHITE);
 		//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[1].m_fui[0], FG_WHITE);
-		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds], m_fEnemyCharacter.m_iColor);
-		ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fHealthBar, m_fEnemyCharacter.m_iHealth, m_fEnemyCharacter.m_iMaxHealth,  m_fEnemyCharacter.m_fHealthBar.m_iUIColor);
-		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], m_fPlayerCharacter.m_iColor);
-		ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fHealthBar, m_fPlayerCharacter.m_iHealth, m_fPlayerCharacter.m_iMaxHealth, m_fPlayerCharacter.m_fHealthBar.m_iUIColor);
-		break;
-	case RHYTHM:
-		break;
-	case PUZZLE:
-		break;
-	default:
-		break;
-	}
-
+	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds], m_fEnemyCharacter.m_iColor);
+	ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fHealthBar, m_fEnemyCharacter.m_iHealth, m_fEnemyCharacter.m_iMaxHealth, m_fEnemyCharacter.m_fHealthBar.m_iUIColor);
+	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui[m_fPlayerCharacter.m_iPlaybackCurrentSeconds], m_fPlayerCharacter.m_iColor);
+	ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fPlayerCharacter.m_fAxis.X, m_fPlayerCharacter.m_fAxis.Y, &m_fPlayerCharacter.m_fHealthBar, m_fPlayerCharacter.m_iHealth, m_fPlayerCharacter.m_iMaxHealth, m_fPlayerCharacter.m_fHealthBar.m_iUIColor);
 	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter.m_iAmmo, m_fPlayerCharacter.m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
 	Object::RenderCrossHair(&m_fCrossHair);
-	Object::RenderAllNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);
+	Object::RenderAllBulletNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);
 }

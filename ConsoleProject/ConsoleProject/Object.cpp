@@ -157,7 +157,7 @@ namespace Object
 			cur = cur->next;
 	}
 
-	void RenderAllNode(Node* Root, int Color)
+	void RenderAllBulletNode(Node* Root, int Color)
 	{
 		if (Root == NULL)
 			return;

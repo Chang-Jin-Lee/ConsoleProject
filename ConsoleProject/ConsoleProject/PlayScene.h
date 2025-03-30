@@ -12,6 +12,16 @@ namespace PlayScene
 	void Release();
 	void Update();
 	void Render();
-	void BlinkSpeechNextButton();
-	void SpeechContent();
+
+	void DescriptionPlaySceneInitialize();
+	void DescriptionPlaySceneLoadData();
+	void DescriptionPlaySceneUpdate();
+	void DescriptionPlaySceneInput();
+	void DescriptionPlaySceneRender();
+
+	void ShootingPlaySceneInitialize();
+	void ShootingPlaySceneLoadData();
+	void ShootingPlaySceneUpdate();
+	void ShootingPlaySceneInput();
+	void ShootingPlaySceneRender();
 }

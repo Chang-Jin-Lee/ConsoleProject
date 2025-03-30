@@ -266,6 +266,22 @@ namespace ConsoleRenderer
         return bRval;
     }
 
+    char ReadCharAt(int x, int y)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        char ch = ' ';
+        DWORD charsRead = 0;
+        COORD coord = { (SHORT)x, (SHORT)y };
+
+        if (!ReadConsoleOutputCharacterA(hConsole, &ch, 1, coord, &charsRead) || charsRead != 1)
+        {
+            printf("❌ ReadConsoleOutputCharacterA 실패: %lu\n", GetLastError());
+            return ' ';
+        }
+
+        return ch;
+    }
+
     void ScreenDrawUI(UI::FUI* ui, WORD attr)
     {
         ScreenDrawString(ui->m_fAxis.X, ui->m_fAxis.Y, ui->m_pcontent, attr);
