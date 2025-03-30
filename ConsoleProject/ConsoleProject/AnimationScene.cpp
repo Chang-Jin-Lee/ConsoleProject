@@ -21,7 +21,7 @@ UI::FUI m_fBackGroundUI;
 
 UI::FUI m_fSpeechBubbleAnimationScene;
 #define MAX_SELECTBUBBLE_SIZE 3
-UI::FUI m_fSelectBubbleAnimationScene[MAX_SELECTBUBBLE_SIZE];
+UI::FBUBBLEUI m_fSelectBubbleAnimationScene[MAX_SELECTBUBBLE_SIZE];
 UI::FUI m_fCursorAnimationScene;
 
 Object::FPlayerCharacter m_fRapiAnimationScene;
@@ -48,7 +48,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	m_fRapiAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
 	m_fRapiAnimationScene.m_bPlayable = true;
 	m_fRapiAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fRapiAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.12;
+	m_fRapiAnimationScene.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.12);
 	m_fRapiAnimationScene.m_iColor = FG_WHITE;
 
 	// Initialize m_fAniscAnimationScene
@@ -56,18 +56,18 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	m_fAniscAnimationScene.m_bPlayable = true;
 	m_fAniscAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
 	//m_fAniscAnimationScene.m_fAxis.X = 0;
-	m_fAniscAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.12;
+	m_fAniscAnimationScene.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.12);
 	m_fAniscAnimationScene.m_iColor = FG_WHITE;
 
 	// Initialize m_fNeonAnimationScene
 	m_fNeonAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
 	m_fNeonAnimationScene.m_bPlayable = true;
 	m_fNeonAnimationScene.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fNeonAnimationScene.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.12;
+	m_fNeonAnimationScene.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.12);
 	m_fNeonAnimationScene.m_iColor = FG_WHITE;
 
 	// Initialize SpeechBubble 
-	UI::MakeBubbleUI(&m_fSpeechBubbleAnimationScene,
+	UI::CreateBubbleUI(&m_fSpeechBubbleAnimationScene,
 		(int)(ConsoleRenderer::ScreenWidth()),
 		(int)(ConsoleRenderer::ScreenHeight() * 0.3),
 		0,
@@ -79,7 +79,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	// Initialize SelectBubble
 	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
 	{
-		UI::MakeBubbleUI(&m_fSelectBubbleAnimationScene[i],
+		UI::CreateBubbleUI(&m_fSelectBubbleAnimationScene[i].m_fbackGround,
 			(int)(ConsoleRenderer::ScreenWidth() * 0.3),
 			(int)(ConsoleRenderer::ScreenHeight() * 0.05),
 			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
@@ -87,6 +87,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 			0.01f,
 			FG_GRAY
 		);
+		UI::CreateBubbleUIContent(&m_fSelectBubbleAnimationScene[i], "Images/text/text_anis_30.txt", FG_WHITE);
 	}
 	
 	// Initialize Speech 
@@ -152,6 +153,18 @@ void AnimationScene::LoadData()
 
 	//if (FileController::FileReadFromCSV("Dialogue.csv", "r", m_fgameDialog, &m_fgameDialogSize) == false)
 	//	ConsoleRenderer::print((char*)"PlayScene_FileReadError\n");
+
+	/*for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
+	{
+		UI::CreateBubbleUI(&m_fSelectBubbleAnimationScene[i].m_fbackGround,
+			(int)(ConsoleRenderer::ScreenWidth() * 0.3),
+			(int)(ConsoleRenderer::ScreenHeight() * 0.05),
+			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
+			(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06 * float(i))),
+			0.01f,
+			FG_GRAY
+		);
+	}*/
 }
 
 void AnimationScene::ProcessInput()
@@ -304,18 +317,18 @@ void AnimationScene::Update()
 		//{
 		//	m_fIntroVideo.m_iPlaybackCurrentSeconds = (m_fIntroVideo.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_iMaxLength;
 		//}
-		//if (m_fRapiAnimationScene.m_bPlayable)
-		//{
-		//	m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
-		//}
-		//if (m_fAniscAnimationScene.m_bPlayable)
-		//{
-		//	m_fAniscAnimationScene.m_iPlaybackCurrentSeconds = (m_fAniscAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_iMaxLength;
-		//}
-		//if (m_fNeonAnimationScene.m_bPlayable)
-		//{
-		//	m_fNeonAnimationScene.m_iPlaybackCurrentSeconds = (m_fNeonAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_iMaxLength;
-		//}
+		if (m_fRapiAnimationScene.m_bPlayable)
+		{
+			m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
+		}
+		if (m_fAniscAnimationScene.m_bPlayable)
+		{
+			m_fAniscAnimationScene.m_iPlaybackCurrentSeconds = (m_fAniscAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_iMaxLength;
+		}
+		if (m_fNeonAnimationScene.m_bPlayable)
+		{
+			m_fNeonAnimationScene.m_iPlaybackCurrentSeconds = (m_fNeonAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_iMaxLength;
+		}
 	}
 }
 
@@ -343,5 +356,10 @@ void AnimationScene::Render()
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechBubbleAnimationScene, m_fSpeechBubbleAnimationScene.m_iUIColor);
 
 	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
-		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i], m_fSelectBubbleAnimationScene[i].m_iUIColor);
+	{
+		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fbackGround, m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor);
+		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fcontent, m_fSelectBubbleAnimationScene[i].m_fcontent.m_iUIColor);
+	}
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[0].m_fcontent, m_fSelectBubbleAnimationScene[0].m_fcontent.m_iUIColor);
+
 }

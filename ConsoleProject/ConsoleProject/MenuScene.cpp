@@ -36,7 +36,7 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	//m_fIntroVideo.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
 
 	m_fIntroVideo.m_fAxis.X = 0;
-	m_fIntroVideo.m_fAxis.Y = (ConsoleRenderer::ScreenHeight() * 0.3) ;
+	m_fIntroVideo.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.3) ;
 	m_fIntroVideo.m_iPlaybackCurrentSeconds = 0;
 
 	m_fMenuLastTime = Time::GetTotalTime();
@@ -48,6 +48,8 @@ void MenuScene::LoadData()
 {
 	//Images/CityForest01/CityForest_01.txt
 	//Video/Aru/frame_0001.txt
+	//Images/CityForest01/CityForest_01.txt
+	//Images/Test.txt
 	if (FileController::FileRead("Images/CityForest01/CityForest_01.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_ippcontentSize))
 	{
 		m_fTitleFile.m_fAxis.X = 0;

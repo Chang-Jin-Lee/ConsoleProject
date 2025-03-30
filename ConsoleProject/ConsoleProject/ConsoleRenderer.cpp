@@ -309,7 +309,7 @@ namespace ConsoleRenderer
             {
                 size_t totalSize = strlen(healthBar->m_ppcontent[i]);
                 float ratio = float(curHealth) / maxHealth;
-                size_t targetSize = totalSize * ratio;
+                size_t targetSize = (size_t)(totalSize * ratio);
                 ScreenDrawStringWithSize(healthBar->m_fAxis.X, healthBar->m_fAxis.Y + i, healthBar->m_ppcontent[i], targetSize, attr);
             }
         }
@@ -321,7 +321,7 @@ namespace ConsoleRenderer
         {
             size_t totalSize = ammo->m_ippcontentSize;
             float ratio = (1 - float(curAmmo) / maxAmmo);
-            size_t targetSize = totalSize * ratio;
+            int targetSize = (int)(totalSize * ratio);
             for (int i = targetSize; i < ammo->m_ippcontentSize; i++)
             {
                 ScreenDrawString(x, y + i, ammo->m_ppcontent[i], attr);

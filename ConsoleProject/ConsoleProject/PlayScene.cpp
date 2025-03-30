@@ -44,13 +44,16 @@ int m_icrossHairOriginalXSize = 0;
 int m_icrossHairTargetYSize = 0;
 int m_icrossHairOriginalYSize = 0;
 
+// 설명 UI
+UI::FUI m_fGuideUIPlayScene;
+
 void PlayScene::Initialize()	// 게임 시작할 때 초기화
 {
 	// Initialize Player
 	m_fPlayerCharacter.m_eAnimationState = Object::EAnimationState::COVER;
 	m_fPlayerCharacter.m_bPlayable = true;
 	m_fPlayerCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fPlayerCharacter.m_fanimation[m_fPlayerCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fPlayerCharacter.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.52;
+	m_fPlayerCharacter.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.52);
 	Object::CreateAndAttachHealthBar(&m_fPlayerCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.005) }, FG_GREEN);
 	m_fPlayerCharacter.m_iColor = FG_WHITE;
 	m_fPlayerCharacter.m_iHealth = 100;
@@ -63,7 +66,7 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
 	m_fEnemyCharacter.m_bPlayable = true;
 	m_fEnemyCharacter.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui->m_ppcontent[0]);
-	m_fEnemyCharacter.m_fAxis.Y = -ConsoleRenderer::ScreenHeight() * 0.1;
+	m_fEnemyCharacter.m_fAxis.Y = (SHORT)( -ConsoleRenderer::ScreenHeight() * 0.1);
 	Object::CreateAndAttachHealthBar(&m_fEnemyCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.12) }, FG_RED);
 	m_fEnemyCharacter.m_iColor= FG_WHITE;
 	m_fEnemyCharacter.m_iHealth = 500;
@@ -73,25 +76,36 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	m_fEnemyCharacter.m_iFireDamage = 10;
 
 	// Initialize Crosshair
-	m_fCrossHair.m_fAxis.X = ConsoleRenderer::ScreenHeight() * 0.5;
-	m_fCrossHair.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.5;
+	m_fCrossHair.m_fAxis.X = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.5);
+	m_fCrossHair.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.5);
 	m_fCrossHair.m_fAspectRatio = 0.012f;
 	Object::CreateCrossHair(&m_fCrossHair);
 	m_icrossHairOriginalXSize = m_fCrossHair.m_sXDistanceFromCenter;
 	m_icrossHairOriginalYSize = m_fCrossHair.m_sYDistanceFromCenter;
 
-	m_icrossHairTargetXSize = m_fCrossHair.m_sXDistanceFromCenter * m_fcrossHairSizeRatio;
-	m_icrossHairTargetYSize = m_fCrossHair.m_sYDistanceFromCenter * m_fcrossHairSizeRatio;
+	m_icrossHairTargetXSize = (int)(m_fCrossHair.m_sXDistanceFromCenter * m_fcrossHairSizeRatio);
+	m_icrossHairTargetYSize = (int)(m_fCrossHair.m_sYDistanceFromCenter * m_fcrossHairSizeRatio);
 	m_fCrossHair.m_iColor = FG_RED;
 	bCrossHairMove = false;
 
 	// Initialize LeftAmmoUI
-	m_fLeftAmmoUIPlayScene.m_fAxis.X = m_fPlayerCharacter.m_fAxis.X - ConsoleRenderer::ScreenWidth() * 0.05;
-	m_fLeftAmmoUIPlayScene.m_fAxis.Y = m_fPlayerCharacter.m_fAxis.Y + ConsoleRenderer::ScreenHeight() * 0.2;
+	m_fLeftAmmoUIPlayScene.m_fAxis.X = (SHORT)(m_fPlayerCharacter.m_fAxis.X - ConsoleRenderer::ScreenWidth() * 0.05);
+	m_fLeftAmmoUIPlayScene.m_fAxis.Y = (SHORT)(m_fPlayerCharacter.m_fAxis.Y + ConsoleRenderer::ScreenHeight() * 0.2);
 	m_fLeftAmmoUIPlayScene.m_iColor = FG_BLUE;
 
 	// Initialize Timer
 	m_fcurrentTimePlayScene = Time::GetTotalTime();
+
+
+	// Initialize Guide UI
+	UI::CreateBubbleUI(&m_fGuideUIPlayScene,
+		(int)(ConsoleRenderer::ScreenWidth() * 0.2),
+		(int)(ConsoleRenderer::ScreenHeight() * 0.05),
+		(int)(m_fLeftAmmoUIPlayScene.m_fAxis.X * 0.5),
+		(int)(m_fLeftAmmoUIPlayScene.m_fAxis.Y * 1.1),
+		0.02f,
+		FG_GREEN
+	);
 }
 
 void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
@@ -116,9 +130,8 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 		}
 	}
 
-
-	int LeftAmmoYSize = ConsoleRenderer::ScreenHeight() * 0.05;
-	int LeftAmmoXSize = ConsoleRenderer::ScreenWidth() * 0.02;
+	int LeftAmmoYSize = (int)(ConsoleRenderer::ScreenHeight() * 0.05);
+	int LeftAmmoXSize = (int)(ConsoleRenderer::ScreenWidth() * 0.02);
 	m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent = (char**)malloc(sizeof(char*) * LeftAmmoYSize);
 	for (int i = 0; i < LeftAmmoYSize; i++)
 		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i] = (char*)malloc(sizeof(char) * LeftAmmoXSize);
@@ -127,7 +140,7 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 	{
 		for (int j = 0; j < LeftAmmoXSize; j++)
 		{
-			m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][j] = L'⬛';
+			m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][j] = (char)L'⬛';
 		}
 		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][LeftAmmoXSize-1] = '\0';
 	}
@@ -147,14 +160,14 @@ void PlayScene::ProcessInput()
 
 	if (Input::IsKeyPressed(VK_OEM_6)) // ]
 	{
-		m_iCrossHairMoveXAmountPlayScene = m_iCrossHairMoveXAmountPlayScene * 1.5;
-		m_iCrossHairMoveYAmountPlayScene = m_iCrossHairMoveYAmountPlayScene * 1.5;
+		m_iCrossHairMoveXAmountPlayScene = (int)(m_iCrossHairMoveXAmountPlayScene * 1.5);
+		m_iCrossHairMoveYAmountPlayScene = (int)(m_iCrossHairMoveYAmountPlayScene * 1.5);
 	}
 
 	if (Input::IsKeyPressed(VK_OEM_4)) // [
 	{
-		m_iCrossHairMoveXAmountPlayScene = m_iCrossHairMoveXAmountPlayScene / 1.5;
-		m_iCrossHairMoveYAmountPlayScene = m_iCrossHairMoveYAmountPlayScene / 1.5;
+		m_iCrossHairMoveXAmountPlayScene = (int)(m_iCrossHairMoveXAmountPlayScene / 1.5);
+		m_iCrossHairMoveYAmountPlayScene = (int)(m_iCrossHairMoveYAmountPlayScene / 1.5);
 	}
 	
 
@@ -351,6 +364,7 @@ void PlayScene::Render()
 	}
 
 	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter.m_iAmmo, m_fPlayerCharacter.m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
 	Object::RenderCrossHair(&m_fCrossHair);
 	Object::RenderAllNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);
 }

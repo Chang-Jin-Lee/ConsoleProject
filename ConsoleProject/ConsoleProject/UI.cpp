@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "FileController.h"
 
 namespace UI
 {
@@ -21,15 +22,15 @@ namespace UI
 		{
 			if (video->m_fui[i].m_ppcontent)
 			{
-				for (int i = 0; i < video->m_fui[i].m_ippcontentSize; i++)
-					free(video->m_fui[i].m_ppcontent[i]);
+				for (int j = 0; j < video->m_fui[j].m_ippcontentSize; j++)
+					free(video->m_fui[i].m_ppcontent[j]);
 				free(video->m_fui[i].m_ppcontent);
 			}
 		}
 		
 	}
 
-	void MakeBubbleUI(FUI* ui, int width, int height, int xAxis, int yAxis, float thickNess, int color)
+	void CreateBubbleUI(FUI* ui, int width, int height, int xAxis, int yAxis, float thickNess, int color)
 	{
 		float BubbleTicknessRatio = thickNess;
 		int SpeechSlateYSize = height;
@@ -49,28 +50,28 @@ namespace UI
 		{
 			for (int j = 0; j < SpeechSlateXSize; j++)
 			{
-				ui->m_ppcontent[i][j] = L'⬛';
+				ui->m_ppcontent[i][j] = (char)L'⬛';
 			}
 		}
-		for (int i = SpeechSlateYSize * (1 - BubbleTicknessRatio); i < SpeechSlateYSize; i++)
+		for (int i = (int)(SpeechSlateYSize * (1 - BubbleTicknessRatio)); i < SpeechSlateYSize; i++)
 		{
 			for (int j = 0; j < SpeechSlateXSize; j++)
 			{
-				ui->m_ppcontent[i][j] = L'⬛';
+				ui->m_ppcontent[i][j] = (char)L'⬛';
 			}
 		}
 		for (int j = 0; j < SpeechSlateXSize * BubbleTicknessRatio / 2; j++)
 		{
-			for (int i = SpeechSlateYSize * BubbleTicknessRatio; i < SpeechSlateYSize * (1 - BubbleTicknessRatio); i++)
+			for (int i = int(SpeechSlateYSize * BubbleTicknessRatio); i < int(SpeechSlateYSize * (1 - BubbleTicknessRatio)); i++)
 			{
-				ui->m_ppcontent[i][j] = L'⬛';
+				ui->m_ppcontent[i][j] = (char)L'⬛';
 			}
 		}
-		for (int j = SpeechSlateXSize * (1 - BubbleTicknessRatio / 2); j < SpeechSlateXSize; j++)
+		for (int j = (int)(SpeechSlateXSize * (1 - BubbleTicknessRatio / 2)); j < SpeechSlateXSize; j++)
 		{
-			for (int i = SpeechSlateYSize * BubbleTicknessRatio; i < SpeechSlateYSize * (1 - BubbleTicknessRatio); i++)
+			for (int i = int(SpeechSlateYSize * BubbleTicknessRatio); i < int(SpeechSlateYSize * (1 - BubbleTicknessRatio)); i++)
 			{
-				ui->m_ppcontent[i][j] = L'⬛';
+				ui->m_ppcontent[i][j] = (char)L'⬛';
 			}
 		}
 		for (int i = 0; i < SpeechSlateYSize; i++)
@@ -79,9 +80,25 @@ namespace UI
 		}
 	}
 
+	void CreateBubbleUIContent(UI::FBUBBLEUI* ui, const char* filename,  int color)
+	{
+		if (FileController::FileRead(filename, "r", &ui->m_fcontent.m_ppcontent, &ui->m_fcontent.m_ippcontentSize))
+		{
+			SHORT x = ui->m_fbackGround.m_fAxis.X;
+			SHORT y = ui->m_fbackGround.m_fAxis.Y;
+			size_t width = strlen(ui->m_fbackGround.m_ppcontent[0]);
+			size_t height = ui->m_fbackGround.m_ippcontentSize;
+			ui->m_fcontent.m_iUIColor = color;
+
+			ui->m_fcontent.m_fAxis.X = x + SHORT(width * 0.5) - SHORT(strlen(ui->m_fcontent.m_ppcontent[0]) * 0.5);
+			ui->m_fcontent.m_fAxis.Y = y + SHORT(height * 0.3);
+		}
+	}
+
 	FCOORDSNode* AddCOORDNode(FCOORDSNode* Root, COORD data) // data를 가지는 Node를 생성해서 붙이기
 	{
 		FCOORDSNode* pAlloc = (FCOORDSNode*)malloc(sizeof(FCOORDSNode));
+		if (pAlloc == NULL) return Root;
 		pAlloc->data = data;
 		pAlloc->next = Root; //0
 		Root = pAlloc;

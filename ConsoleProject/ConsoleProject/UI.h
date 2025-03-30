@@ -132,10 +132,19 @@ namespace UI
 		}
 	} FVideo;
 
+	typedef struct FBUBBLEUI	// 이중포인터쓰는 UI ex) 파일에서 읽은 스트링, 대화창 틀 등
+	{
+		FUI m_fbackGround;
+		FUI m_fcontent;
+
+		FBUBBLEUI() { }
+	} FBUBBLEUI;
+
 	void Release(FUI* ui);
 	void Release(FVideo* video);
 
-	void MakeBubbleUI(FUI* ui, int width, int height, int xAxis, int yAxis, float thickNess, int color);
+	void CreateBubbleUI(FUI* ui, int width, int height, int xAxis, int yAxis, float thickNess, int color);
+	void CreateBubbleUIContent(UI::FBUBBLEUI* ui, const char* filename, int color);
 
 	FCOORDSNode* AddCOORDNode(FCOORDSNode* Root, COORD data);
 	void DeleteCOORDNode(FCOORDSNode* curNode, COORD data);

@@ -25,7 +25,7 @@ namespace Object
 		size_t height = int(ConsoleRenderer::ScreenHeight() * 0.01);
 		size_t width = int(ConsoleRenderer::ScreenWidth() * 0.2);
 		pc->m_fHealthBar.m_fAxis.Y = pc->m_fAxis.Y + axis.Y;
-		pc->m_fHealthBar.m_fAxis.X = ConsoleRenderer::ScreenWidth() / 2 - width / 2 + axis.X;
+		pc->m_fHealthBar.m_fAxis.X = (SHORT)(ConsoleRenderer::ScreenWidth() / 2 - width / 2 + axis.X);
 		pc->m_fHealthBar.m_ippcontentSize = height;
 		pc->m_fHealthBar.m_ppcontent = (char**)malloc(sizeof(char*) * height);
 		pc->m_fHealthBar.m_iUIColor = Color;
@@ -34,7 +34,7 @@ namespace Object
 			pc->m_fHealthBar.m_ppcontent[i] = (char*)malloc(sizeof(char) * width);
 			for (int j = 0; j < width; j++)
 			{
-				pc->m_fHealthBar.m_ppcontent[i][j] = L'⬛';
+				pc->m_fHealthBar.m_ppcontent[i][j] = (char)L'⬛';
 			}
 			pc->m_fHealthBar.m_ppcontent[i][width - 1] = '\0';
 		}
@@ -112,7 +112,7 @@ namespace Object
 
 		while (cur != NULL)
 		{
-			ConsoleRenderer::ScreenDrawFileStrings(cur->data.m_fAxis.X, cur->data.m_fAxis.Y, cur->data.m_fui.m_ppcontent, cur->data.m_fui.m_ippcontentSize, BG_RED);
+			ConsoleRenderer::ScreenDrawFileStrings((int)cur->data.m_fAxis.X, (int)cur->data.m_fAxis.Y, cur->data.m_fui.m_ppcontent, (int)cur->data.m_fui.m_ippcontentSize, BG_RED);
 			cur = cur->next;
 		}
 	}
@@ -149,7 +149,7 @@ namespace Object
 		pCross->m_sXDistanceFromCenter = nwidth / 2;
 		pCross->m_sYDistanceFromCenter = nwidth / 4;
 
-		const char crossHairch = L'⬛';
+		const char crossHairch = (char)L'⬛';
 
 		pCross->Top.m_fui.m_ippcontentSize = TopBottomHeight;
 		pCross->Bottom.m_fui.m_ippcontentSize = TopBottomHeight;
@@ -211,7 +211,7 @@ namespace Object
 						pCross->Left.m_fui.m_ppcontent[i][j] = crossHairch;
 				}
 			}
-			if (pCross && pCross->Left.m_fui.m_ppcontent)
+			if (pCross && pCross->Left.m_fui.m_ppcontent && pCross->Left.m_fui.m_ppcontent[i])
 				pCross->Left.m_fui.m_ppcontent[i][LeftRightWidth - 1] = '\0';
 		}
 
@@ -224,10 +224,10 @@ namespace Object
 			}
 			for (int j = 0; j < LeftRightWidth; j++)
 			{
-				if (pCross && pCross->Right.m_fui.m_ppcontent[i])
+				if (pCross && pCross->Right.m_fui.m_ppcontent && pCross->Right.m_fui.m_ppcontent[i])
 					pCross->Right.m_fui.m_ppcontent[i][j] = crossHairch;
 			}
-			if (pCross && pCross->Right.m_fui.m_ppcontent[i])
+			if (pCross && pCross->Right.m_fui.m_ppcontent && pCross->Right.m_fui.m_ppcontent[i])
 				pCross->Right.m_fui.m_ppcontent[i][LeftRightWidth - 1] = '\0';
 		}
 	}
@@ -248,15 +248,15 @@ namespace Object
 	{
 		if (pCross == NULL) return;
 		pCross->Top.m_fAxis.X = pCross->m_fAxis.X;
-		pCross->Top.m_fAxis.Y = pCross->m_fAxis.Y - pCross->Top.m_fui.m_ippcontentSize - pCross->m_sYDistanceFromCenter;
+		pCross->Top.m_fAxis.Y = (SHORT)(pCross->m_fAxis.Y - pCross->Top.m_fui.m_ippcontentSize - pCross->m_sYDistanceFromCenter);
 
 		pCross->Bottom.m_fAxis.X = pCross->m_fAxis.X;
-		pCross->Bottom.m_fAxis.Y = pCross->m_fAxis.Y + pCross->Top.m_fui.m_ippcontentSize + pCross->m_sYDistanceFromCenter;
+		pCross->Bottom.m_fAxis.Y = (SHORT)(pCross->m_fAxis.Y + pCross->Top.m_fui.m_ippcontentSize + pCross->m_sYDistanceFromCenter);
 
-		pCross->Right.m_fAxis.X = pCross->m_fAxis.X + pCross->Top.m_fui.m_ippcontentSize + pCross->m_sXDistanceFromCenter;
+		pCross->Right.m_fAxis.X = (SHORT)(pCross->m_fAxis.X + pCross->Top.m_fui.m_ippcontentSize + pCross->m_sXDistanceFromCenter);
 		pCross->Right.m_fAxis.Y = pCross->m_fAxis.Y;
 
-		pCross->Left.m_fAxis.X = pCross->m_fAxis.X - pCross->Top.m_fui.m_ippcontentSize - pCross->m_sXDistanceFromCenter;
+		pCross->Left.m_fAxis.X = (SHORT)(pCross->m_fAxis.X - pCross->Top.m_fui.m_ippcontentSize - pCross->m_sXDistanceFromCenter);
 		pCross->Left.m_fAxis.Y = pCross->m_fAxis.Y;
 
 		for (int i = 0; i < pCross->Top.m_fui.m_ippcontentSize; i++)
