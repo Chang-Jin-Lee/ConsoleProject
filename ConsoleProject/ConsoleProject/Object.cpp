@@ -146,6 +146,19 @@ namespace Object
 		return curNode;
 	}
 
+	Node* DeleteAllNode(Node* Root)
+	{
+		Node* cur = Root;
+		Node* prev = cur;
+		while (cur != NULL)
+		{
+			prev = cur;
+			cur = cur->next;
+			free(prev);
+		}
+		return cur;
+	}
+
 	void TravelNode(Node* Root)
 	{
 		if (Root == NULL)

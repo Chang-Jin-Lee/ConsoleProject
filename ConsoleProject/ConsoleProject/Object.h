@@ -232,6 +232,7 @@ namespace Object
 
 	Node* Add(Node* Root, FActor data, COORD dirVector, COORD DestinationVector, float speed); // data를 가지는 Node를 생성해서 붙이기
 	Node* Delete(Node* curNode);
+	Node* DeleteAllNode(Node* Root);
 	void TravelNode(Node* Root);
 	void RenderAllBulletNode(Node* Root, int Color);
 	void UpdateAllNodeAxis(Node* Root, float deltatime);
@@ -241,6 +242,7 @@ namespace Object
 	void CreateAndAttachHealthBar(FPlayerCharacter* pc, COORD axis, int Color);
 	void LoadAnimationData(FPlayerCharacter* pc);
 	void LoadAnimationDataWithFrame(FPlayerCharacter* pc, float frameTickness);
+	void LoadBulletData(UI::FUI* ui);
 	void Release(FPlayerCharacter* pc);
 	void Release(FActor* actor);
 

@@ -194,19 +194,19 @@ namespace FileController
 			{
 				dialog[outBufferIndex].Number = atoi(ptrs[0]);
 				
-				int choiceSize = atoi(ptrs[1]);
+				dialog[outBufferIndex].m_iTalkingCharacterSize = atoi(ptrs[1]);
 				// Speaker
 				char* tContext = NULL;
 				char* tempPtrs = strtok_s(ptrs[2], ";", &tContext);
 				while (tempPtrs != NULL)
 				{
-					if (tempPtrs == "rapi")
+					if (!strcmp(tempPtrs, "rapi"))
 						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Rapi] = true;
-					else if (tempPtrs == "anis")
+					if (!strcmp(tempPtrs, "anis"))
 						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Anis] = true;
-					else if (tempPtrs == "neon")
+					if (!strcmp(tempPtrs , "neon"))
 						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Neon] = true;
-					else if (tempPtrs == "shifty")
+					if (!strcmp(tempPtrs , "shifty"))
 						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Shifty] = true;
 					tempPtrs = strtok_s(NULL, ";", &tContext);
 				}
@@ -237,15 +237,15 @@ namespace FileController
 		for (int i = 0; i < outBufferIndex; i++)
 		{
 			dialog[i].m_fspeaker.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.1;
-			dialog[i].m_fspeaker.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.1;
+			dialog[i].m_fspeaker.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.15;
 			dialog[i].m_fspeaker.m_iUIColor = FG_WHITE;
 
-			dialog[i].m_fDialogue.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.3;
+			dialog[i].m_fDialogue.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.15;
 			dialog[i].m_fDialogue.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.4;
 			dialog[i].m_fDialogue.m_iUIColor = FG_WHITE;
 
-			char filename[100];
-			sprintf_s(filename, sizeof(filename), "Images/text/%s/text_%04d_15.txt", FileName, i + 1);	// font 사이즈를 변경하려면 여기 파일 이름을 변경하기
+			char filename[50];
+			sprintf_s(filename, sizeof(filename), "Images/text/%s/text_%04d_12.txt", FileName, i + 1);	// font 사이즈를 변경하려면 여기 파일 이름을 변경하기
 			//sprintf_s(filename, sizeof(filename), "Images/text/text_description%04d_360.txt", i + 1);
 			if (FileRead(filename, "r", &dialog[i+1].m_fDialogue.m_ppcontent, &dialog[i+1].m_fDialogue.m_ippcontentSize) == false)
 			{

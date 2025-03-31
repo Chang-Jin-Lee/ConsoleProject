@@ -39,6 +39,8 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
 	m_fBackGroundUI.m_iUIColor = FG_WHITE;
 
+	m_igameDialogIndex = 1;
+
 	m_fMenuLastTimeAnimationScene = Time::GetTotalTime();
 	m_finitialOneSecondAnimationScene = Time::GetTotalTime();
 	m_fcountOneSecondAnimationScene = Time::GetTotalTime();
@@ -50,7 +52,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	m_fShiftyAnimationScene.m_fAxis.X = (SHORT)(ConsoleRenderer::ScreenWidth() * 0.02);
 	m_fShiftyAnimationScene.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.01);
 	m_fShiftyAnimationScene.m_iColor = FG_WHITE;
-	m_fShiftyAnimationScene.m_bVisible = true;
+	m_fShiftyAnimationScene.m_bVisible = false;
 
 	// Initialize m_fRapiAnimationScene
 	m_fRapiAnimationScene.m_eAnimationState = Object::EAnimationState::FULLBODYEXPRESSION;
@@ -191,11 +193,37 @@ void AnimationScene::ProcessInput()
 		Game::GameExit();
 	}
 
+	if (Input::IsKeyPressed(VK_Z))
+	{
+		Game::ChangeScene(ESceneState::PLAY);
+	}
+
 	if (Input::IsKeyPressed(VK_SPACE) || Input::IsKeyPressed(VK_RETURN))
 	{
-		if(m_igameDialogIndex == m_fgameDialogSize) Game::ChangeScene(ESceneState::PLAY);
+		if (m_fgameDialog[m_igameDialogIndex].m_iTalkingCharacterSize >= 2)
+		{
+			m_fShiftyAnimationScene.m_bVisible = true;
+		}
 		else
-			m_igameDialogIndex = (m_igameDialogIndex + 1) % m_fgameDialogSize;
+		{
+			m_fShiftyAnimationScene.m_bVisible = false;
+		}
+
+		if (m_fgameDialog[m_igameDialogIndex].NextIdx == 0)
+		{
+			m_igameDialogIndex = m_fgameDialog[m_igameDialogIndex].SelectNextDialogue[m_iselectIndex];
+		}
+		else if(m_fgameDialog[m_igameDialogIndex].NextIdx == -1)
+		{
+			Game::ChangeScene(ESceneState::PLAY);
+		}
+		else
+		{
+			m_igameDialogIndex = m_fgameDialog[m_igameDialogIndex].NextIdx % m_fgameDialogSize;
+			char numberName[10];
+			sprintf_s(numberName, sizeof(numberName), "%04d", m_fgameDialog[m_igameDialogIndex].NextIdx);
+			ConsoleRenderer::print(numberName);
+		}
 	}
 
 	if (Input::IsKeyPressed(VK_BACK))
@@ -388,22 +416,38 @@ void AnimationScene::Render()
 	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Type, FG_WHITE);
 	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Likeability, FG_WHITE);
 
-	if(ch1 == Rapi || ch2 == Rapi)
+	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Rapi] == true)
+	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
-	if (ch1 == Anis || ch2 == Anis)
-	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
-	if (ch1 == Neon || ch2 == Neon)
+	}
+	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Anis] == true)
+	{
+		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
+	}
+	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Neon] == true)
+	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
-	
-	if(m_fShiftyAnimationScene.m_bVisible)
+	}
+	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Shifty] == true)
+	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fShiftyAnimationScene.m_fAxis.X, m_fShiftyAnimationScene.m_fAxis.Y, &m_fShiftyAnimationScene.m_fanimation[m_fShiftyAnimationScene.m_eAnimationState].m_fui[m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds], m_fShiftyAnimationScene.m_iColor);
+	}
+	//if(ch1 == Rapi || ch2 == Rapi)
+	//	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
+	//if (ch1 == Anis || ch2 == Anis)
+	//ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
+	//if (ch1 == Neon || ch2 == Neon)
+	//	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
 	
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechBubbleAnimationScene, m_fSpeechBubbleAnimationScene.m_iUIColor);
 
-	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
+	if (m_fgameDialog[m_igameDialogIndex].NextIdx == 0 || m_fgameDialog[m_igameDialogIndex].NextIdx == -1)
 	{
-		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fbackGround, m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor);
-		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fcontent, m_fSelectBubbleAnimationScene[i].m_fcontent.m_iUIColor);
+		for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
+		{
+			ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fbackGround, m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor);
+			ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fcontent, m_fSelectBubbleAnimationScene[i].m_fcontent.m_iUIColor);
+		}
 	}
 
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fgameDialog[m_igameDialogIndex].m_fspeaker, m_fgameDialog[m_igameDialogIndex].m_fspeaker.m_iUIColor);

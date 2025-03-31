@@ -95,6 +95,28 @@ namespace UI
 		}
 	}
 
+	void CreateBulletUI(UI::FUI* ui, int width, int height, int color)
+	{
+		int SpeechSlateYSize = height;
+		int SpeechSlateXSize = width;
+		ui->m_ppcontent = (char**)malloc(sizeof(char*) * (SpeechSlateYSize + 2));
+		for (int i = 0; i < SpeechSlateYSize; i++)
+		{
+			ui->m_ppcontent[i] = (char*)malloc(sizeof(char) * (SpeechSlateXSize + 2));
+			memset(ui->m_ppcontent[i], ' ', SpeechSlateXSize);
+		}
+		ui->m_ippcontentSize = SpeechSlateYSize;
+		ui->m_iUIColor = color;
+
+		for (int i = 0; i < SpeechSlateYSize; i++)
+		{
+			for (int j = 0; j < SpeechSlateXSize; j++)
+			{
+				ui->m_ppcontent[i][j] = (char)L'⬛';
+			}
+		}
+	}
+
 	FCOORDSNode* AddCOORDNode(FCOORDSNode* Root, COORD data) // data를 가지는 Node를 생성해서 붙이기
 	{
 		FCOORDSNode* pAlloc = (FCOORDSNode*)malloc(sizeof(FCOORDSNode));

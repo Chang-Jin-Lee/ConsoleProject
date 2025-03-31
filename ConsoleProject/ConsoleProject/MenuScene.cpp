@@ -32,11 +32,8 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	m_fIntroVideo.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
 	m_fIntroVideo.m_bPlayable = true;
 	m_fIntroVideo.m_iColor = FG_WHITE;
-	//m_fIntroVideo.m_fAxis.X = ConsoleRenderer::ScreenCenter(m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui->m_ppcontent[0]);
-	//m_fIntroVideo.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
-
 	m_fIntroVideo.m_fAxis.X = 0;
-	m_fIntroVideo.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.3) ;
+	m_fIntroVideo.m_fAxis.Y = 10;
 	m_fIntroVideo.m_iPlaybackCurrentSeconds = 0;
 
 	m_fMenuLastTime = Time::GetTotalTime();
@@ -50,6 +47,7 @@ void MenuScene::LoadData()
 	//Video/Aru/frame_0001.txt
 	//Images/CityForest01/CityForest_01.txt
 	//Images/Test.txt
+	//Images/text/Dialogue/text_0008_12.txt
 	if (FileController::FileRead("Images/CityForest01/CityForest_01.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_ippcontentSize))
 	{
 		m_fTitleFile.m_fAxis.X = 0;

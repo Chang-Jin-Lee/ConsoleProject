@@ -10,6 +10,8 @@ float m_fAnimationTimePlayScene = 1/60;
 float m_fMenuLastTimePlayScene = 0;
 float m_fcurrentFireDelayTimePlayScene = 0;
 
+float m_fBulletTimeLastPlayScene = 0;
+float m_fBulletTimePlayScene = 1/30;
 
 enum EPlaySceneState
 {
@@ -28,6 +30,7 @@ UI::FBUBBLEUI m_fDescriptionUIPlayScene[MAX_DESCRIPTION_SIZE_PLAY_SCENE];	// hei
 
 /////// SHOOTING ///////
 #define MAX_CHARACTER_SIZE 3
+#define MAX_EFFECT_SIZE 10
 bool bIsReloading = false;
 Object::FPlayerCharacter m_fPlayerCharacter[MAX_CHARACTER_SIZE];
 int m_icharacterIndex = 0;
@@ -65,6 +68,7 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 	DescriptionPlaySceneLoadData();
 	ShootingPlaySceneLoadData();
 	OptionPlaySceneLoadData();
+	srand(time(NULL));
 }
 
 void PlayScene::ProcessInput()
@@ -293,6 +297,7 @@ void PlayScene::ShootingPlaySceneInitialize()
 
 	// Initialize Timer
 	m_fcurrentTimePlayScene = Time::GetTotalTime();
+	m_fBulletTimeLastPlayScene = Time::GetTotalTime();
 
 	// Initialize Guide UI
 	UI::CreateBubbleUI(&m_fGuideUIPlayScene,
@@ -332,6 +337,8 @@ void PlayScene::ShootingPlaySceneLoadData()
 		}
 		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][LeftAmmoXSize - 1] = '\0';
 	}
+
+	UI::CreateBulletUI(&m_fBullet.m_fui, (int)(ConsoleRenderer::ScreenHeight() * 0.02), (int)(ConsoleRenderer::ScreenHeight() * 0.01), FG_WHITE);
 }
 
 void PlayScene::ShootingPlaySceneUpdate()
@@ -363,7 +370,16 @@ void PlayScene::ShootingPlaySceneUpdate()
 		m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
 	}
 
-	Object::UpdateAllNodeAxis(m_pBulletHead, Time::GetElapsedTime());
+	if (Time::GetTotalTime() - m_fBulletTimeLastPlayScene >= m_fBulletTimePlayScene)
+	{
+		m_fBulletTimeLastPlayScene = Time::GetTotalTime();
+		m_pBulletHead = Object::DeleteAllNode(m_pBulletHead);
+	}
+	else
+	{
+		Object::UpdateAllNodeAxis(m_pBulletHead, Time::GetElapsedTime());
+	}
+
 	if (bCrossHairMove)
 	{
 		if (m_fCrossHair.m_sXDistanceFromCenter < m_icrossHairTargetXSize)
@@ -474,6 +490,19 @@ void PlayScene::ShootingPlaySceneInput()
 				m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
 			{
 				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter[m_icharacterIndex].m_iFireDamage;
+				// Effect Spawn
+				for (int i = 0; i < MAX_EFFECT_SIZE; i++)
+				{
+					//Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y);
+					Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y, m_fBullet);
+					float xAxis = Actor.m_fAxis.X + (rand() % m_fCrossHair.m_sXDistanceFromCenter * 2) - m_fCrossHair.m_sXDistanceFromCenter;
+					float yAxis = Actor.m_fAxis.Y + (rand() % m_fCrossHair.m_sYDistanceFromCenter * 2) - m_fCrossHair.m_sYDistanceFromCenter;
+					float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
+					COORD dirVector = { xAxis / Magnitude * 100, yAxis / Magnitude * 100 };
+					COORD DestinationVector = { m_fCrossHair.m_fAxis.X + dirVector.X * 1.5, m_fCrossHair.m_fAxis.Y + dirVector.Y * 1.5 };
+					m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, DestinationVector, m_fDefaultBulletSpeed);
+				}
+				
 			}
 		}
 		else
@@ -517,19 +546,19 @@ void PlayScene::ShootingPlaySceneInput()
 			m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
 		{
 			m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter[m_icharacterIndex].m_iFireDamage;
+			// Effect Spawn
+			for (int i = 0; i < MAX_EFFECT_SIZE; i++)
+			{
+ 				Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y);
+				//Object::FActor Actor = Object::FActor( ConsoleRenderer::ScreenWidth() / 2, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, m_fBullet);
+				float xAxis = Actor.m_fAxis.X + (rand() % m_fCrossHair.m_sXDistanceFromCenter * 2) - m_fCrossHair.m_sXDistanceFromCenter;
+				float yAxis = Actor.m_fAxis.Y + (rand() % m_fCrossHair.m_sYDistanceFromCenter * 2) - m_fCrossHair.m_sYDistanceFromCenter;
+				float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
+				COORD dirVector = { xAxis / Magnitude * 10, yAxis / Magnitude * 10 };
+				COORD DestinationVector = { m_fCrossHair.m_fAxis.X + dirVector.X * 1.5, m_fCrossHair.m_fAxis.Y + dirVector.Y * 1.5 };
+				m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, DestinationVector, m_fDefaultBulletSpeed);
+			}
 		}
-
-		// Effect Spawn
-
-		// Bullet Spawn
-		//Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X + strlen(m_fCrossHair.m_fui.m_ppcontent[0]) / 2, m_fCrossHair.m_fAxis.Y + m_fCrossHair.m_fui.m_ippcontentSize / 2, m_fBullet);
-		//Object::FActor Actor = Object::FActor( ConsoleRenderer::ScreenWidth() / 2, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, m_fBullet);
-		//float xAxis = m_fCrossHair.m_fAxis.X - Actor.m_fAxis.X;
-		//float yAxis = m_fCrossHair.m_fAxis.Y - Actor.m_fAxis.Y;
-		//float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
-		//COORD dirVector = { xAxis / Magnitude * 100, yAxis / Magnitude * 100};
-		//COORD DestinationVector = { m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y };
-		//m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, DestinationVector, m_fDefaultBulletSpeed);
 	}
 	else
 	{
@@ -549,5 +578,6 @@ void PlayScene::ShootingPlaySceneRender()
 	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter[m_icharacterIndex].m_iAmmo, m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
 	Object::RenderCrossHair(&m_fCrossHair);
+
 	Object::RenderAllBulletNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);
 }
