@@ -21,7 +21,7 @@ namespace FileController
 
 		*outBuffer = (char**)malloc(sizeof(char*) * (MAX_BUFFER_POOL_SIZE + 1));
 
-		int m_ioutBufferIndex = 0;
+		size_t m_ioutBufferIndex = 0;
 		
 		while (true)
 		{
@@ -32,9 +32,12 @@ namespace FileController
 			size_t g_cszBuff_size = strlen(g_cszBuff);
 			(*outBuffer)[m_ioutBufferIndex] = (char*)malloc(sizeof(char) * (g_cszBuff_size + 1));
 
-			for (int i = 0; i < g_cszBuff_size; i++)
-				if((*outBuffer)[m_ioutBufferIndex])
-					(*outBuffer)[m_ioutBufferIndex][i] = g_cszBuff[i];
+			//for (int i = 0; i < g_cszBuff_size; i++)
+			//	if ((*outBuffer)[m_ioutBufferIndex])
+			//		(*outBuffer)[m_ioutBufferIndex][i] = g_cszBuff[i];
+
+			if((*outBuffer)[m_ioutBufferIndex])
+				memcpy_s((*outBuffer)[m_ioutBufferIndex], g_cszBuff_size, g_cszBuff, g_cszBuff_size);
 			
 			if((*outBuffer)[m_ioutBufferIndex])
 				(*outBuffer)[m_ioutBufferIndex][g_cszBuff_size] = NULL;
@@ -61,7 +64,7 @@ namespace FileController
 
 		*outBuffer = (wchar_t**)malloc(sizeof(wchar_t*) * (MAX_BUFFER_POOL_SIZE + 1));
 
-		int m_ioutBufferIndex = 0;
+		size_t m_ioutBufferIndex = 0;
 
 		while (true)
 		{
@@ -72,9 +75,13 @@ namespace FileController
 			size_t g_cszBuff_size = wcslen(g_cszWBuff);
 			(*outBuffer)[m_ioutBufferIndex] = (wchar_t*)malloc(sizeof(wchar_t) * (g_cszBuff_size + 1));
 
-			for (int i = 0; i < g_cszBuff_size; i++)
-				if((*outBuffer)[m_ioutBufferIndex])
-					(*outBuffer)[m_ioutBufferIndex][i] = g_cszWBuff[i];
+			//for (int i = 0; i < g_cszBuff_size; i++)
+			//	if((*outBuffer)[m_ioutBufferIndex])
+			//		(*outBuffer)[m_ioutBufferIndex][i] = g_cszWBuff[i];
+
+			if ((*outBuffer)[m_ioutBufferIndex])
+				memcpy_s((*outBuffer)[m_ioutBufferIndex], g_cszBuff_size, g_cszWBuff, g_cszBuff_size);
+
 			if((*outBuffer)[m_ioutBufferIndex])
 				(*outBuffer)[m_ioutBufferIndex][g_cszBuff_size] = NULL;
 
@@ -226,6 +233,8 @@ namespace FileController
 
 				dialog[outBufferIndex].SelectNextDialogue[0] = atoi(ptrs[5]);
 				dialog[outBufferIndex].SelectNextDialogue[1] = atoi(ptrs[6]);
+
+				dialog[outBufferIndex].m_iChoiceSize = atoi(ptrs[8]);
 			}
 
 			outBufferIndex++;
@@ -236,15 +245,35 @@ namespace FileController
 
 		for (int i = 0; i < outBufferIndex; i++)
 		{
+			// Speaker 초기화
 			dialog[i].m_fspeaker.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.1;
 			dialog[i].m_fspeaker.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.15;
+			//dialog[i].m_fspeaker.m_fAxis.X = 0;
+			//dialog[i].m_fspeaker.m_fAxis.Y = 0;
 			dialog[i].m_fspeaker.m_iUIColor = FG_WHITE;
 
+			char filename[50];
+			if (dialog[i+1].m_aSpeakerTalkable[ECharacterName::Rapi] == true)
+				sprintf_s(filename, sizeof(filename), "Images/text/%s/Speaker/text_rapi_30.txt", FileName);
+			if (dialog[i+1].m_aSpeakerTalkable[ECharacterName::Anis] == true)
+				sprintf_s(filename, sizeof(filename), "Images/text/%s/Speaker/text_anis_30.txt", FileName);	
+			if (dialog[i+1].m_aSpeakerTalkable[ECharacterName::Neon] == true)
+				sprintf_s(filename, sizeof(filename), "Images/text/%s/Speaker/text_neon_30.txt", FileName);
+			if (dialog[i+1].m_aSpeakerTalkable[ECharacterName::Shifty] == true)
+				sprintf_s(filename, sizeof(filename), "Images/text/%s/Speaker/text_shifty_30.txt", FileName);
+			//sprintf_s(filename, sizeof(filename), "Images/text/text_description%04d_360.txt", i + 1);
+			if (FileRead(filename, "r", &dialog[i + 1].m_fspeaker.m_ppcontent, &dialog[i + 1].m_fspeaker.m_ippcontentSize) == false)
+			{
+				ConsoleRenderer::print((char*)"FileRead m_fspeaker Error : ");
+				ConsoleRenderer::print(filename);
+				ConsoleRenderer::print((char*)"\n");
+			}
+
+			// Dialogue 초기화
 			dialog[i].m_fDialogue.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.15;
 			dialog[i].m_fDialogue.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.4;
 			dialog[i].m_fDialogue.m_iUIColor = FG_WHITE;
 
-			char filename[50];
 			sprintf_s(filename, sizeof(filename), "Images/text/%s/text_%04d_12.txt", FileName, i + 1);	// font 사이즈를 변경하려면 여기 파일 이름을 변경하기
 			//sprintf_s(filename, sizeof(filename), "Images/text/text_description%04d_360.txt", i + 1);
 			if (FileRead(filename, "r", &dialog[i+1].m_fDialogue.m_ppcontent, &dialog[i+1].m_fDialogue.m_ippcontentSize) == false)
@@ -252,6 +281,25 @@ namespace FileController
 				ConsoleRenderer::print((char*)"FileRead Error : ");
 				ConsoleRenderer::print(filename);
 				ConsoleRenderer::print((char*)"\n");
+			}
+
+			// Initialize SelectBubble
+			for (int j = 0; j < MAX_SELECTBUBBLE_SIZE; j++)
+			{
+				if (dialog[i].m_sSelectDialogue[j] != NULL)
+				{
+					UI::CreateBubbleUI(&dialog[i].m_fSelectBubble[j].m_fbackGround,
+						(int)(ConsoleRenderer::ScreenWidth() * 0.3),
+						(int)(ConsoleRenderer::ScreenHeight() * 0.05),
+						(int)(ConsoleRenderer::ScreenWidth() * 0.65),
+						(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06 * float(j))),
+						0.01f,
+						FG_RED
+					);
+
+					sprintf_s(filename, sizeof(filename), "Images/text/%s.txt", dialog[i].m_sSelectDialogue[j]);
+					UI::CreateBubbleUIContent(&dialog[i].m_fSelectBubble[j], filename, FG_WHITE);
+				}
 			}
 		}
 

@@ -19,9 +19,6 @@ float m_fcountOneSecondAnimationScene = 0;
 
 // 말풍선, 선택창 UI
 UI::FUI m_fSpeechBubbleAnimationScene;
-UI::FBUBBLEUI m_fSelectBubbleAnimationScene[MAX_SELECTBUBBLE_SIZE];
-UI::FUI m_fCursorAnimationScene;
-int m_iselectIndex = 0;
 
 Object::FPlayerCharacter m_fShiftyAnimationScene;
 Object::FPlayerCharacter m_fRapiAnimationScene;
@@ -92,20 +89,6 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 		//m_fgameDialog[m_igameDialogIndex].m_fDialogue.m_fAxis.Y = 0;
 	}
 
-	// Initialize SelectBubble
-	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
-	{
-		UI::CreateBubbleUI(&m_fSelectBubbleAnimationScene[i].m_fbackGround,
-			(int)(ConsoleRenderer::ScreenWidth() * 0.3),
-			(int)(ConsoleRenderer::ScreenHeight() * 0.05),
-			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
-			(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06*float(i))),
-			0.01f,
-			FG_RED
-		);
-		UI::CreateBubbleUIContent(&m_fSelectBubbleAnimationScene[i], "Images/text/text_anis_30.txt", FG_WHITE);
-	}
-	
 	// Initialize Speech 
 	/*m_fSpeechContentIndex = 1;
 	m_fSpeechCursorPlayScene = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.4), int(ConsoleRenderer::ScreenHeight() * 0.7), (char*)" > ");
@@ -211,7 +194,7 @@ void AnimationScene::ProcessInput()
 
 		if (m_fgameDialog[m_igameDialogIndex].NextIdx == 0)
 		{
-			m_igameDialogIndex = m_fgameDialog[m_igameDialogIndex].SelectNextDialogue[m_iselectIndex];
+			m_igameDialogIndex = m_fgameDialog[m_igameDialogIndex].SelectNextDialogue[m_fgameDialog[m_igameDialogIndex].m_iselectIndex];
 		}
 		else if(m_fgameDialog[m_igameDialogIndex].NextIdx == -1)
 		{
@@ -233,12 +216,12 @@ void AnimationScene::ProcessInput()
 
 	if (Input::IsKeyPressed(VK_UP))
 	{
-		m_iselectIndex - 1 < 0 ? m_iselectIndex = MAX_SELECTBUBBLE_SIZE - 1 : m_iselectIndex--;
+		m_fgameDialog[m_igameDialogIndex].m_iselectIndex - 1 < 0 ? m_fgameDialog[m_igameDialogIndex].m_iselectIndex = MAX_SELECTBUBBLE_SIZE - 1 : m_fgameDialog[m_igameDialogIndex].m_iselectIndex--;
 	}
 
 	if (Input::IsKeyPressed(VK_DOWN))
 	{
-		m_iselectIndex = (m_iselectIndex + 1) % MAX_SELECTBUBBLE_SIZE;
+		m_fgameDialog[m_igameDialogIndex].m_iselectIndex = (m_fgameDialog[m_igameDialogIndex].m_iselectIndex + 1) % MAX_SELECTBUBBLE_SIZE;
 	}
 
 	//if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
@@ -368,10 +351,10 @@ void AnimationScene::Update()
 
 	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
 	{
-		if(i == m_iselectIndex)
-			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_WHITE;
+		if(i == m_fgameDialog[m_igameDialogIndex].m_iselectIndex)
+			m_fgameDialog[m_igameDialogIndex].m_fSelectBubble[i].m_fbackGround.m_iUIColor = FG_WHITE;
 		else
-			m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor = FG_RED;
+			m_fgameDialog[m_igameDialogIndex].m_fSelectBubble[i].m_fbackGround.m_iUIColor = FG_RED;
 	}
 
 	m_fFPSLastTimeAnimationScene = Time::GetTotalTime() - m_fcountOneSecondAnimationScene;
@@ -445,8 +428,8 @@ void AnimationScene::Render()
 	{
 		for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
 		{
-			ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fbackGround, m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor);
-			ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fcontent, m_fSelectBubbleAnimationScene[i].m_fcontent.m_iUIColor);
+			ConsoleRenderer::ScreenDrawUIFromFile(&m_fgameDialog[m_igameDialogIndex].m_fSelectBubble[i].m_fbackGround, m_fgameDialog[m_igameDialogIndex].m_fSelectBubble[i].m_fbackGround.m_iUIColor);
+			ConsoleRenderer::ScreenDrawUIFromFile(&m_fgameDialog[m_igameDialogIndex].m_fSelectBubble[i].m_fcontent, m_fgameDialog[m_igameDialogIndex].m_fSelectBubble[i].m_fcontent.m_iUIColor);
 		}
 	}
 

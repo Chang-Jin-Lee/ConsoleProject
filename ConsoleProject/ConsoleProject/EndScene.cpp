@@ -4,11 +4,9 @@
 
 float m_fLastTime = 0;
 float m_fEndScenecurrentTime = 0;
-float m_fSceneChangeTime = 5;
-const char* m_cgameEndingGuideEndScene = "Tank you To Play !";
-const char* m_crestartEndScene = "Restart To Press Space Bar ";
-const char* m_cexitEndScene = "Exit Game To Press ESC key ";
-const char* m_cnextSceneGuideEndScene = "Back To Main Menu in 5 seconds... ";
+float m_fSceneChangeTime = 10;
+
+UI::FUI m_fenduiEndScene;
 
 void EndScene::Initialize()	// 게임 시작할 때 초기화
 {
@@ -17,12 +15,16 @@ void EndScene::Initialize()	// 게임 시작할 때 초기화
 
 void EndScene::LoadData()
 {
-
+	if (FileController::FileRead("Images/EndingView/EndView.txt", "r", &m_fenduiEndScene.m_ppcontent, &m_fenduiEndScene.m_ippcontentSize))
+	{
+		m_fenduiEndScene.m_fAxis.X = 0;
+		m_fenduiEndScene.m_fAxis.Y = 0;
+	}
 }
 
 void EndScene::Release()
 {
-
+	UI::Release(&m_fenduiEndScene);
 }
 
 void EndScene::ProcessInput()
@@ -66,13 +68,5 @@ void EndScene::Update()
 
 void EndScene::Render()
 {
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cgameEndingGuideEndScene), int(ConsoleRenderer::ScreenHeight() * 0.2), m_cgameEndingGuideEndScene, FG_WHITE);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_crestartEndScene), int(ConsoleRenderer::ScreenHeight() * 0.5), m_crestartEndScene, FG_WHITE);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cexitEndScene), int(ConsoleRenderer::ScreenHeight() * 0.6), m_cexitEndScene, FG_WHITE);
-
-	char array[70];
-	sprintf_s(array, "%.2f", m_fLastTime);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(m_cnextSceneGuideEndScene), int(ConsoleRenderer::ScreenHeight() * 0.7), m_cnextSceneGuideEndScene, FG_WHITE);
-	ConsoleRenderer::ScreenDrawString(ConsoleRenderer::ScreenCenter(array), int(ConsoleRenderer::ScreenHeight() * 0.8), array, FG_SKY_DARK);
-
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fenduiEndScene, FG_WHITE);
 }

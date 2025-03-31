@@ -48,7 +48,7 @@ void MenuScene::LoadData()
 	//Images/CityForest01/CityForest_01.txt
 	//Images/Test.txt
 	//Images/text/Dialogue/text_0008_12.txt
-	if (FileController::FileRead("Images/CityForest01/CityForest_01.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_ippcontentSize))
+	if (FileController::FileRead("Images/text/text_shifty_10.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_ippcontentSize))
 	{
 		m_fTitleFile.m_fAxis.X = 0;
 		m_fTitleFile.m_fAxis.Y = 0;

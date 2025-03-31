@@ -25,7 +25,7 @@ enum EPlaySceneState
 EPlaySceneState m_eplaySceneState = DESCRIPTION;
 
 /////// DESCRIPTION ///////
-#define MAX_DESCRIPTION_SIZE_PLAY_SCENE 3
+#define MAX_DESCRIPTION_SIZE_PLAY_SCENE 4
 UI::FBUBBLEUI m_fDescriptionUIPlayScene[MAX_DESCRIPTION_SIZE_PLAY_SCENE];	// height를 18로 맞추자.
 
 /////// SHOOTING ///////
@@ -271,8 +271,8 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fEnemyCharacter.m_fAxis.Y = (SHORT)(-ConsoleRenderer::ScreenHeight() * 0.1);
 	Object::CreateAndAttachHealthBar(&m_fEnemyCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.12) }, FG_RED);
 	m_fEnemyCharacter.m_iColor = FG_WHITE;
-	m_fEnemyCharacter.m_iHealth = 500;
-	m_fEnemyCharacter.m_iMaxHealth = 500;
+	m_fEnemyCharacter.m_iHealth = 100;
+	m_fEnemyCharacter.m_iMaxHealth = 100;
 	m_fEnemyCharacter.m_iAmmo = 30;
 	m_fEnemyCharacter.m_iMaxAmmo = 30;
 	m_fEnemyCharacter.m_iFireDamage = 10;
@@ -394,15 +394,29 @@ void PlayScene::ShootingPlaySceneInput()
 {
 	if (Input::IsKeyPressed(VK_1))
 	{
-		m_icharacterIndex = 0;
+		if (!bIsReloading)
+		{
+			m_icharacterIndex = 0;
+			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
+		}
 	}
 	if (Input::IsKeyPressed(VK_2))
 	{
-		m_icharacterIndex = 1;
+		if (!bIsReloading)
+		{
+			m_icharacterIndex = 1;
+			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
+		}
+
 	}
 	if (Input::IsKeyPressed(VK_3))
 	{
-		m_icharacterIndex = 2;
+		if (!bIsReloading)
+		{
+			m_icharacterIndex = 2;
+			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
+		}
+
 	}
 	if (Input::IsKeyPressed(VK_Q))
 	{
@@ -576,7 +590,7 @@ void PlayScene::ShootingPlaySceneRender()
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter[m_icharacterIndex].m_fAxis.X, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, &m_fPlayerCharacter[m_icharacterIndex].m_fanimation[m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState].m_fui[m_fPlayerCharacter[m_icharacterIndex].m_iPlaybackCurrentSeconds], m_fPlayerCharacter[m_icharacterIndex].m_iColor);
 	ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fPlayerCharacter[m_icharacterIndex].m_fAxis.X, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, &m_fPlayerCharacter[m_icharacterIndex].m_fHealthBar, m_fPlayerCharacter[m_icharacterIndex].m_iHealth, m_fPlayerCharacter[m_icharacterIndex].m_iMaxHealth, m_fPlayerCharacter[m_icharacterIndex].m_fHealthBar.m_iUIColor);
 	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter[m_icharacterIndex].m_iAmmo, m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
-	ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
+	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
 	Object::RenderCrossHair(&m_fCrossHair);
 
 	Object::RenderAllBulletNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);

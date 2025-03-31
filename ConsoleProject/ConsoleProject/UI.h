@@ -57,6 +57,15 @@ namespace UI
 		}
 	} FUI;
 
+	typedef struct FBUBBLEUI	// 이중포인터쓰는 UI ex) 파일에서 읽은 스트링, 대화창 틀 등
+	{
+		FUI m_fbackGround;
+		FUI m_fcontent;
+		bool bVisible = false;
+
+		FBUBBLEUI() {}
+	} FBUBBLEUI;
+
 	struct FGAMEDIALOGANIMATIONSCENE	// text_0001_rapi_30_.txt
 	{
 		int Number = 0;
@@ -67,7 +76,10 @@ namespace UI
 		char* m_sSelectDialogue[MAX_SELECTBUBBLE_SIZE];
 		int NextIdx;
 		int SelectNextDialogue[MAX_SELECTBUBBLE_SIZE];
-		SHORT m_iTalkingCharacterSize = 1;
+		SHORT m_iTalkingCharacterSize = 1;		// 화면에 나올 캐릭터들
+		SHORT m_iChoiceSize = 1;				// 선택지 개수
+		UI::FBUBBLEUI m_fSelectBubble[MAX_SELECTBUBBLE_SIZE];
+		int m_iselectIndex = 0;
 		//FUI SceneName;
 	};
 
@@ -145,15 +157,6 @@ namespace UI
 			m_iMaxLength = 0;
 		}
 	} FVideo;
-
-	typedef struct FBUBBLEUI	// 이중포인터쓰는 UI ex) 파일에서 읽은 스트링, 대화창 틀 등
-	{
-		FUI m_fbackGround;
-		FUI m_fcontent;
-		bool bVisible = false;
-
-		FBUBBLEUI() { }
-	} FBUBBLEUI;
 
 	void Release(FUI* ui);
 	void Release(FVideo* video);
