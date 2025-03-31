@@ -5,7 +5,8 @@ typedef enum ESceneState {
 	MENU,
 	ANIMATION,
 	PLAY,
-	END
+	END,
+	GAMEOVER,
 } ESceneState;
 
 #define VK_Q 0x41 + 'q' - 'a'

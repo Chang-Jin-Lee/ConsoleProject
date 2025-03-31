@@ -2,6 +2,9 @@
 #include "Input.h"
 #include "Game.h"
 #include "UI.h"
+#include <fmod.hpp>
+
+#pragma comment(lib, "fmod_vc.lib")
 
 // Time 관련
 float m_m_fcurrentTimeAnimationScene = 0;
@@ -31,6 +34,13 @@ UI::FUI m_fBackGroundUI;
 UI::FGAMEDIALOGANIMATIONSCENE m_fgameDialog[MAX_DIALOG_SIZE];
 int m_igameDialogIndex = 1;
 int m_fgameDialogSize = 15;
+
+// Sound
+FMOD::System* systemAnimationScene = nullptr;
+FMOD::Sound* soundAnimationScene1 = nullptr;
+FMOD::Sound* soundAnimationScene2 = nullptr;
+FMOD::Channel* channelAnimationScene = nullptr;
+bool bSecondMusic = true;
 
 void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
@@ -85,50 +95,9 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 
 	if (FileController::FileReadFromCSV_Dialogue("Dialogue", "r", &m_fSpeechBubbleAnimationScene, m_fgameDialog, &m_fgameDialogSize))
 	{
-		//m_fgameDialog[m_igameDialogIndex].m_fDialogue.m_fAxis.X = 0;
-		//m_fgameDialog[m_igameDialogIndex].m_fDialogue.m_fAxis.Y = 0;
+
 	}
-
-	// Initialize Speech 
-	/*m_fSpeechContentIndex = 1;
-	m_fSpeechCursorPlayScene = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.4), int(ConsoleRenderer::ScreenHeight() * 0.7), (char*)" > ");
-
-	int SpeechSlateYSize = ConsoleRenderer::ScreenHeight() * 0.3;
-	int SpeechSlateXSize = ConsoleRenderer::ScreenWidth();
-	m_fSpeechSlate.m_ppcontent = (char**)malloc(sizeof(char*) * SpeechSlateYSize);
-	for (int i = 0; i < SpeechSlateYSize; i++)
-		m_fSpeechSlate.m_ppcontent[i] = (char*)malloc(sizeof(char) * SpeechSlateXSize);
-	m_fSpeechSlate.m_ippcontentSize = SpeechSlateYSize;
-	m_fSpeechSlate.m_fAxis.X = 0;
-	m_fSpeechSlate.m_fAxis.Y = ConsoleRenderer::ScreenHeight() - SpeechSlateYSize;
-	for (int i = 0; i < SpeechSlateYSize; i++)
-	{
-		for (int j = 0; j < SpeechSlateXSize; j++)
-		{
-			if (i == 0 || i == SpeechSlateYSize - 1)
-				m_fSpeechSlate.m_ppcontent[i][j] = '-';
-			else if (j == 0 || j == SpeechSlateXSize - 1)
-				m_fSpeechSlate.m_ppcontent[i][j] = '|';
-			else
-				m_fSpeechSlate.m_ppcontent[i][j] = ' ';
-		}
-	}
-
-	m_fSpeechNextCursor = UI::FUI(int(ConsoleRenderer::ScreenWidth() * 0.95), int(ConsoleRenderer::ScreenHeight() * 0.9), (char*)m_speechNextString);
-	for (int i = 0; i < MAX_DIALOG_SIZE; i++)
-	{
-		m_fgameDialog[i].Dialog.m_fAxis.X = m_fSpeechSlate.m_fAxis.X + ConsoleRenderer::ScreenWidth() * 0.2;
-		m_fgameDialog[i].Dialog.m_fAxis.Y = m_fSpeechSlate.m_fAxis.Y + SpeechSlateYSize * 0.5;
-
-		m_fgameDialog[i].Speaker.m_fAxis.X = m_fSpeechSlate.m_fAxis.X + ConsoleRenderer::ScreenWidth() * 0.1;
-		m_fgameDialog[i].Speaker.m_fAxis.Y = m_fSpeechSlate.m_fAxis.Y + SpeechSlateYSize * 0.3;
-
-		m_fgameDialog[i].Type.m_fAxis.X = m_fSpeechSlate.m_fAxis.X + ConsoleRenderer::ScreenWidth() * 0.8;
-		m_fgameDialog[i].Type.m_fAxis.Y = m_fSpeechSlate.m_fAxis.Y + SpeechSlateYSize * 0.3;
-
-		m_fgameDialog[i].Likeability.m_fAxis.X = ConsoleRenderer::ScreenWidth() * 0.9;
-		m_fgameDialog[i].Likeability.m_fAxis.Y = ConsoleRenderer::ScreenHeight() * 0.1;
-	}*/
+	systemAnimationScene->playSound(soundAnimationScene1, nullptr, false, &channelAnimationScene);
 }
 
 void AnimationScene::LoadData()
@@ -153,20 +122,20 @@ void AnimationScene::LoadData()
 	Object::SetPlayerAnimationNameFullBody(&m_fNeonAnimationScene, (char*)"NeonFullBodyIdle", (char*)"NeonFullBodyIdleTalk", (char*)"NeonFullBodyExpression");
 	Object::LoadAnimationData(&m_fNeonAnimationScene);
 
-	//if (FileController::FileReadFromCSV("Dialogue.csv", "r", m_fgameDialog, &m_fgameDialogSize) == false)
-	//	ConsoleRenderer::print((char*)"PlayScene_FileReadError\n");
-
-	/*for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
+	// FMOD 시스템 초기화
+	if (FMOD::System_Create(&systemAnimationScene) != FMOD_OK)
 	{
-		UI::CreateBubbleUI(&m_fSelectBubbleAnimationScene[i].m_fbackGround,
-			(int)(ConsoleRenderer::ScreenWidth() * 0.3),
-			(int)(ConsoleRenderer::ScreenHeight() * 0.05),
-			(int)(ConsoleRenderer::ScreenWidth() * 0.65),
-			(int)(ConsoleRenderer::ScreenHeight() * (0.55 + 0.06 * float(i))),
-			0.01f,
-			FG_GRAY
-		);
-	}*/
+		ConsoleRenderer::print((char*)"System_Create fail");
+	}
+	systemAnimationScene->init(512, FMOD_INIT_NORMAL, nullptr);
+
+	// 사운드 1 미리 로드
+	if (systemAnimationScene->createSound("Music/bgm_AnimationScene.mp3", FMOD_DEFAULT, nullptr, &soundAnimationScene1) != FMOD_OK)
+		ConsoleRenderer::print((char*)"createSound 1 fail");
+
+	// 사운드 2 미리 로드
+	if (systemAnimationScene->createSound("Music/bgm_AnimationScene2.mp3", FMOD_DEFAULT, nullptr, &soundAnimationScene2) != FMOD_OK)
+		ConsoleRenderer::print((char*)"createSound 2 fail");
 }
 
 void AnimationScene::ProcessInput()
@@ -304,7 +273,10 @@ void AnimationScene::Release()
 	Object::Release(&m_fRapiAnimationScene);
 	Object::Release(&m_fAniscAnimationScene);
 	Object::Release(&m_fNeonAnimationScene);
-
+	soundAnimationScene1->release();
+	soundAnimationScene2->release();
+	systemAnimationScene->close();
+	systemAnimationScene->release();
 
 	//UI::Release(&m_fSpeechSlate);
 	//for (int i = 0; i < MAX_DIALOG_SIZE; i++)
@@ -334,6 +306,16 @@ void AnimationScene::Update()
 {
 	Input::Update();
 	AnimationScene::ProcessInput();
+
+	if (m_igameDialogIndex == 7 && bSecondMusic)
+	{
+		if (channelAnimationScene)
+			channelAnimationScene->stop();
+
+		// 두 번째 사운드 재생
+		bSecondMusic = false;
+		systemAnimationScene->playSound(soundAnimationScene2, nullptr, false, &channelAnimationScene);
+	}
 
 	m_fMenuLastTimeAnimationScene = Time::GetTotalTime() - m_m_fcurrentTimeAnimationScene;
 	if (m_fMenuLastTimeAnimationScene >= m_floadingTimeAnimationScene + 1)

@@ -87,6 +87,12 @@
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleRenderer.h">
@@ -113,6 +119,12 @@
     <ClInclude Include="Object.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt">
@@ -135,9 +147,6 @@
     </Text>
     <Text Include="MenuTitle.txt">
       <Filter>리소스 파일\MenuSceneButton</Filter>
-    </Text>
-    <Text Include="Dialogue.csv">
-      <Filter>리소스 파일\Dialogue</Filter>
     </Text>
     <Text Include="CatCurios.txt">
       <Filter>리소스 파일\Cat</Filter>
@@ -3529,5 +3538,8 @@
     <Text Include="Video\Aru-frame_1114.txt">
       <Filter>리소스 파일\Video\Aru</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CSV\Dialogue.csv" />
   </ItemGroup>
 </Project>
