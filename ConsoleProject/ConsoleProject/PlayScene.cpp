@@ -19,10 +19,6 @@ enum EPlaySceneState
 	RHYTHM,
 	PUZZLE,
 };
-enum ECharacterName
-{
-	Rapi, Anis, Neon
-};
 
 EPlaySceneState m_eplaySceneState = DESCRIPTION;
 
@@ -234,7 +230,7 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fPlayerCharacter[ECharacterName::Rapi].m_iAmmo = 30;
 	m_fPlayerCharacter[ECharacterName::Rapi].m_iMaxAmmo = 30;
 	m_fPlayerCharacter[ECharacterName::Rapi].m_iFireDamage = 2;
-	m_fPlayerCharacter[ECharacterName::Rapi].m_iFireDelayTime = 0.08;
+	m_fPlayerCharacter[ECharacterName::Rapi].m_iFireDelayTime = 0.1;
 
 	// Initialize Player - anis
 	m_fPlayerCharacter[ECharacterName::Anis].m_eAnimationState = Object::EAnimationState::COVER;
@@ -415,14 +411,14 @@ void PlayScene::ShootingPlaySceneInput()
 	}
 
 
-	if (Input::IsKeyPressed(VK_NUMPAD0))
+	if (Input::IsKeyPressed(VK_0))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
 		ConsoleRenderer::ScreenInit();
 	}
 
-	if (Input::IsKeyPressed(VK_NUMPAD9))
+	if (Input::IsKeyPressed(VK_9))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize - 1);

@@ -153,10 +153,10 @@ namespace FileController
 		return 1;
 	}
 
-	int FileReadFromCSV_Dialogue(const char* FileName, const char* Mode, int dialogAxisX, int dialogAxisY, UI::FGAMEDIALOGANIMATIONSCENE* dialog, int* dialogSize)
+	int FileReadFromCSV_Dialogue(const char* FileName, const char* Mode, UI::FUI* speechBubble, UI::FGAMEDIALOGANIMATIONSCENE* dialog, int* dialogSize)
 	{
 		char filename[200];
-		sprintf_s(filename, sizeof(filename), "CSV/%s", FileName);
+		sprintf_s(filename, sizeof(filename), "CSV/%s.csv", FileName);
 
 		FILE* fp = NULL;
 		fopen_s(&fp, filename, Mode);
@@ -167,7 +167,7 @@ namespace FileController
 			return 0;
 		}
 
-		int m_ioutBufferIndex = 0;
+		int outBufferIndex = 0;
 
 		while (true)
 		{
@@ -192,30 +192,68 @@ namespace FileController
 
 			if (ptrs)
 			{
-				//dialog[m_ioutBufferIndex].Number = atoi(ptrs[0]);
-				//dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[1];
-				//dialog[m_ioutBufferIndex].Speaker.m_ipcontentSize = strlen(ptrs[1]);
-				//
-				//dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[2];
-				//dialog[m_ioutBufferIndex].Dialog.m_ipcontentSize = strlen(ptrs[2]);
-				//
-				//dialog[m_ioutBufferIndex].Type.m_pcontent = ptrs[3];
-				//dialog[m_ioutBufferIndex].Type.m_ipcontentSize = strlen(ptrs[3]);
-				//dialog[m_ioutBufferIndex].Answer.m_pcontent = ptrs[4];
-				//dialog[m_ioutBufferIndex].Answer.m_ipcontentSize = strlen(ptrs[4]);
-				//dialog[m_ioutBufferIndex].Likeability.m_pcontent = ptrs[5];
-				//dialog[m_ioutBufferIndex].Likeability.m_ipcontentSize = strlen(ptrs[5]);
-				//ptrs[6][strlen(ptrs[6]) - 1] = '\0';
-				//dialog[m_ioutBufferIndex].SceneName.m_pcontent = ptrs[6];
-				//dialog[m_ioutBufferIndex].SceneName.m_ipcontentSize = strlen(ptrs[6]) - 1;
+				dialog[outBufferIndex].Number = atoi(ptrs[0]);
+				
+				int choiceSize = atoi(ptrs[1]);
+				// Speaker
+				char* tContext = NULL;
+				char* tempPtrs = strtok_s(ptrs[2], ";", &tContext);
+				while (tempPtrs != NULL)
+				{
+					if (tempPtrs == "rapi")
+						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Rapi] = true;
+					else if (tempPtrs == "anis")
+						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Anis] = true;
+					else if (tempPtrs == "neon")
+						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Neon] = true;
+					else if (tempPtrs == "shifty")
+						dialog[outBufferIndex].m_aSpeakerTalkable[ECharacterName::Shifty] = true;
+					tempPtrs = strtok_s(NULL, ";", &tContext);
+				}
+
+				tContext = NULL;
+				tempPtrs = strtok_s(ptrs[3], ";", &tContext);
+				int idx = 0;
+				while (tempPtrs != NULL)
+				{
+					size_t tempPtrSize = strlen(tempPtrs) + 1;
+					dialog[outBufferIndex].m_sSelectDialogue[idx] = (char*)malloc(sizeof(char) * tempPtrSize);
+					memcpy_s(dialog[outBufferIndex].m_sSelectDialogue[idx], tempPtrSize, tempPtrs, tempPtrSize);
+					tempPtrs = strtok_s(NULL, ";", &tContext);
+					idx++;
+				}
+				dialog[outBufferIndex].NextIdx = atoi(ptrs[4]);
+
+				dialog[outBufferIndex].SelectNextDialogue[0] = atoi(ptrs[5]);
+				dialog[outBufferIndex].SelectNextDialogue[1] = atoi(ptrs[6]);
 			}
 
-			m_ioutBufferIndex++;
+			outBufferIndex++;
 		}
 
-		*dialogSize = m_ioutBufferIndex;
-
+		*dialogSize = outBufferIndex;
 		fclose(fp);
+
+		for (int i = 0; i < outBufferIndex; i++)
+		{
+			dialog[i].m_fspeaker.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.1;
+			dialog[i].m_fspeaker.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.1;
+			dialog[i].m_fspeaker.m_iUIColor = FG_WHITE;
+
+			dialog[i].m_fDialogue.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.3;
+			dialog[i].m_fDialogue.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.4;
+			dialog[i].m_fDialogue.m_iUIColor = FG_WHITE;
+
+			char filename[100];
+			sprintf_s(filename, sizeof(filename), "Images/text/text_%s%04d_360.txt", FileName, i + 1);
+			//sprintf_s(filename, sizeof(filename), "Images/text/text_description%04d_360.txt", i + 1);
+			if (FileRead(filename, "r", &dialog[i+1].m_fDialogue.m_ppcontent, &dialog[i+1].m_fDialogue.m_ippcontentSize) == false)
+			{
+				ConsoleRenderer::print((char*)"FileRead Error : ");
+				ConsoleRenderer::print(filename);
+				ConsoleRenderer::print((char*)"\n");
+			}
+		}
 
 		return 1;
 	}

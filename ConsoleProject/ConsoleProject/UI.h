@@ -60,12 +60,13 @@ namespace UI
 	struct FGAMEDIALOGANIMATIONSCENE	// text_0001_rapi_30_.txt
 	{
 		int Number = 0;
-		UI::FUI Speaker;
+		UI::FUI m_fspeaker;
 		UI::FUI Type;
+		UI::FUI m_fDialogue;
 		bool m_aSpeakerTalkable[MAX_CHARACTER_SIZE] = { false, };	// Choice Size
-		UI::FUI Dialogue;
+		char* m_sSelectDialogue[MAX_SELECTBUBBLE_SIZE];
 		int NextIdx;
-		int SlectNextDialogue[MAX_SELECTBUBBLE_SIZE];
+		int SelectNextDialogue[MAX_SELECTBUBBLE_SIZE];
 		SHORT m_iTalkingCharacterSize = 1;
 		//FUI SceneName;
 	};

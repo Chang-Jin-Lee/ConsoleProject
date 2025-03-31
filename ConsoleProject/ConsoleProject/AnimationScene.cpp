@@ -28,16 +28,11 @@ Object::FPlayerCharacter m_fRapiAnimationScene;
 Object::FPlayerCharacter m_fAniscAnimationScene;
 Object::FPlayerCharacter m_fNeonAnimationScene;
 
-enum ECurCharacter
-{
-	RAPI,ANIS,NEON,NONE
-};
-
-ECurCharacter ch1 = RAPI, ch2 = NONE;
+ECharacterName ch1 = Rapi, ch2 = None;
 
 UI::FUI m_fBackGroundUI;
 UI::FGAMEDIALOGANIMATIONSCENE m_fgameDialog[MAX_DIALOG_SIZE];
-int m_igameDialogIndex = 0;
+int m_igameDialogIndex = 1;
 int m_fgameDialogSize = 15;
 
 void AnimationScene::Initialize()	// 게임 시작할 때 초기화
@@ -88,6 +83,12 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 		0.01f,
 		FG_WHITE
 	);
+
+	if (FileController::FileReadFromCSV_Dialogue("Dialogue", "r", &m_fSpeechBubbleAnimationScene, m_fgameDialog, &m_fgameDialogSize))
+	{
+		//m_fgameDialog[m_igameDialogIndex].m_fDialogue.m_fAxis.X = 0;
+		//m_fgameDialog[m_igameDialogIndex].m_fDialogue.m_fAxis.Y = 0;
+	}
 
 	// Initialize SelectBubble
 	for (int i = 0; i < MAX_SELECTBUBBLE_SIZE; i++)
@@ -218,17 +219,17 @@ void AnimationScene::ProcessInput()
 	{
 		switch (ch1)
 		{
-		case RAPI:
-			ch1 = ANIS;
+		case Rapi:
+			ch1 = Anis;
 			break;
-		case ANIS:
-			ch1 = NEON;
+		case Anis:
+			ch1 = Neon;
 			break;
-		case NEON:
-			ch1 = NONE;
+		case Neon:
+			ch1 = None;
 			break;
-		case NONE:
-			ch1 = RAPI;
+		case None:
+			ch1 = Rapi;
 			break;
 		default:
 			break;
@@ -268,14 +269,14 @@ void AnimationScene::ProcessInput()
 		}
 	}
 
-	if (Input::IsKeyPressed(VK_NUMPAD0))
+	if (Input::IsKeyPressed(VK_0))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
 		ConsoleRenderer::ScreenInit();
 	}
 
-	if (Input::IsKeyPressed(VK_NUMPAD9))
+	if (Input::IsKeyPressed(VK_9))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize - 1);
@@ -385,11 +386,11 @@ void AnimationScene::Render()
 	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Type, FG_WHITE);
 	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Likeability, FG_WHITE);
 
-	if(ch1 == RAPI || ch2 == RAPI)
+	if(ch1 == Rapi || ch2 == Rapi)
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
-	if (ch1 == ANIS || ch2 == ANIS)
+	if (ch1 == Anis || ch2 == Anis)
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
-	if (ch1 == NEON || ch2 == NEON)
+	if (ch1 == Neon || ch2 == Neon)
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
 	
 	if(m_fShiftyAnimationScene.m_bVisible)
@@ -402,4 +403,7 @@ void AnimationScene::Render()
 		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fbackGround, m_fSelectBubbleAnimationScene[i].m_fbackGround.m_iUIColor);
 		ConsoleRenderer::ScreenDrawUIFromFile(&m_fSelectBubbleAnimationScene[i].m_fcontent, m_fSelectBubbleAnimationScene[i].m_fcontent.m_iUIColor);
 	}
+
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fgameDialog[m_igameDialogIndex].m_fspeaker, m_fgameDialog[m_igameDialogIndex].m_fspeaker.m_iUIColor);
+	ConsoleRenderer::ScreenDrawUIFromFile(&m_fgameDialog[m_igameDialogIndex].m_fDialogue, m_fgameDialog[m_igameDialogIndex].m_fDialogue.m_iUIColor);
 }

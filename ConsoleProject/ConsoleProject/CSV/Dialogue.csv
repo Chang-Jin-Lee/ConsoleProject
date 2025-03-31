@@ -1,20 +1,13 @@
-0,Speaker,Type,ChoiceSize,Dialogue,NextIdx,Chioce01,Chioce02,Chioce03
-1,rapi,hello,0,NULL,2,-1,-1,-1
-2,anis,hello,0,NULL,3,-1,-1,-1
-3,neon,hello,0,NULL,4,-1,-1,-1
-4,rapi,helloqa,2,yes;ThinkYouAllways,0,5,6,-1
-5,rapi,dahang,0,NULL,7,-1,-1,-1
-6,rapi,gamdong,0,NULL,7,-1,-1,-1
-7,rapi;shifty,encounter,0,NULL,8,-1,-1,-1
-8,rapi,# 배틀 시작 전,0,,,,,
-9,rapi,# 배틀 시작 후,0,,,,,
-10,rapi,# 어둠의 길을 지나는 중,0,,,,,
-11,rapi,# 어둠의 길을 지나는 중,0,,,,,
-12,rapi,# 마지막 문 앞,0,,,,,
-13,rapi,Default,0,,,,,
-14,rapi,# 최종 이벤트,0,,,,,
-15,rapi,# 최종 이벤트,0,,,,,
-16,rapi,# 최종 이벤트,0,,,,,
-17,rapi,# 최종 이벤트,0,,,,,
-18,rapi,# 엔딩,0,,,,,
-19,rapi,# 엔딩,0,,,,,
+Number,ChoiceSize,Speaker,Dialogue,NextIdx,Chioce01,Chioce02,Chioce03
+1,0,rapi,NULL,2,-1,-1,-1
+2,0,anis,NULL,3,-1,-1,-1
+3,0,neon,NULL,4,-1,-1,-1
+4,2,rapi,yes;ThinkYouAllways,0,5,6,-1
+5,0,rapi,NULL,7,-1,-1,-1
+6,0,rapi,NULL,7,-1,-1,-1
+7,2,rapi;shifty,NULL,8,-1,-1,-1
+8,2,rapi;shifty,NULL,9,-1,-1,-1
+9,2,rapi;shifty,NULL,10,-1,-1,-1
+10,2,anis;shifty,NULL,11,-1,-1,-1
+11,2,neon;shifty,NULL,12,-1,-1,-1
+12,2,neon;shifty,power;power,-1,-1,-1,-1

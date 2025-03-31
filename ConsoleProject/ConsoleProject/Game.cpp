@@ -50,7 +50,6 @@ void Game::Initialize()	// 게임 시작할 때 초기화
 		break;
 	}
 	ConsoleRenderer::ScreenInit();
-
 }
 
 void Game::LoadData()

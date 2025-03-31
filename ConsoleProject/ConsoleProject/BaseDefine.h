@@ -45,5 +45,10 @@ typedef enum ESceneState {
 #define MAX_BUTTON_COUNT 2			// 메뉴 셀렉트 개수
 
 // Animation Scene 대사에서 쓰이는 것.
-#define MAX_CHARACTER_SIZE 4	// 대사에 등장하는 최대 캐릭터 수
+#define MAX_CHARACTER_SIZE 5	// 대사에 등장하는 최대 캐릭터 수
 #define MAX_SELECTBUBBLE_SIZE 2	// 선택창 개수
+
+enum ECharacterName
+{
+	Rapi, Anis, Neon, Shifty, None
+};

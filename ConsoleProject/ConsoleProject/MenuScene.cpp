@@ -69,14 +69,14 @@ void MenuScene::ProcessInput()
 		Game::ChangeScene(ESceneState::ANIMATION);
 	}
 
-	if (Input::IsKeyPressed(VK_NUMPAD0))
+	if (Input::IsKeyPressed(VK_0))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
-		ConsoleRenderer::SetScreenFontSize(fontsize+1);
+		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
 		ConsoleRenderer::ScreenInit();
 	}
 
-	if (Input::IsKeyPressed(VK_NUMPAD9))
+	if (Input::IsKeyPressed(VK_9))
 	{
 		int fontsize = ConsoleRenderer::GetScreenFontSize();
 		ConsoleRenderer::SetScreenFontSize(fontsize - 1);

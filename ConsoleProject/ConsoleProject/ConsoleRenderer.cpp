@@ -347,9 +347,13 @@ namespace ConsoleRenderer
 
     void ScreenDrawUIFromFile(UI::FUI* ui, WORD attr)
     {
-        for (int i = 0; i < ui->m_ippcontentSize; i++)
+        if (ui->m_ppcontent)
         {
-            ScreenDrawStringFromFile(ui->m_fAxis.X, ui->m_fAxis.Y + i, ui->m_ppcontent[i], attr);
+            for (int i = 0; i < ui->m_ippcontentSize; i++)
+            {
+                if (ui->m_ppcontent[i])
+                    ScreenDrawStringFromFile(ui->m_fAxis.X, ui->m_fAxis.Y + i, ui->m_ppcontent[i], attr);
+            }
         }
     }
 

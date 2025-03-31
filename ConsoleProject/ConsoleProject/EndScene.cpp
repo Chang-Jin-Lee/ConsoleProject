@@ -37,6 +37,19 @@ void EndScene::ProcessInput()
 		Game::GameExit();
 	}
 
+	if (Input::IsKeyPressed(VK_0))
+	{
+		int fontsize = ConsoleRenderer::GetScreenFontSize();
+		ConsoleRenderer::SetScreenFontSize(fontsize + 1);
+		ConsoleRenderer::ScreenInit();
+	}
+
+	if (Input::IsKeyPressed(VK_9))
+	{
+		int fontsize = ConsoleRenderer::GetScreenFontSize();
+		ConsoleRenderer::SetScreenFontSize(fontsize - 1);
+		ConsoleRenderer::ScreenInit();
+	}
 }
 
 void EndScene::Update()
