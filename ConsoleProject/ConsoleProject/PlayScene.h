@@ -19,6 +19,12 @@ namespace PlayScene
 	void DescriptionPlaySceneInput();
 	void DescriptionPlaySceneRender();
 
+	void OptionPlaySceneInitialize();
+	void OptionPlaySceneLoadData();
+	void OptionPlaySceneUpdate();
+	void OptionPlaySceneInput();
+	void OptionPlaySceneRender();
+
 	void ShootingPlaySceneInitialize();
 	void ShootingPlaySceneLoadData();
 	void ShootingPlaySceneUpdate();

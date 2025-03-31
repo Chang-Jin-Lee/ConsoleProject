@@ -37,6 +37,7 @@ namespace Object
 
 	typedef struct FPlayerCharacter	// PlayerCharacter에 대한 것. 애니메이션 포함
 	{
+		#pragma region Property
 		COORD m_fAxis;
 		UI::FUI m_fHealthBar;
 		EAnimationState m_eAnimationState = AIM;
@@ -44,6 +45,7 @@ namespace Object
 
 		bool m_bVisible;
 		bool m_bPlayable;
+		bool m_bCanFire;
 		int m_iPlaybackCurrentSeconds;
 		int m_iColor;
 		int m_iHealth;
@@ -51,6 +53,8 @@ namespace Object
 		int m_iAmmo;		// 현재 탄약집에 있는 총알 수
 		int m_iMaxAmmo;		// 장전을 위한 탄약집의 총알 수
 		int m_iFireDamage; // 총알 데미지
+		int m_iFireDelayTime;
+		#pragma endregion
 
 		FPlayerCharacter()
 		{
@@ -58,6 +62,7 @@ namespace Object
 			m_fAxis.Y = 0;
 			m_bVisible = false;
 			m_bPlayable = false;
+			m_bCanFire = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
 			m_iHealth = 0;
@@ -65,6 +70,7 @@ namespace Object
 			m_iAmmo = 0;
 			m_iMaxAmmo = 0;
 			m_iFireDamage = 0;
+			m_iFireDelayTime = 0;
 		}
 
 		FPlayerCharacter(int x, int y)
@@ -73,6 +79,7 @@ namespace Object
 			m_fAxis.Y = y;
 			m_bVisible = false;
 			m_bPlayable = false;
+			m_bCanFire = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
 			m_iHealth = 0;
@@ -80,7 +87,7 @@ namespace Object
 			m_iAmmo = 0;
 			m_iMaxAmmo = 0;
 			m_iFireDamage = 0;
-
+			m_iFireDelayTime = 0;
 		}
 
 		FPlayerCharacter(int x, int y, char* content)
@@ -89,6 +96,7 @@ namespace Object
 			m_fAxis.Y = y;
 			m_bVisible = false;
 			m_bPlayable = false;
+			m_bCanFire = false;
 			m_iPlaybackCurrentSeconds = 0;
 			m_iColor = FG_WHITE;
 			m_iHealth = 0;
@@ -96,7 +104,7 @@ namespace Object
 			m_iAmmo = 0;
 			m_iMaxAmmo = 0;
 			m_iFireDamage = 0;
-
+			m_iFireDelayTime = 0;
 		}
 	} FPlayerCharacter;
 

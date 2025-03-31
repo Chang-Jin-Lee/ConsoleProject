@@ -1,11 +1,11 @@
 0,Speaker,Type,ChoiceSize,Dialogue,NextIdx,Chioce01,Chioce02,Chioce03
-1,rapi,# 안녕,0,NULL,2,,,
-2,anis,# 안녕,0,NULL,3,,,
-3,neon,# 안녕,0,NULL,4,,,
-4,rapi,# 인사,2,yes;ThinkYouAllways,0,5,7,
-5,rapi,# 첫 번째 길목에서,0,,,,,
-6,rapi,# 검은 까마귀 등장,0,,,,,
-7,rapi,# 검은 까마귀 등장,0,,,,,
+1,rapi,hello,0,NULL,2,-1,-1,-1
+2,anis,hello,0,NULL,3,-1,-1,-1
+3,neon,hello,0,NULL,4,-1,-1,-1
+4,rapi,helloqa,2,yes;ThinkYouAllways,0,5,6,-1
+5,rapi,dahang,0,NULL,7,-1,-1,-1
+6,rapi,gamdong,0,NULL,7,-1,-1,-1
+7,rapi;shifty,encounter,0,NULL,8,-1,-1,-1
 8,rapi,# 배틀 시작 전,0,,,,,
 9,rapi,# 배틀 시작 후,0,,,,,
 10,rapi,# 어둠의 길을 지나는 중,0,,,,,

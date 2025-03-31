@@ -165,7 +165,6 @@
     <Text Include="CatScared.txt" />
     <Text Include="CatWalking.txt" />
     <Text Include="CatWeird.txt" />
-    <Text Include="Dialogue.csv" />
     <Text Include="Dog.txt" />
     <Text Include="ExitText.txt" />
     <Text Include="MenuTitle.txt" />
@@ -1293,6 +1292,9 @@
     <Text Include="Video\Aru-frame_1112.txt" />
     <Text Include="Video\Aru-frame_1113.txt" />
     <Text Include="Video\Aru-frame_1114.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CSV\Dialogue.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -17,11 +17,8 @@ float m_fFPSTimeAnimationScene = 1 / 60;
 float m_fFPSLastTimeAnimationScene = 0;
 float m_fcountOneSecondAnimationScene = 0;
 
-UI::FUI m_fBackGroundUI;
-
 // 말풍선, 선택창 UI
 UI::FUI m_fSpeechBubbleAnimationScene;
-#define MAX_SELECTBUBBLE_SIZE 2
 UI::FBUBBLEUI m_fSelectBubbleAnimationScene[MAX_SELECTBUBBLE_SIZE];
 UI::FUI m_fCursorAnimationScene;
 int m_iselectIndex = 0;
@@ -31,7 +28,6 @@ Object::FPlayerCharacter m_fRapiAnimationScene;
 Object::FPlayerCharacter m_fAniscAnimationScene;
 Object::FPlayerCharacter m_fNeonAnimationScene;
 
-#define MMAX_CHARACTER_SIZE 4
 enum ECurCharacter
 {
 	RAPI,ANIS,NEON,NONE
@@ -39,18 +35,10 @@ enum ECurCharacter
 
 ECurCharacter ch1 = RAPI, ch2 = NONE;
 
-struct FGAMEDIALOGANIMATIONSCENE	// text_0001_rapi_30_.txt
-{
-	int InSize = 0;
-	UI::FUI Speaker;
-	bool m_aSpeakerTalkable[MMAX_CHARACTER_SIZE] = {false, };
-	UI::FUI Type;
-	SHORT m_iTalkingCharacterSize = 1;
-	SHORT Answer;	// 선택창 최대 개수. MAX_SELECTBUBBLE_SIZE까지.
-	//FUI SceneName;
-};
-
-FGAMEDIALOGANIMATIONSCENE m_fgameDialog[MAX_DIALOG_SIZE];
+UI::FUI m_fBackGroundUI;
+UI::FGAMEDIALOGANIMATIONSCENE m_fgameDialog[MAX_DIALOG_SIZE];
+int m_igameDialogIndex = 0;
+int m_fgameDialogSize = 15;
 
 void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 {
@@ -204,12 +192,12 @@ void AnimationScene::ProcessInput()
 
 	if (Input::IsKeyPressed(VK_SPACE) || Input::IsKeyPressed(VK_RETURN))
 	{
-		//m_fSpeechContentIndex = (m_fSpeechContentIndex + 1) % m_fgameDialogSize;
+		m_igameDialogIndex = (m_igameDialogIndex + 1) % m_fgameDialogSize;
 	}
 
 	if (Input::IsKeyPressed(VK_BACK))
 	{
-		//m_fSpeechContentIndex - 1 < 0 ? m_fSpeechContentIndex = m_fgameDialogSize - 1 : m_fSpeechContentIndex = (m_fSpeechContentIndex - 1);
+		m_igameDialogIndex - 1 < 0 ? m_igameDialogIndex = m_fgameDialogSize - 1 : m_igameDialogIndex--;
 	}
 
 	if (Input::IsKeyPressed(VK_UP))
@@ -226,7 +214,7 @@ void AnimationScene::ProcessInput()
 	{
 		Game::ChangeScene(ESceneState::PLAY);
 	}
-	if (Input::IsKeyPressed(VK_T))  //종료
+	if (Input::IsKeyPressed(VK_T))  // 캐릭터 변경
 	{
 		switch (ch1)
 		{

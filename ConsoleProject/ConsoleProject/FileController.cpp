@@ -153,6 +153,73 @@ namespace FileController
 		return 1;
 	}
 
+	int FileReadFromCSV_Dialogue(const char* FileName, const char* Mode, int dialogAxisX, int dialogAxisY, UI::FGAMEDIALOGANIMATIONSCENE* dialog, int* dialogSize)
+	{
+		char filename[200];
+		sprintf_s(filename, sizeof(filename), "CSV/%s", FileName);
+
+		FILE* fp = NULL;
+		fopen_s(&fp, filename, Mode);
+
+		if (fp == NULL)
+		{
+			ConsoleRenderer::print((char*)"FileReadFromCSV: File Dose not Opened.\n");
+			return 0;
+		}
+
+		int m_ioutBufferIndex = 0;
+
+		while (true)
+		{
+			memset(g_cszBuff, '\0', MAX_WORD_LENGTH);
+			fgets(g_cszBuff, MAX_WORD_LENGTH, fp);
+			if (feof(fp)) break;
+
+			size_t g_cszBuff_size = strlen(g_cszBuff);
+			char* context = NULL;
+			char* ptr = strtok_s(g_cszBuff, ",", &context);
+			char** ptrs = (char**)malloc(sizeof(char*) * MAX_PTR_SIZE);
+			int count = 0;
+
+			while (ptr != NULL)
+			{
+				size_t ptrSize = strlen(ptr) + 1;
+				ptrs[count] = (char*)malloc(sizeof(char) * ptrSize);
+				memcpy_s(ptrs[count++], ptrSize, ptr, ptrSize);
+				ConsoleRenderer::print(ptr);
+				ptr = strtok_s(NULL, ",", &context);
+			}
+
+			if (ptrs)
+			{
+				//dialog[m_ioutBufferIndex].Number = atoi(ptrs[0]);
+				//dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[1];
+				//dialog[m_ioutBufferIndex].Speaker.m_ipcontentSize = strlen(ptrs[1]);
+				//
+				//dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[2];
+				//dialog[m_ioutBufferIndex].Dialog.m_ipcontentSize = strlen(ptrs[2]);
+				//
+				//dialog[m_ioutBufferIndex].Type.m_pcontent = ptrs[3];
+				//dialog[m_ioutBufferIndex].Type.m_ipcontentSize = strlen(ptrs[3]);
+				//dialog[m_ioutBufferIndex].Answer.m_pcontent = ptrs[4];
+				//dialog[m_ioutBufferIndex].Answer.m_ipcontentSize = strlen(ptrs[4]);
+				//dialog[m_ioutBufferIndex].Likeability.m_pcontent = ptrs[5];
+				//dialog[m_ioutBufferIndex].Likeability.m_ipcontentSize = strlen(ptrs[5]);
+				//ptrs[6][strlen(ptrs[6]) - 1] = '\0';
+				//dialog[m_ioutBufferIndex].SceneName.m_pcontent = ptrs[6];
+				//dialog[m_ioutBufferIndex].SceneName.m_ipcontentSize = strlen(ptrs[6]) - 1;
+			}
+
+			m_ioutBufferIndex++;
+		}
+
+		*dialogSize = m_ioutBufferIndex;
+
+		fclose(fp);
+
+		return 1;
+	}
+
 	int FileReadVideo(const char* VideoName, UI::FVideo* video)
 	{
 		for (int i = 0; i < MAX_VIDEO_SIZE; i++)
