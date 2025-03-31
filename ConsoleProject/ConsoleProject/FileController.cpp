@@ -245,7 +245,7 @@ namespace FileController
 			dialog[i].m_fDialogue.m_iUIColor = FG_WHITE;
 
 			char filename[100];
-			sprintf_s(filename, sizeof(filename), "Images/text/text_%s%04d_360.txt", FileName, i + 1);
+			sprintf_s(filename, sizeof(filename), "Images/text/%s/text_%04d_15.txt", FileName, i + 1);	// font 사이즈를 변경하려면 여기 파일 이름을 변경하기
 			//sprintf_s(filename, sizeof(filename), "Images/text/text_description%04d_360.txt", i + 1);
 			if (FileRead(filename, "r", &dialog[i+1].m_fDialogue.m_ppcontent, &dialog[i+1].m_fDialogue.m_ippcontentSize) == false)
 			{

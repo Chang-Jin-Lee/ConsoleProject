@@ -193,7 +193,9 @@ void AnimationScene::ProcessInput()
 
 	if (Input::IsKeyPressed(VK_SPACE) || Input::IsKeyPressed(VK_RETURN))
 	{
-		m_igameDialogIndex = (m_igameDialogIndex + 1) % m_fgameDialogSize;
+		if(m_igameDialogIndex == m_fgameDialogSize) Game::ChangeScene(ESceneState::PLAY);
+		else
+			m_igameDialogIndex = (m_igameDialogIndex + 1) % m_fgameDialogSize;
 	}
 
 	if (Input::IsKeyPressed(VK_BACK))
@@ -211,10 +213,10 @@ void AnimationScene::ProcessInput()
 		m_iselectIndex = (m_iselectIndex + 1) % MAX_SELECTBUBBLE_SIZE;
 	}
 
-	if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
-	{
-		Game::ChangeScene(ESceneState::PLAY);
-	}
+	//if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
+	//{
+	//	Game::ChangeScene(ESceneState::PLAY);
+	//}
 	if (Input::IsKeyPressed(VK_T))  // 캐릭터 변경
 	{
 		switch (ch1)
