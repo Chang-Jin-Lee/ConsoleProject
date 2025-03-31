@@ -164,6 +164,7 @@ namespace UI
 	void CreateBubbleUI(FUI* ui, int width, int height, int xAxis, int yAxis, float thickNess, int color);
 	void CreateBubbleUIContent(UI::FBUBBLEUI* ui, const char* filename, int color);
 	void CreateBulletUI(UI::FUI* ui, int width, int height, int color);
+	void CreateStoneUI(UI::FUI* ui, int width, int height, int color);
 
 	FCOORDSNode* AddCOORDNode(FCOORDSNode* Root, COORD data);
 	void DeleteCOORDNode(FCOORDSNode* curNode, COORD data);

@@ -11,7 +11,10 @@ float m_fMenuLastTimePlayScene = 0;
 float m_fcurrentFireDelayTimePlayScene = 0;
 
 float m_fBulletTimeLastPlayScene = 0;
-float m_fBulletTimePlayScene = 1/30;
+float m_fBulletTimePlayScene = 0.4f;
+
+float m_fStoneTimeLastPlayScene = 0.4f;
+float m_fStoneTimePlayScene = 1.5f;
 
 enum EPlaySceneState
 {
@@ -37,11 +40,17 @@ int m_icharacterIndex = 0;
 Object::FPlayerCharacter m_fEnemyCharacter;
 Object::FLeftAmmoUI m_fLeftAmmoUIPlayScene;
 Object::FCrossHair m_fCrossHair;
-Object::Node* m_pBulletHead = NULL;
-float m_fDefaultBulletSpeed = 10.0f;
+Object::BulletNode* m_pBulletHead = NULL;
+Object::StoneNode* m_pStoneHead = NULL;
+float m_fmaxBulletSpeed = 40.0f;
+float m_fmaxStoneSpeed = 10.0f;
 UI::FUI m_fGuideUIPlayScene; // 설명 UI
 
 Object::FActor m_fBullet;
+bool bDidFire = false;
+
+#define MAX_STONE_SIZE 15
+Object::FActor m_fStone[MAX_STONE_SIZE];
 
 // Move 관련
 int m_iPlayerMoveXAmountPlayScene = 3;
@@ -61,6 +70,7 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	DescriptionPlaySceneInitialize();
 	ShootingPlaySceneInitialize();
 	OptionPlaySceneInitialize();
+	srand((unsigned int)time(NULL));
 }
 
 void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
@@ -68,7 +78,6 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 	DescriptionPlaySceneLoadData();
 	ShootingPlaySceneLoadData();
 	OptionPlaySceneLoadData();
-	srand(time(NULL));
 }
 
 void PlayScene::ProcessInput()
@@ -102,6 +111,8 @@ void PlayScene::Release()
 	Object::Release(&m_fCrossHair.Left);
 	Object::Release(&m_fCrossHair.Right);
 	Object::Release(&m_fCrossHair.Bottom);
+	m_pStoneHead = Object::DeleteAllNodeStoneNode(m_pStoneHead);
+	m_pBulletHead = Object::DeleteAllNodeBulletNode(m_pBulletHead);
 }
 
 void PlayScene::Update()
@@ -298,6 +309,7 @@ void PlayScene::ShootingPlaySceneInitialize()
 	// Initialize Timer
 	m_fcurrentTimePlayScene = Time::GetTotalTime();
 	m_fBulletTimeLastPlayScene = Time::GetTotalTime();
+	m_fStoneTimeLastPlayScene = Time::GetTotalTime();
 
 	// Initialize Guide UI
 	UI::CreateBubbleUI(&m_fGuideUIPlayScene,
@@ -337,8 +349,13 @@ void PlayScene::ShootingPlaySceneLoadData()
 		}
 		m_fLeftAmmoUIPlayScene.m_fui.m_ppcontent[i][LeftAmmoXSize - 1] = '\0';
 	}
+	
 
+	// Create Bullet Effect, Stone
 	UI::CreateBulletUI(&m_fBullet.m_fui, (int)(ConsoleRenderer::ScreenHeight() * 0.02), (int)(ConsoleRenderer::ScreenHeight() * 0.01), FG_WHITE);
+
+	for(int i = 0 ; i < MAX_STONE_SIZE; i++)
+		UI::CreateStoneUI(&m_fStone[i].m_fui, GetRandomInt((int)(ConsoleRenderer::ScreenHeight() * 0.05), (int)(ConsoleRenderer::ScreenHeight() * 0.15)), GetRandomInt((int)(ConsoleRenderer::ScreenHeight() * 0.03), (int)(ConsoleRenderer::ScreenHeight() * 0.09)), FG_WHITE);
 }
 
 void PlayScene::ShootingPlaySceneUpdate()
@@ -370,15 +387,54 @@ void PlayScene::ShootingPlaySceneUpdate()
 		m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
 	}
 
-	if (Time::GetTotalTime() - m_fBulletTimeLastPlayScene >= m_fBulletTimePlayScene)
+	/*if (Time::GetTotalTime() - m_fBulletTimeLastPlayScene >= m_fBulletTimePlayScene)
 	{
 		m_fBulletTimeLastPlayScene = Time::GetTotalTime();
-		m_pBulletHead = Object::DeleteAllNode(m_pBulletHead);
+		m_pBulletHead = Object::DeleteAllNodeBulletNode(m_pBulletHead);
 	}
 	else
 	{
-		Object::UpdateAllNodeAxis(m_pBulletHead, Time::GetElapsedTime());
+		
+	}*/
+
+	if(m_fEnemyCharacter.m_iHealth > 0)
+		m_pBulletHead = Object::UpdateAllNodeAxisBulletNode(m_pBulletHead, Time::GetElapsedTime());
+
+
+	if (Time::GetTotalTime() - m_fStoneTimeLastPlayScene >= m_fStoneTimePlayScene)
+	{
+		m_fStoneTimeLastPlayScene = Time::GetTotalTime();
+		//m_pStoneHead = Object::DeleteAllNode(m_pStoneHead);
+
+		Object::FActor Actor = Object::FActor(GetRandomInt(0, ConsoleRenderer::ScreenWidth() - 1), GetRandomInt(0, ConsoleRenderer::ScreenHeight()* 0.4), m_fStone[GetRandomInt(0, MAX_STONE_SIZE)]);
+		Actor.m_fSpawnTime = Time::GetTotalTime();
+		Actor.m_pOwnerCharacter = &m_fPlayerCharacter[m_icharacterIndex];
+		float xAxis = Actor.m_fAxis.X;
+		float yAxis = Actor.m_fAxis.Y;
+
+		float destX = (float)(ConsoleRenderer::ScreenWidth() / 2);
+		float destY = (float)(ConsoleRenderer::ScreenHeight() * 0.7f);
+
+		// 방향벡터 = 목적지 - 현재 위치
+		float dx = destX - xAxis;
+		float dy = destY - yAxis;
+
+		// 방향벡터 정규화
+		float magnitude = sqrtf(dx * dx + dy * dy);
+		COORD dirVector = {
+			(SHORT)(dx / magnitude * 100),  // 정수로 보관 시 스케일링 필요
+			(SHORT)(dy / magnitude * 100)
+		};
+
+		COORD DestinationVector = {
+			(SHORT)destX,
+			(SHORT)destY
+		};
+
+		m_pStoneHead = Object::AddStoneNode(m_pStoneHead, &Actor, dirVector, DestinationVector, GetRandomFloat(1.0f, m_fmaxStoneSpeed), FG_WHITE);
 	}
+	if (m_fEnemyCharacter.m_iHealth > 0)
+		m_pStoneHead = Object::UpdateAllNodeAxisStoneNode(m_pStoneHead, &m_fPlayerCharacter[m_icharacterIndex], Time::GetElapsedTime());
 
 	if (bCrossHairMove)
 	{
@@ -387,6 +443,7 @@ void PlayScene::ShootingPlaySceneUpdate()
 		else
 			Object::UpdateCrossHairDecreaseSize(&m_fCrossHair, Time::GetElapsedTime());
 	}
+
 }
 
 
@@ -407,7 +464,6 @@ void PlayScene::ShootingPlaySceneInput()
 			m_icharacterIndex = 1;
 			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
 		}
-
 	}
 	if (Input::IsKeyPressed(VK_3))
 	{
@@ -488,42 +544,64 @@ void PlayScene::ShootingPlaySceneInput()
 		{
 			m_fCrossHair.m_fAxis.Y += m_iCrossHairMoveYAmountPlayScene;
 		}
+		bCrossHairMove = true;
+		m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState =
+			bDidFire ? Object::EAnimationState::AIMFIRE : Object::EAnimationState::AIM;
+	}
+	else
+	{
+		bCrossHairMove = false;
+		m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState =
+			bDidFire ? Object::EAnimationState::AIMFIRE : Object::EAnimationState::COVER;
+	}
 
-		if (Input::IsKeyDown(VK_SPACE))
+	if (Input::IsKeyDown(VK_SPACE))
+	{
+		if (m_fPlayerCharacter[m_icharacterIndex].m_iAmmo > 0 &&
+			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire)
 		{
-			if (m_fPlayerCharacter[m_icharacterIndex].m_iAmmo <= 0) return;
-			if (!m_fPlayerCharacter[m_icharacterIndex].m_bCanFire) return;
 			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = false;
 			m_fPlayerCharacter[m_icharacterIndex].m_iAmmo--;
+			bDidFire = true;
 			bCrossHairMove = true;
-			m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState = Object::EAnimationState::AIMFIRE;
 
-			//Damage
-			if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
+			// 데미지 판정
+			if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X &&
+				m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
 				m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
 				m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
 			{
 				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter[m_icharacterIndex].m_iFireDamage;
-				// Effect Spawn
+
 				for (int i = 0; i < MAX_EFFECT_SIZE; i++)
 				{
-					//Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y);
 					Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y, m_fBullet);
-					float xAxis = Actor.m_fAxis.X + (rand() % m_fCrossHair.m_sXDistanceFromCenter * 2) - m_fCrossHair.m_sXDistanceFromCenter;
-					float yAxis = Actor.m_fAxis.Y + (rand() % m_fCrossHair.m_sYDistanceFromCenter * 2) - m_fCrossHair.m_sYDistanceFromCenter;
-					float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
-					COORD dirVector = { xAxis / Magnitude * 100, yAxis / Magnitude * 100 };
-					COORD DestinationVector = { m_fCrossHair.m_fAxis.X + dirVector.X * 1.5, m_fCrossHair.m_fAxis.Y + dirVector.Y * 1.5 };
-					m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, DestinationVector, m_fDefaultBulletSpeed);
+					Actor.m_fSpawnTime = Time::GetTotalTime();
+					Actor.m_pOwnerCharacter = &m_fPlayerCharacter[m_icharacterIndex];
+					float destX = Actor.m_fAxis.X + GetRandomFloat(-50, 50);
+					float destY = Actor.m_fAxis.Y + GetRandomFloat(-50, 50);
+					float dx = destX - Actor.m_fAxis.X;
+					float dy = destY - Actor.m_fAxis.Y;
+					float magnitude = sqrtf(dx * dx + dy * dy);
+
+					COORD dirVector = {
+						(SHORT)(dx / magnitude * 100),
+						(SHORT)(dy / magnitude * 100)
+					};
+
+					COORD DestinationVector = {
+						(SHORT)destX,
+						(SHORT)destY
+					};
+
+					m_pBulletHead = Object::AddBulletNode(m_pBulletHead, &Actor, dirVector, DestinationVector, GetRandomFloat(10.0f, m_fmaxBulletSpeed), FG_WHITE);
 				}
-				
 			}
 		}
-		else
-		{
-			bCrossHairMove = false;
-			m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState = Object::EAnimationState::AIM;
-		}
+	}
+	else
+	{
+		bCrossHairMove = false;
 	}
 
 	if (!Input::IsKeyDown(VK_RIGHT) && !Input::IsKeyDown(VK_LEFT) && !Input::IsKeyDown(VK_UP) && !Input::IsKeyDown(VK_DOWN) && !Input::IsKeyDown(VK_SPACE))
@@ -544,40 +622,7 @@ void PlayScene::ShootingPlaySceneInput()
 		m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState = Object::EAnimationState::COVER;
 	}
 
-	if (Input::IsKeyDown(VK_SPACE))
-	{
-		if (m_fPlayerCharacter[m_icharacterIndex].m_iAmmo <= 0) return;
-		if (!m_fPlayerCharacter[m_icharacterIndex].m_bCanFire) return;
-		m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = false;
-		m_fPlayerCharacter[m_icharacterIndex].m_iAmmo--;
-
-		bCrossHairMove = true;
-		m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState = Object::EAnimationState::AIMFIRE;
-
-		// Damage
-		if (m_fCrossHair.m_fAxis.X > m_fEnemyCharacter.m_fAxis.X && m_fCrossHair.m_fAxis.Y > m_fEnemyCharacter.m_fAxis.Y &&
-			m_fCrossHair.m_fAxis.X < m_fEnemyCharacter.m_fAxis.X + strlen(m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ppcontent[0]) &&
-			m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
-		{
-			m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter[m_icharacterIndex].m_iFireDamage;
-			// Effect Spawn
-			for (int i = 0; i < MAX_EFFECT_SIZE; i++)
-			{
- 				Object::FActor Actor = Object::FActor(m_fCrossHair.m_fAxis.X, m_fCrossHair.m_fAxis.Y);
-				//Object::FActor Actor = Object::FActor( ConsoleRenderer::ScreenWidth() / 2, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, m_fBullet);
-				float xAxis = Actor.m_fAxis.X + (rand() % m_fCrossHair.m_sXDistanceFromCenter * 2) - m_fCrossHair.m_sXDistanceFromCenter;
-				float yAxis = Actor.m_fAxis.Y + (rand() % m_fCrossHair.m_sYDistanceFromCenter * 2) - m_fCrossHair.m_sYDistanceFromCenter;
-				float Magnitude = sqrt(powf(xAxis, 2) + powf(yAxis, 2));
-				COORD dirVector = { xAxis / Magnitude * 10, yAxis / Magnitude * 10 };
-				COORD DestinationVector = { m_fCrossHair.m_fAxis.X + dirVector.X * 1.5, m_fCrossHair.m_fAxis.Y + dirVector.Y * 1.5 };
-				m_pBulletHead = Object::Add(m_pBulletHead, Actor, dirVector, DestinationVector, m_fDefaultBulletSpeed);
-			}
-		}
-	}
-	else
-	{
-		bCrossHairMove = false;
-	}
+	
 }
 
 void PlayScene::ShootingPlaySceneRender()
@@ -592,6 +637,19 @@ void PlayScene::ShootingPlaySceneRender()
 	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter[m_icharacterIndex].m_iAmmo, m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
 	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
 	Object::RenderCrossHair(&m_fCrossHair);
+	
+	Object::RenderAllBulletNodeBulletNode(m_pBulletHead);
+	Object::RenderAllStoneNodeStoneNode(m_pStoneHead);
+}
 
-	Object::RenderAllBulletNode(m_pBulletHead, m_fLeftAmmoUIPlayScene.m_iColor);
+
+int PlayScene::GetRandomInt(int min, int max)
+{
+	return min + rand() % (max - min + 1);
+}
+
+// float 범위 랜덤값 반환: [min, max)
+float PlayScene::GetRandomFloat(float min, float max)
+{
+	return min + ((float)rand() / (float)RAND_MAX) * (max - min);
 }

@@ -1,6 +1,7 @@
 #include "Object.h"
 #include "FileController.h"
 #include "ConsoleRenderer.h"
+#include <corecrt_math.h>
 
 namespace Object
 {
@@ -121,35 +122,36 @@ namespace Object
 		UI::Release(&actor->m_fui);
 	}
 
-	Node* Add(Node* Root, FActor data, COORD dirVector, COORD DestinationVector, float speed) // data를 가지는 Node를 생성해서 붙이기
+	BulletNode* AddBulletNode(BulletNode* Root, FActor* data, COORD dirVector, COORD DestinationVector, float speed, int color) // data를 가지는 Node를 생성해서 붙이기
 	{
-		Node* pAlloc = (Node*)malloc(sizeof(Node));
+		BulletNode* pAlloc = (BulletNode*)malloc(sizeof(BulletNode));
 		if (pAlloc)
 		{
-			pAlloc->data = data;
+			pAlloc->data = *data;
 			pAlloc->next = Root; //0
 			pAlloc->DirVector = dirVector;
 			pAlloc->DestinationVector = DestinationVector;
 			pAlloc->Speed = speed;
+			pAlloc->data.m_iColor = color;
 			Root = pAlloc;
 		}
 
 		return Root;
 	}
 
-	Node* Delete(Node* curNode)
+	BulletNode* DeleteBulletNode(BulletNode* curNode)
 	{
-		Node* Target = curNode;
+		BulletNode* Target = curNode;
 		curNode = curNode->next;
 
 		free(Target);
 		return curNode;
 	}
 
-	Node* DeleteAllNode(Node* Root)
+	BulletNode* DeleteAllNodeBulletNode(BulletNode* Root)
 	{
-		Node* cur = Root;
-		Node* prev = cur;
+		BulletNode* cur = Root;
+		BulletNode* prev = cur;
 		while (cur != NULL)
 		{
 			prev = cur;
@@ -159,49 +161,202 @@ namespace Object
 		return cur;
 	}
 
-	void TravelNode(Node* Root)
+	void TravelNodeBulletNode(BulletNode* Root)
 	{
 		if (Root == NULL)
 			return;
 
-		Node* cur = Root;
+		BulletNode* cur = Root;
 
 		while (cur != NULL)
 			cur = cur->next;
 	}
 
-	void RenderAllBulletNode(Node* Root, int Color)
+	void RenderAllBulletNodeBulletNode(BulletNode* Root)
 	{
 		if (Root == NULL)
 			return;
 
-		Node* cur = Root;
+		BulletNode* cur = Root;
 
 		while (cur != NULL)
 		{
-			ConsoleRenderer::ScreenDrawFileStrings((int)cur->data.m_fAxis.X, (int)cur->data.m_fAxis.Y, cur->data.m_fui.m_ppcontent, (int)cur->data.m_fui.m_ippcontentSize, BG_RED);
+			ConsoleRenderer::ScreenDrawFileStrings((int)cur->data.m_fAxis.X, (int)cur->data.m_fAxis.Y, cur->data.m_fui.m_ppcontent, (int)cur->data.m_fui.m_ippcontentSize, cur->data.m_iColor);
 			cur = cur->next;
 		}
 	}
 
-	void UpdateAllNodeAxis(Node* Root, float deltatime)
+	BulletNode* UpdateAllNodeAxisBulletNode(BulletNode* Root, float deltatime)
+	{
+		if (Root == NULL)
+			return NULL;
+
+		BulletNode* cur = Root;
+		BulletNode* prev = NULL;
+		float now = Time::GetTotalTime();
+
+		while (cur != NULL)
+		{
+			float spawnTime = cur->data.m_fSpawnTime;
+			float fireDelay = 1.0f;
+			if (cur->data.m_pOwnerCharacter != NULL)
+				fireDelay = cur->data.m_pOwnerCharacter->m_iFireDelayTime;
+
+			float maxLife = 1.0f + (fireDelay); // 1~2초 사이
+
+			if (now - spawnTime > maxLife)
+			{
+				if (prev == NULL)
+				{
+					BulletNode* temp = cur;
+					cur = cur->next;
+					free(temp);
+					Root = cur;
+				}
+				else
+				{
+					prev->next = cur->next;
+					free(cur);
+					cur = prev->next;
+				}
+			}
+			else
+			{
+				cur->data.m_fAxis.X += (SHORT)(cur->DirVector.X * deltatime);
+				cur->data.m_fAxis.Y += (SHORT)(cur->DirVector.Y * deltatime);
+				prev = cur;
+				cur = cur->next;
+			}
+		}
+
+		return Root;
+	}
+
+
+	StoneNode* AddStoneNode(StoneNode* Root, FActor* data, COORD dirVector, COORD DestinationVector, float speed, int color) // data를 가지는 Node를 생성해서 붙이기
+	{
+		StoneNode* pAlloc = (StoneNode*)malloc(sizeof(StoneNode));
+		if (pAlloc)
+		{
+			pAlloc->data = *data;
+			pAlloc->next = Root;
+			pAlloc->DirVector = dirVector;
+			pAlloc->DestinationVector = DestinationVector;
+			pAlloc->Speed = speed;
+			pAlloc->data.m_iColor = color;
+			Root = pAlloc;
+		}
+
+		return Root;
+	}
+
+	StoneNode* DeleteStoneNode(StoneNode* curNode)
+	{
+		StoneNode* Target = curNode;
+		curNode = curNode->next;
+
+		free(Target);
+		return curNode;
+	}
+
+	StoneNode* DeleteAllNodeStoneNode(StoneNode* Root)
+	{
+		StoneNode* cur = Root;
+		StoneNode* prev = cur;
+		while (cur != NULL)
+		{
+			prev = cur;
+			cur = cur->next;
+			free(prev);
+		}
+		return NULL;
+	}
+
+	void TravelNodeStoneNode(StoneNode* Root)
 	{
 		if (Root == NULL)
 			return;
 
-		Node* cur = Root;
+		StoneNode* cur = Root;
+
+		while (cur != NULL)
+			cur = cur->next;
+	}
+
+	void RenderAllStoneNodeStoneNode(StoneNode* Root)
+	{
+		if (Root == NULL)
+			return;
+
+		StoneNode* cur = Root;
 
 		while (cur != NULL)
 		{
+			if(cur->data.m_fui.m_ppcontent != NULL)
+				ConsoleRenderer::ScreenDrawFileStrings((int)cur->data.m_fAxis.X, (int)cur->data.m_fAxis.Y, cur->data.m_fui.m_ppcontent, (int)cur->data.m_fui.m_ippcontentSize, cur->data.m_iColor);
+			cur = cur->next;
+		}
+	}
+
+	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, float deltatime)
+	{
+		if (Root == NULL)
+			return NULL;
+
+		StoneNode* cur = Root;
+		StoneNode* prev = NULL;
+
+		// 플레이어 중앙 위치 계산
+		float playerCenterX = ch->m_fAxis.X +
+			strlen(ch->m_fanimation[ch->m_eAnimationState]
+				.m_fui[ch->m_iPlaybackCurrentSeconds].m_ppcontent[0]) / 2.0f;
+
+		float playerCenterY = ch->m_fAxis.Y +
+			ch->m_fanimation[ch->m_eAnimationState]
+			.m_fui[ch->m_iPlaybackCurrentSeconds].m_ippcontentSize / 2.0f;
+
+		const float hitRange = ConsoleRenderer::ScreenHeight() * 0.7f; // 적당한 충돌 범위
+
+		while (cur != NULL)
+		{
+			// 좌표 업데이트
 			cur->data.m_fAxis.X += (SHORT)(cur->DirVector.X * deltatime);
 			cur->data.m_fAxis.Y += (SHORT)(cur->DirVector.Y * deltatime);
-			/*if (cur->data.m_fAxis.X < cur->DestinationVector.X || cur->data.m_fAxis.X > ConsoleRenderer::ScreenWidth() || cur->data.m_fAxis.Y < 0 || cur->data.m_fAxis.Y > ConsoleRenderer::ScreenHeight())
+
+			// 거리 계산
+			float dx = cur->data.m_fAxis.X - playerCenterX;
+			float dy = cur->data.m_fAxis.Y - playerCenterY;
+			float distance = sqrtf(dx * dx + dy * dy);
+
+			if (cur->data.m_fAxis.Y >= hitRange)
 			{
-				cur = Delete(cur);
-				if (cur == NULL) break;
-			}*/
-			cur = cur->next;
+				// 충돌했으면 체력 감소
+				ch->m_iHealth -= 4; // 적당한 피해량
+
+				// 노드 제거
+				if (prev == NULL)
+				{
+					StoneNode* temp = cur;
+					cur = cur->next;
+					free(temp);
+					Root = cur;
+				}
+				else
+				{
+					prev->next = cur->next;
+					free(cur);
+					cur = prev->next;
+				}
+			}
+			else
+			{
+				// 다음 노드로
+				prev = cur;
+				cur = cur->next;
+			}
 		}
+
+		return Root;
 	}
 
 

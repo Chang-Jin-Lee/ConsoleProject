@@ -108,11 +108,63 @@ namespace UI
 		ui->m_ippcontentSize = SpeechSlateYSize;
 		ui->m_iUIColor = color;
 
+		/*for (int i = 0; i < SpeechSlateYSize; i++)
+		{
+			memset(ui->m_ppcontent[i], (char)L'⬛', SpeechSlateXSize);
+			ui->m_ppcontent[i][SpeechSlateXSize] = NULL;
+		}*/
+
+		// 실제 내용 채우기 (둥글게)
 		for (int i = 0; i < SpeechSlateYSize; i++)
 		{
 			for (int j = 0; j < SpeechSlateXSize; j++)
 			{
-				ui->m_ppcontent[i][j] = (char)L'⬛';
+				// 가장자리에서 떨어진 정도
+				bool isCorner =
+					(i == 0 && (j < 2 || j >= SpeechSlateXSize - 2)) || // 윗 모서리
+					(i == SpeechSlateYSize - 1 && (j < 2 || j >= SpeechSlateXSize - 2)) || // 아랫 모서리
+					(j == 0 && (i < 2 || i >= SpeechSlateYSize - 2)) || // 왼쪽 모서리
+					(j == SpeechSlateXSize - 1 && (i < 2 || i >= SpeechSlateYSize - 2)); // 오른쪽 모서리
+
+				if (!isCorner)
+				{
+					ui->m_ppcontent[i][j] = (char)L'⬛'; // 꽉 채우기
+				}
+			}
+		}
+	}
+
+	void CreateStoneUI(UI::FUI* ui, int width, int height, int color)
+	{
+		int SpeechSlateYSize = height;
+		int SpeechSlateXSize = width;
+		ui->m_ppcontent = (char**)malloc(sizeof(char*) * (SpeechSlateYSize + 1));
+
+		for (int i = 0; i < SpeechSlateYSize; i++)
+		{
+			ui->m_ppcontent[i] = (char*)malloc(sizeof(char) * (SpeechSlateXSize + 1));
+			memset(ui->m_ppcontent[i], ' ', SpeechSlateXSize); // 기본값: 공백
+			ui->m_ppcontent[i][SpeechSlateXSize] = '\0'; // 널 종료
+		}
+		ui->m_ippcontentSize = SpeechSlateYSize;
+		ui->m_iUIColor = color;
+
+		// 실제 내용 채우기 (둥글게)
+		for (int i = 0; i < SpeechSlateYSize; i++)
+		{
+			for (int j = 0; j < SpeechSlateXSize; j++)
+			{
+				// 가장자리에서 떨어진 정도
+				bool isCorner =
+					(i == 0 && (j < 2 || j >= SpeechSlateXSize - 2)) || // 윗 모서리
+					(i == SpeechSlateYSize - 1 && (j < 2 || j >= SpeechSlateXSize - 2)) || // 아랫 모서리
+					(j == 0 && (i < 2 || i >= SpeechSlateYSize - 2)) || // 왼쪽 모서리
+					(j == SpeechSlateXSize - 1 && (i < 2 || i >= SpeechSlateYSize - 2)); // 오른쪽 모서리
+
+				if (!isCorner)
+				{
+					ui->m_ppcontent[i][j] = (char)L'⬛'; // 꽉 채우기
+				}
 			}
 		}
 	}

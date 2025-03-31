@@ -112,6 +112,8 @@ namespace Object
 	{
 		COORD m_fAxis;
 		UI::FUI m_fui;
+		float m_fSpawnTime;
+		FPlayerCharacter* m_pOwnerCharacter;
 		int m_iColor;
 
 		FActor()
@@ -119,6 +121,7 @@ namespace Object
 			m_fAxis.X = 0;
 			m_fAxis.Y = 0;
 			m_iColor = FG_WHITE;
+			m_pOwnerCharacter = NULL;
 		}
 
 		FActor(int x, int y)
@@ -126,6 +129,7 @@ namespace Object
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
 			m_iColor = FG_WHITE;
+			m_pOwnerCharacter = NULL;
 		}
 
 		FActor(int x, int y, char* content)
@@ -133,6 +137,7 @@ namespace Object
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
 			m_iColor = FG_WHITE;
+			m_pOwnerCharacter = NULL;
 		}
 
 		FActor(int x, int y, const FActor& actor)
@@ -141,6 +146,7 @@ namespace Object
 			m_fAxis.Y = y;
 			m_fui = actor.m_fui;
 			m_iColor = FG_WHITE;
+			m_pOwnerCharacter = NULL;
 		}
 
 		FActor(const FActor& actor)
@@ -149,6 +155,7 @@ namespace Object
 			m_fAxis.Y = actor.m_fAxis.Y;
 			m_fui = actor.m_fui;
 			m_iColor = FG_WHITE;
+			m_pOwnerCharacter = NULL;
 		}
 	} FActor;
 
@@ -221,21 +228,38 @@ namespace Object
 		}
 	} FLeftAmmoUI;
 
-	typedef struct Node
+	typedef struct BulletNode
 	{
 		FActor data;
 		COORD DirVector;
 		COORD DestinationVector;
 		float Speed;
-		struct Node* next;
-	} Node;
+		struct BulletNode* next;
+	} BulletNode;
 
-	Node* Add(Node* Root, FActor data, COORD dirVector, COORD DestinationVector, float speed); // data를 가지는 Node를 생성해서 붙이기
-	Node* Delete(Node* curNode);
-	Node* DeleteAllNode(Node* Root);
-	void TravelNode(Node* Root);
-	void RenderAllBulletNode(Node* Root, int Color);
-	void UpdateAllNodeAxis(Node* Root, float deltatime);
+	typedef struct StoneNode
+	{
+		FActor data;
+		COORD DirVector;
+		COORD DestinationVector;
+		float Speed;
+		struct StoneNode* next;
+	} StoneNode;
+
+	BulletNode* AddBulletNode(BulletNode* Root, FActor* data, COORD dirVector, COORD DestinationVector, float speed, int color); // data를 가지는 Node를 생성해서 붙이기
+	BulletNode* DeleteBulletNode(BulletNode* curNode);
+	BulletNode* DeleteAllNodeBulletNode(BulletNode* Root);
+	void TravelNodeBulletNode(BulletNode* Root);
+	void RenderAllBulletNodeBulletNode(BulletNode* Root);
+	BulletNode* UpdateAllNodeAxisBulletNode(BulletNode* Root, float deltatime);
+
+	StoneNode* AddStoneNode(StoneNode* Root, FActor* data, COORD dirVector, COORD DestinationVector, float speed, int color); // data를 가지는 Node를 생성해서 붙이기
+	StoneNode* DeleteStoneNode(StoneNode* curNode);
+	StoneNode* DeleteAllNodeStoneNode(StoneNode* Root);
+	void TravelNodeStoneNode(StoneNode* Root);
+	void RenderAllStoneNodeStoneNode(StoneNode* Root);
+	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, float deltatime);
+
 	
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자
 	void SetPlayerAnimationNameFullBody(FPlayerCharacter* pc, char* fullbody_dile, char* fullbody_talk = NULL, char* fullbody_expression = NULL);
@@ -243,6 +267,8 @@ namespace Object
 	void LoadAnimationData(FPlayerCharacter* pc);
 	void LoadAnimationDataWithFrame(FPlayerCharacter* pc, float frameTickness);
 	void LoadBulletData(UI::FUI* ui);
+
+
 	void Release(FPlayerCharacter* pc);
 	void Release(FActor* actor);
 

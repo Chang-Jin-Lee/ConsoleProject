@@ -30,4 +30,7 @@ namespace PlayScene
 	void ShootingPlaySceneUpdate();
 	void ShootingPlaySceneInput();
 	void ShootingPlaySceneRender();
+
+	int GetRandomInt(int min, int max);
+	float GetRandomFloat(float min, float max);
 }
