@@ -250,8 +250,6 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fPlayerCharacter[ECharacterName::Anis].m_iFireDamage = 12;
 	m_fPlayerCharacter[ECharacterName::Anis].m_iFireDelayTime = 1;
 
-	CHAR_INFO
-
 	// Initialize Player - neon
 	m_fPlayerCharacter[ECharacterName::Neon].m_eAnimationState = Object::EAnimationState::COVER;
 	m_fPlayerCharacter[ECharacterName::Neon].m_bPlayable = true;
