@@ -3,11 +3,14 @@
 #include "Game.h"
 #include "UI.h"
 #include "Object.h"
+#include <fmod.hpp>
+
+#pragma comment(lib, "fmod_vc.lib")
 
 // Timer 관련
 float m_fcurrentTimePlayScene = 0;
 float m_fAnimationTimePlayScene = 1/60;
-float m_fMenuLastTimePlayScene = 0;
+float m_fPlayLastTimePlayScene = 0;
 float m_fcurrentFireDelayTimePlayScene = 0;
 
 float m_fBulletTimeLastPlayScene = 0;
@@ -65,12 +68,25 @@ int m_icrossHairOriginalXSize = 0;
 int m_icrossHairTargetYSize = 0;
 int m_icrossHairOriginalYSize = 0;
 
+// Sound
+FMOD::System* systemPlayScene = nullptr;
+FMOD::Sound* soundPlayScene = nullptr;
+FMOD::Channel* channelPlayScene = nullptr;
+
+FMOD::Sound* soundShotSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
+FMOD::Channel* channelShotSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
+
+FMOD::Sound* soundReloadSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
+FMOD::Channel* channelReloadSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
+
 void PlayScene::Initialize()	// 게임 시작할 때 초기화
 {
 	DescriptionPlaySceneInitialize();
 	ShootingPlaySceneInitialize();
 	OptionPlaySceneInitialize();
 	srand((unsigned int)time(NULL));
+	systemPlayScene->playSound(soundPlayScene, nullptr, false, &channelPlayScene);
+	channelPlayScene->setVolume(0.8f);  // 볼륨 조절
 }
 
 void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
@@ -78,6 +94,36 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 	DescriptionPlaySceneLoadData();
 	ShootingPlaySceneLoadData();
 	OptionPlaySceneLoadData();
+
+	// FMOD 시스템 초기화
+	if (FMOD::System_Create(&systemPlayScene) != FMOD_OK)
+	{
+		ConsoleRenderer::print((char*)"System_Create fail");
+	}
+	systemPlayScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	if (systemPlayScene->createSound("Music/bgm_PlayScene.mp3", FMOD_DEFAULT, nullptr, &soundPlayScene) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
+
+	if (systemPlayScene->createSound("Music/Rifle.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Rapi]) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	if (systemPlayScene->createSound("Music/Shotgun.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Anis]) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	if (systemPlayScene->createSound("Music/Machinegun.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Neon]) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
+
+	if (systemPlayScene->createSound("Music/RifleReload.mp3", FMOD_DEFAULT, nullptr, &soundReloadSFXPlayScene[ECharacterName::Rapi]) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	if (systemPlayScene->createSound("Music/ShotgunReload.mp3", FMOD_DEFAULT, nullptr, &soundReloadSFXPlayScene[ECharacterName::Anis]) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	if (systemPlayScene->createSound("Music/MachinegunReload.mp3", FMOD_DEFAULT, nullptr, &soundReloadSFXPlayScene[ECharacterName::Neon]) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
+	}
 }
 
 void PlayScene::ProcessInput()
@@ -113,6 +159,9 @@ void PlayScene::Release()
 	Object::Release(&m_fCrossHair.Bottom);
 	m_pStoneHead = Object::DeleteAllNodeStoneNode(m_pStoneHead);
 	m_pBulletHead = Object::DeleteAllNodeBulletNode(m_pBulletHead);
+	soundPlayScene->release();
+	systemPlayScene->close();
+	systemPlayScene->release();
 }
 
 void PlayScene::Update()
@@ -282,8 +331,8 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fEnemyCharacter.m_fAxis.Y = (SHORT)(-ConsoleRenderer::ScreenHeight() * 0.1);
 	Object::CreateAndAttachHealthBar(&m_fEnemyCharacter, COORD{ 0,SHORT(ConsoleRenderer::ScreenHeight() * 0.12) }, FG_RED);
 	m_fEnemyCharacter.m_iColor = FG_WHITE;
-	m_fEnemyCharacter.m_iHealth = 100;
-	m_fEnemyCharacter.m_iMaxHealth = 100;
+	m_fEnemyCharacter.m_iHealth = 400;
+	m_fEnemyCharacter.m_iMaxHealth = 400;
 	m_fEnemyCharacter.m_iAmmo = 30;
 	m_fEnemyCharacter.m_iMaxAmmo = 30;
 	m_fEnemyCharacter.m_iFireDamage = 10;
@@ -364,8 +413,31 @@ void PlayScene::ShootingPlaySceneUpdate()
 	{
 		Game::ChangeScene(ESceneState::END);
 	}
-	m_fMenuLastTimePlayScene = Time::GetTotalTime() - m_fcurrentTimePlayScene;
-	if (m_fMenuLastTimePlayScene >= m_fAnimationTimePlayScene)
+	else
+	{
+		if (m_fPlayerCharacter[m_icharacterIndex].m_iHealth <= 0)
+		{
+			SHORT bChangableIdx = -1;
+			for (int i = 0; i < MAX_CHARACTER_SIZE; i++)
+			{
+				if (m_fPlayerCharacter[i].m_iHealth > 0)
+				{
+					bChangableIdx = i;
+					break;
+				}
+			}
+			if (bChangableIdx == -1)
+			{
+				Game::ChangeScene(ESceneState::GAMEOVER);
+			}
+			else
+			{
+				m_icharacterIndex = bChangableIdx;
+			}
+		}
+	}
+	m_fPlayLastTimePlayScene = Time::GetTotalTime() - m_fcurrentTimePlayScene;
+	if (m_fPlayLastTimePlayScene >= m_fAnimationTimePlayScene)
 	{
 		m_fcurrentTimePlayScene = Time::GetTotalTime();
 
@@ -434,7 +506,7 @@ void PlayScene::ShootingPlaySceneUpdate()
 		m_pStoneHead = Object::AddStoneNode(m_pStoneHead, &Actor, dirVector, DestinationVector, GetRandomFloat(1.0f, m_fmaxStoneSpeed), FG_WHITE);
 	}
 	if (m_fEnemyCharacter.m_iHealth > 0)
-		m_pStoneHead = Object::UpdateAllNodeAxisStoneNode(m_pStoneHead, &m_fPlayerCharacter[m_icharacterIndex], Time::GetElapsedTime());
+		m_pStoneHead = Object::UpdateAllNodeAxisStoneNode(m_pStoneHead, &m_fPlayerCharacter[m_icharacterIndex], &m_fEnemyCharacter, Time::GetElapsedTime());
 
 	if (bCrossHairMove)
 	{
@@ -451,7 +523,7 @@ void PlayScene::ShootingPlaySceneInput()
 {
 	if (Input::IsKeyPressed(VK_1))
 	{
-		if (!bIsReloading)
+		if (!bIsReloading && m_fPlayerCharacter[m_icharacterIndex].m_iHealth > 0)
 		{
 			m_icharacterIndex = 0;
 			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
@@ -459,7 +531,7 @@ void PlayScene::ShootingPlaySceneInput()
 	}
 	if (Input::IsKeyPressed(VK_2))
 	{
-		if (!bIsReloading)
+		if (!bIsReloading && m_fPlayerCharacter[m_icharacterIndex].m_iHealth > 0)
 		{
 			m_icharacterIndex = 1;
 			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
@@ -467,7 +539,7 @@ void PlayScene::ShootingPlaySceneInput()
 	}
 	if (Input::IsKeyPressed(VK_3))
 	{
-		if (!bIsReloading)
+		if (!bIsReloading && m_fPlayerCharacter[m_icharacterIndex].m_iHealth > 0)
 		{
 			m_icharacterIndex = 2;
 			m_fPlayerCharacter[m_icharacterIndex].m_bCanFire = true;
@@ -516,6 +588,8 @@ void PlayScene::ShootingPlaySceneInput()
 		if (m_fPlayerCharacter[m_icharacterIndex].m_iAmmo <= m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo)
 			m_fPlayerCharacter[m_icharacterIndex].m_iAmmo = m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo;
 		m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState = Object::EAnimationState::RELOAD;
+		channelReloadSFXPlayScene[m_icharacterIndex]->stop();
+		systemPlayScene->playSound(soundReloadSFXPlayScene[m_icharacterIndex], nullptr, false, &channelReloadSFXPlayScene[m_icharacterIndex]);
 		bIsReloading = true;
 	}
 
@@ -572,6 +646,9 @@ void PlayScene::ShootingPlaySceneInput()
 				m_fCrossHair.m_fAxis.Y < m_fEnemyCharacter.m_fAxis.Y + m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds].m_ippcontentSize)
 			{
 				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter[m_icharacterIndex].m_iFireDamage;
+
+				channelShotSFXPlayScene[m_icharacterIndex]->stop();
+				systemPlayScene->playSound(soundShotSFXPlayScene[m_icharacterIndex], nullptr, false, &channelShotSFXPlayScene[m_icharacterIndex]);
 
 				for (int i = 0; i < MAX_EFFECT_SIZE; i++)
 				{

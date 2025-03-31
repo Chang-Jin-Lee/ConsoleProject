@@ -6,6 +6,7 @@
 #include <conio.h>
 #include "Game.h"
 #include "AnimationScene.h"
+#include "GameOverScene.h"
 
 ESceneState g_eSceneCurrentState = MENU;
 ESceneState g_eSceneNextState = MENU;
@@ -46,6 +47,9 @@ void Game::Initialize()	// 게임 시작할 때 초기화
 	case END:
 		EndScene::Initialize();
 		break;
+	case GAMEOVER:
+		GameOverScene::Initialize();
+		break;
 	default:
 		break;
 	}
@@ -68,6 +72,9 @@ void Game::LoadData()
 	case END:
 		EndScene::LoadData();
 		break;
+	case GAMEOVER:
+		GameOverScene::LoadData();
+		break;
 	default:
 		break;
 	}
@@ -89,6 +96,9 @@ void Game::Update()
 		break;
 	case END:
 		EndScene::Update();
+		break;
+	case GAMEOVER:
+		GameOverScene::Update();
 		break;
 	default:
 		break;
@@ -113,6 +123,9 @@ void Game::Render()
 	case END:
 		EndScene::Render();
 		break;
+	case GAMEOVER:
+		GameOverScene::Render();
+		break;
 	default:
 		break;
 	}
@@ -135,6 +148,9 @@ void Game::Release()
 		break;
 	case END:
 		EndScene::Release();
+		break;
+	case GAMEOVER:
+		GameOverScene::Release();
 		break;
 	default:
 		break;

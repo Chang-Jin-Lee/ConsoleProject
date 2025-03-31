@@ -258,7 +258,7 @@ namespace Object
 	StoneNode* DeleteAllNodeStoneNode(StoneNode* Root);
 	void TravelNodeStoneNode(StoneNode* Root);
 	void RenderAllStoneNodeStoneNode(StoneNode* Root);
-	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, float deltatime);
+	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, FPlayerCharacter* enemy, float deltatime);
 
 	
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자

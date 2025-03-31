@@ -149,6 +149,12 @@ namespace UI
 		ui->m_ippcontentSize = SpeechSlateYSize;
 		ui->m_iUIColor = color;
 
+		const char symbols[] =
+			"@!#%$^&*()_+=-~`<>?/\\|{}[]:;\"',.1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz█▓▒■◆●◼◾▪★☆※♠♣♥♦∞ΩΣ∆¶£¢¥¤⊙◎◉↺⇔⌛⌚☠☢☣⛔";
+		// 총 문자 수
+		const int numSymbols = sizeof(symbols) - 1; // '\0' 제외
+
 		// 실제 내용 채우기 (둥글게)
 		for (int i = 0; i < SpeechSlateYSize; i++)
 		{
@@ -163,7 +169,11 @@ namespace UI
 
 				if (!isCorner)
 				{
-					ui->m_ppcontent[i][j] = (char)L'⬛'; // 꽉 채우기
+					ui->m_ppcontent[i][j] = symbols[rand() % numSymbols];
+				}
+				else
+				{
+					ui->m_ppcontent[i][j] = ' '; // 모서리는 공백 처리
 				}
 			}
 		}

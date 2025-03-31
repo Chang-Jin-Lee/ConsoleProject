@@ -2,6 +2,9 @@
 #include "Input.h"
 #include "Game.h"
 #include "UI.h"
+#include <fmod.hpp>
+
+#pragma comment(lib, "fmod_vc.lib")
 
 // Time 관련
 float m_fcurrentTime = 0;
@@ -25,6 +28,11 @@ UI::FUI m_fExitButton;
 
 Object::FPlayerCharacter m_fIntroVideo;
 
+// Sound
+FMOD::System* systemMenuScene = nullptr;
+FMOD::Sound* soundMenuScene = nullptr;
+FMOD::Channel* channelMenuScene = nullptr;
+
 void MenuScene::Initialize()	// 게임 시작할 때 초기화
 {
 	Object::SetPlayerAnimationName(&m_fIntroVideo, (char*)"RapiLobby");
@@ -39,8 +47,10 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	m_fMenuLastTime = Time::GetTotalTime();
 	m_finitialOneSecond = Time::GetTotalTime();
 	m_fcountOneSecond = Time::GetTotalTime();
-}
 
+
+	systemMenuScene->playSound(soundMenuScene, nullptr, false, &channelMenuScene);
+}
 void MenuScene::LoadData()
 {
 	//Images/CityForest01/CityForest_01.txt
@@ -52,6 +62,16 @@ void MenuScene::LoadData()
 	{
 		m_fTitleFile.m_fAxis.X = 0;
 		m_fTitleFile.m_fAxis.Y = 0;
+	}
+
+	// FMOD 시스템 초기화
+	if (FMOD::System_Create(&systemMenuScene) != FMOD_OK)
+	{
+		ConsoleRenderer::print((char*)"System_Create fail");
+	}
+	systemMenuScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	if (systemMenuScene->createSound("Music/bgm_MenuScene.mp3", FMOD_DEFAULT, nullptr, &soundMenuScene) != FMOD_OK) {
+		ConsoleRenderer::print((char*)"createSound fail");
 	}
 }
 
@@ -86,6 +106,10 @@ void MenuScene::Release()
 {
 	UI::Release(&m_fTitleFile);
 	Object::Release(&m_fIntroVideo);
+	// 정리
+	soundMenuScene->release();
+	systemMenuScene->close();
+	systemMenuScene->release();
 }
 
 void MenuScene::Update()

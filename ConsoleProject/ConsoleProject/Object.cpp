@@ -298,7 +298,7 @@ namespace Object
 		}
 	}
 
-	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, float deltatime)
+	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, FPlayerCharacter* enemy, float deltatime)
 	{
 		if (Root == NULL)
 			return NULL;
@@ -331,7 +331,7 @@ namespace Object
 			if (cur->data.m_fAxis.Y >= hitRange)
 			{
 				// 충돌했으면 체력 감소
-				ch->m_iHealth -= 4; // 적당한 피해량
+				ch->m_iHealth -= enemy->m_iFireDamage; // 적당한 피해량
 
 				// 노드 제거
 				if (prev == NULL)
