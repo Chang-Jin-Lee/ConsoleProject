@@ -66,8 +66,8 @@ namespace Object
 
 			for (int videoClip = 0; videoClip < pc->m_fanimation[animState].m_iMaxLength; videoClip++)
 			{
-				int SpeechSlateYSize = pc->m_fanimation[animState].m_fui[videoClip].m_ippcontentSize;
-				int SpeechSlateXSize = strlen(pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[0]);
+				int SpeechSlateYSize = (int)(pc->m_fanimation[animState].m_fui[videoClip].m_ippcontentSize);
+				int SpeechSlateXSize = (int)(strlen(pc->m_fanimation[animState].m_fui[videoClip].m_ppcontent[0]));
 
 				for (int i = 0; i < SpeechSlateYSize * frameTickness; i++)
 				{
@@ -200,7 +200,7 @@ namespace Object
 			float spawnTime = cur->data.m_fSpawnTime;
 			float fireDelay = 1.0f;
 			if (cur->data.m_pOwnerCharacter != NULL)
-				fireDelay = cur->data.m_pOwnerCharacter->m_iFireDelayTime;
+				fireDelay = (float)(cur->data.m_pOwnerCharacter->m_iFireDelayTime);
 
 			float maxLife = 1.0f + (fireDelay); // 1~2초 사이
 

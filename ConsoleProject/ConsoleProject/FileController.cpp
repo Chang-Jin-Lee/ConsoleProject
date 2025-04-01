@@ -126,9 +126,13 @@ namespace FileController
 
 			if (ptrs)
 			{
-				dialog[m_ioutBufferIndex].InSize = atoi(ptrs[0]);
-				dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[1];
-				dialog[m_ioutBufferIndex].Speaker.m_ipcontentSize = strlen(ptrs[1]);
+				if(ptrs[0])
+					dialog[m_ioutBufferIndex].InSize = atoi(ptrs[0]);
+				if (ptrs[1])
+				{
+					dialog[m_ioutBufferIndex].Speaker.m_pcontent = ptrs[1];
+					dialog[m_ioutBufferIndex].Speaker.m_ipcontentSize = strlen(ptrs[1]);
+				}
 				dialog[m_ioutBufferIndex].Dialog.m_pcontent = ptrs[2];
 				dialog[m_ioutBufferIndex].Dialog.m_ipcontentSize = strlen(ptrs[2]);
 				dialog[m_ioutBufferIndex].Type.m_pcontent = ptrs[3];
@@ -238,8 +242,8 @@ namespace FileController
 		for (int i = 0; i < outBufferIndex; i++)
 		{
 			// Speaker 초기화
-			dialog[i].m_fspeaker.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.1;
-			dialog[i].m_fspeaker.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.15;
+			dialog[i].m_fspeaker.m_fAxis.X = (SHORT)(speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.1);
+			dialog[i].m_fspeaker.m_fAxis.Y = (SHORT)(speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.15);
 			dialog[i].m_fspeaker.m_iUIColor = FG_WHITE;
 
 			char filename[50];
@@ -260,8 +264,8 @@ namespace FileController
 			}
 
 			// Dialogue 초기화
-			dialog[i].m_fDialogue.m_fAxis.X = speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.15;
-			dialog[i].m_fDialogue.m_fAxis.Y = speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.4;
+			dialog[i].m_fDialogue.m_fAxis.X = (SHORT)(speechBubble->m_fAxis.X + strlen(speechBubble->m_ppcontent[0]) * 0.15);
+			dialog[i].m_fDialogue.m_fAxis.Y = (SHORT)(speechBubble->m_fAxis.Y + speechBubble->m_ippcontentSize * 0.4);
 			dialog[i].m_fDialogue.m_iUIColor = FG_WHITE;
 
 			sprintf_s(filename, sizeof(filename), "Images/text/%s/text_%04d_12.txt", FileName, i + 1);	// font 사이즈를 변경하려면 여기 파일 이름을 변경하기
@@ -344,7 +348,7 @@ namespace FileController
 
 	int FileReadAnimation(const char* VideoName, const int& animationState, Object::FPlayerCharacter* pc)
 	{
-		int dFileRead = true;
+		bool dFileRead = true;
 		for (int i = 0; i < MAX_VIDEO_SIZE; i++)
 		{
 			char filename[100];

@@ -35,10 +35,10 @@ EPlaySceneState m_eplaySceneState = DESCRIPTION;
 UI::FBUBBLEUI m_fDescriptionUIPlayScene[MAX_DESCRIPTION_SIZE_PLAY_SCENE];	// height를 18로 맞추자.
 
 /////// SHOOTING ///////
-#define MAX_CHARACTER_SIZE 3
+#define MAX_CHARACTER_SIZE_PLAY_SCENE 3
 #define MAX_EFFECT_SIZE 10
 bool bIsReloading = false;
-Object::FPlayerCharacter m_fPlayerCharacter[MAX_CHARACTER_SIZE];
+Object::FPlayerCharacter m_fPlayerCharacter[MAX_CHARACTER_SIZE_PLAY_SCENE];
 int m_icharacterIndex = 0;
 Object::FPlayerCharacter m_fEnemyCharacter;
 Object::FLeftAmmoUI m_fLeftAmmoUIPlayScene;
@@ -73,11 +73,11 @@ FMOD::System* systemPlayScene = nullptr;
 FMOD::Sound* soundPlayScene = nullptr;
 FMOD::Channel* channelPlayScene = nullptr;
 
-FMOD::Sound* soundShotSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
-FMOD::Channel* channelShotSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
+FMOD::Sound* soundShotSFXPlayScene[MAX_CHARACTER_SIZE_PLAY_SCENE] = { nullptr, };
+FMOD::Channel* channelShotSFXPlayScene[MAX_CHARACTER_SIZE_PLAY_SCENE] = { nullptr, };
 
-FMOD::Sound* soundReloadSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
-FMOD::Channel* channelReloadSFXPlayScene[MAX_CHARACTER_SIZE] = { nullptr, };
+FMOD::Sound* soundReloadSFXPlayScene[MAX_CHARACTER_SIZE_PLAY_SCENE] = { nullptr, };
+FMOD::Channel* channelReloadSFXPlayScene[MAX_CHARACTER_SIZE_PLAY_SCENE] = { nullptr, };
 
 void PlayScene::Initialize()	// 게임 시작할 때 초기화
 {
@@ -150,7 +150,7 @@ void PlayScene::ProcessInput()
 
 void PlayScene::Release()
 {
-	for(int i = 0 ; i < MAX_CHARACTER_SIZE; i++)
+	for(int i = 0 ; i < MAX_CHARACTER_SIZE_PLAY_SCENE; i++)
 		Object::Release(&m_fPlayerCharacter[i]);
 	Object::Release(&m_fEnemyCharacter);
 	Object::Release(&m_fCrossHair.Top);
@@ -294,7 +294,7 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fPlayerCharacter[ECharacterName::Rapi].m_iAmmo = 30;
 	m_fPlayerCharacter[ECharacterName::Rapi].m_iMaxAmmo = 30;
 	m_fPlayerCharacter[ECharacterName::Rapi].m_iFireDamage = 2;
-	m_fPlayerCharacter[ECharacterName::Rapi].m_iFireDelayTime = 0.1;
+	m_fPlayerCharacter[ECharacterName::Rapi].m_iFireDelayTime = 0.1f;
 
 	// Initialize Player - anis
 	m_fPlayerCharacter[ECharacterName::Anis].m_eAnimationState = Object::EAnimationState::COVER;
@@ -308,7 +308,7 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fPlayerCharacter[ECharacterName::Anis].m_iAmmo = 10;
 	m_fPlayerCharacter[ECharacterName::Anis].m_iMaxAmmo = 10;
 	m_fPlayerCharacter[ECharacterName::Anis].m_iFireDamage = 12;
-	m_fPlayerCharacter[ECharacterName::Anis].m_iFireDelayTime = 1;
+	m_fPlayerCharacter[ECharacterName::Anis].m_iFireDelayTime = 1.0f;
 
 	// Initialize Player - neon
 	m_fPlayerCharacter[ECharacterName::Neon].m_eAnimationState = Object::EAnimationState::COVER;
@@ -322,7 +322,7 @@ void PlayScene::ShootingPlaySceneInitialize()
 	m_fPlayerCharacter[ECharacterName::Neon].m_iAmmo = 150;
 	m_fPlayerCharacter[ECharacterName::Neon].m_iMaxAmmo = 150;
 	m_fPlayerCharacter[ECharacterName::Neon].m_iFireDamage = 1;
-	m_fPlayerCharacter[ECharacterName::Neon].m_iFireDelayTime = 0.03;
+	m_fPlayerCharacter[ECharacterName::Neon].m_iFireDelayTime = 0.03f;
 
 	// Initialize Enemy 
 	m_fEnemyCharacter.m_eAnimationState = Object::EAnimationState::FULLBODYIDLE;
@@ -418,7 +418,7 @@ void PlayScene::ShootingPlaySceneUpdate()
 		if (m_fPlayerCharacter[m_icharacterIndex].m_iHealth <= 0)
 		{
 			SHORT bChangableIdx = -1;
-			for (int i = 0; i < MAX_CHARACTER_SIZE; i++)
+			for (int i = 0; i < MAX_CHARACTER_SIZE_PLAY_SCENE; i++)
 			{
 				if (m_fPlayerCharacter[i].m_iHealth > 0)
 				{
@@ -478,7 +478,7 @@ void PlayScene::ShootingPlaySceneUpdate()
 		m_fStoneTimeLastPlayScene = Time::GetTotalTime();
 		//m_pStoneHead = Object::DeleteAllNode(m_pStoneHead);
 
-		Object::FActor Actor = Object::FActor(GetRandomInt(0, ConsoleRenderer::ScreenWidth() - 1), GetRandomInt(0, ConsoleRenderer::ScreenHeight()* 0.4), m_fStone[GetRandomInt(0, MAX_STONE_SIZE)]);
+		Object::FActor Actor = Object::FActor(GetRandomInt(0, (int)(ConsoleRenderer::ScreenWidth() - 1)), GetRandomInt(0, (int)(ConsoleRenderer::ScreenHeight()* 0.4)), m_fStone[GetRandomInt(0, MAX_STONE_SIZE)]);
 		Actor.m_fSpawnTime = Time::GetTotalTime();
 		Actor.m_pOwnerCharacter = &m_fPlayerCharacter[m_icharacterIndex];
 		float xAxis = Actor.m_fAxis.X;

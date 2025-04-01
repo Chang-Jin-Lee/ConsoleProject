@@ -53,7 +53,7 @@ namespace Object
 		int m_iAmmo;		// 현재 탄약집에 있는 총알 수
 		int m_iMaxAmmo;		// 장전을 위한 탄약집의 총알 수
 		int m_iFireDamage; // 총알 데미지
-		int m_iFireDelayTime;
+		float m_iFireDelayTime;
 		#pragma endregion
 
 		FPlayerCharacter()
@@ -121,6 +121,7 @@ namespace Object
 			m_fAxis.X = 0;
 			m_fAxis.Y = 0;
 			m_iColor = FG_WHITE;
+			m_fSpawnTime = 0;
 			m_pOwnerCharacter = NULL;
 		}
 
@@ -129,6 +130,7 @@ namespace Object
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
 			m_iColor = FG_WHITE;
+			m_fSpawnTime = 0;
 			m_pOwnerCharacter = NULL;
 		}
 
@@ -137,6 +139,7 @@ namespace Object
 			m_fAxis.X = x;
 			m_fAxis.Y = y;
 			m_iColor = FG_WHITE;
+			m_fSpawnTime = 0;
 			m_pOwnerCharacter = NULL;
 		}
 
@@ -146,6 +149,7 @@ namespace Object
 			m_fAxis.Y = y;
 			m_fui = actor.m_fui;
 			m_iColor = FG_WHITE;
+			m_fSpawnTime = 0;
 			m_pOwnerCharacter = NULL;
 		}
 
@@ -155,6 +159,7 @@ namespace Object
 			m_fAxis.Y = actor.m_fAxis.Y;
 			m_fui = actor.m_fui;
 			m_iColor = FG_WHITE;
+			m_fSpawnTime = 0;
 			m_pOwnerCharacter = NULL;
 		}
 	} FActor;
@@ -260,14 +265,11 @@ namespace Object
 	void RenderAllStoneNodeStoneNode(StoneNode* Root);
 	StoneNode* UpdateAllNodeAxisStoneNode(StoneNode* Root, FPlayerCharacter* ch, FPlayerCharacter* enemy, float deltatime);
 
-	
 	void SetPlayerAnimationName(FPlayerCharacter* pc, char* fullbody_dile, char* cover = NULL, char* aim = NULL, char* aimfire = NULL, char* reload = NULL);	// 각 폴더의 이름을 설정해주자
 	void SetPlayerAnimationNameFullBody(FPlayerCharacter* pc, char* fullbody_dile, char* fullbody_talk = NULL, char* fullbody_expression = NULL);
 	void CreateAndAttachHealthBar(FPlayerCharacter* pc, COORD axis, int Color);
 	void LoadAnimationData(FPlayerCharacter* pc);
 	void LoadAnimationDataWithFrame(FPlayerCharacter* pc, float frameTickness);
-	void LoadBulletData(UI::FUI* ui);
-
 
 	void Release(FPlayerCharacter* pc);
 	void Release(FActor* actor);
