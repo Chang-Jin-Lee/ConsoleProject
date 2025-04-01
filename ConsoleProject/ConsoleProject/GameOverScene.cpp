@@ -35,9 +35,13 @@ void GameOverScene::LoadData()
 	{
 		ConsoleRenderer::print((char*)"System_Create fail");
 	}
-	systemGameOverScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	systemGameOverScene->init(32, FMOD_INIT_NORMAL, nullptr);
 	if (systemGameOverScene->createSound("Music/bgm_GameOverScene.mp3", FMOD_DEFAULT, nullptr, &soundGameOverScene) != FMOD_OK) {
 		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	else
+	{
+		soundGameOverScene->setMode(FMOD_LOOP_NORMAL);
 	}
 }
 

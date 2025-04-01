@@ -100,9 +100,13 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 	{
 		ConsoleRenderer::print((char*)"System_Create fail");
 	}
-	systemPlayScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	systemPlayScene->init(32, FMOD_INIT_NORMAL, nullptr);
 	if (systemPlayScene->createSound("Music/bgm_PlayScene.mp3", FMOD_DEFAULT, nullptr, &soundPlayScene) != FMOD_OK) {
 		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	else
+	{
+		soundPlayScene->setMode(FMOD_LOOP_NORMAL);
 	}
 
 	if (systemPlayScene->createSound("Music/Rifle.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Rapi]) != FMOD_OK) {

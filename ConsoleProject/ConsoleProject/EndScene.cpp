@@ -44,9 +44,13 @@ void EndScene::LoadData()
 	{
 		ConsoleRenderer::print((char*)"System_Create fail");
 	}
-	systemEndScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	systemEndScene->init(32, FMOD_INIT_NORMAL, nullptr);
 	if (systemEndScene->createSound("Music/bgm_EndScene.mp3", FMOD_DEFAULT, nullptr, &soundEndScene) != FMOD_OK) {
 		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	else
+	{
+		soundEndScene->setMode(FMOD_LOOP_NORMAL);
 	}
 }
 

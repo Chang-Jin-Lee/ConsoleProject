@@ -127,7 +127,7 @@ void AnimationScene::LoadData()
 	{
 		ConsoleRenderer::print((char*)"System_Create fail");
 	}
-	systemAnimationScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	systemAnimationScene->init(32, FMOD_INIT_NORMAL, nullptr);
 
 	// 사운드 1 미리 로드
 	if (systemAnimationScene->createSound("Music/bgm_AnimationScene.mp3", FMOD_DEFAULT, nullptr, &soundAnimationScene1) != FMOD_OK)

@@ -9,8 +9,6 @@
 // Time 관련
 float m_finitialOneSecond = 0;
 float m_fcountOneSeconds = 0;
-float m_fPlayer_x = 0;
-float m_fPlayer_y = 0;
 
 float m_fFPSTimeMenuScene = 1 / 60;
 //float m_fFPSTimeMenuScene = 60;
@@ -64,9 +62,13 @@ void MenuScene::LoadData()
 	{
 		ConsoleRenderer::print((char*)"System_Create fail");
 	}
-	systemMenuScene->init(512, FMOD_INIT_NORMAL, nullptr);
+	systemMenuScene->init(32, FMOD_INIT_NORMAL, nullptr);
 	if (systemMenuScene->createSound("Music/bgm_MenuScene.mp3", FMOD_DEFAULT, nullptr, &soundMenuScene) != FMOD_OK) {
 		ConsoleRenderer::print((char*)"createSound fail");
+	}
+	else
+	{
+		soundMenuScene->setMode(FMOD_LOOP_NORMAL);
 	}
 }
 
@@ -116,7 +118,6 @@ void MenuScene::Update()
 	if (m_fcountOneSeconds >= 1)
 	{
 		m_finitialOneSecond = Time::GetTotalTime();
-		m_fPlayer_x += 3;
 		m_fcountOneSeconds = 0;
 	}
 
