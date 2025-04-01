@@ -82,12 +82,6 @@ void GameOverScene::Update()
 {
 	Input::Update();
 	GameOverScene::ProcessInput();
-
-	//m_fLastTimegameOverScene = Time::GetTotalTime() - m_fGameOverScenecurrentTime;
-	//if (m_fLastTimegameOverScene >= m_fSceneChangeTimeOverScene)
-	//{
-	//	Game::ChangeScene(ESceneState::MENU);
-	//}
 }
 
 void GameOverScene::Render()

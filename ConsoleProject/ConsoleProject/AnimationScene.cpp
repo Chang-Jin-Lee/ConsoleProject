@@ -277,29 +277,6 @@ void AnimationScene::Release()
 	soundAnimationScene2->release();
 	systemAnimationScene->close();
 	systemAnimationScene->release();
-
-	//UI::Release(&m_fSpeechSlate);
-	//for (int i = 0; i < MAX_DIALOG_SIZE; i++)
-	//{
-	//	UI::Release(&m_fgameDialog[i].Speaker);
-	//	UI::Release(&m_fgameDialog[i].Answer);
-	//	UI::Release(&m_fgameDialog[i].Dialog);
-	//	UI::Release(&m_fgameDialog[i].Likeability);
-	//	UI::Release(&m_fgameDialog[i].SceneName);
-	//	UI::Release(&m_fgameDialog[i].Type);
-	//}
-	//UI::Release(&m_fplaySceneobj.CatIdle);
-	//UI::Release(&m_fplaySceneobj.CatCurios);
-	//UI::Release(&m_fplaySceneobj.CatEyeOpen);
-	//UI::Release(&m_fplaySceneobj.CatEyeOpen_TailDown);
-	//UI::Release(&m_fplaySceneobj.CatFace);
-	//UI::Release(&m_fplaySceneobj.CatJump);
-	//UI::Release(&m_fplaySceneobj.CatOnRoof);
-	//UI::Release(&m_fplaySceneobj.CatScared);
-	//UI::Release(&m_fplaySceneobj.CatWalking);
-	//UI::Release(&m_fplaySceneobj.CatWeird);
-	//UI::Release(&m_fplaySceneobj.BirdAttack);
-	//UI::Release(&m_fplaySceneobj.BirdIdle);
 }
 
 void AnimationScene::Update()
@@ -343,67 +320,28 @@ void AnimationScene::Update()
 	if (m_fFPSLastTimeAnimationScene >= m_fFPSTimeAnimationScene)	// 1/60 초에 한 번씩
 	{
 		m_fcountOneSecondAnimationScene = Time::GetTotalTime();
-		//if (m_fIntroVideo.m_bPlayable)
-		//{
-		//	m_fIntroVideo.m_iPlaybackCurrentSeconds = (m_fIntroVideo.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_iMaxLength;
-		//}
 
 		if (m_fShiftyAnimationScene.m_bPlayable)
-		{
 			m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds = (m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fShiftyAnimationScene.m_fanimation[m_fShiftyAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
 		if (m_fRapiAnimationScene.m_bPlayable)
-		{
 			m_fRapiAnimationScene.m_iPlaybackCurrentSeconds = (m_fRapiAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
 		if (m_fAniscAnimationScene.m_bPlayable)
-		{
 			m_fAniscAnimationScene.m_iPlaybackCurrentSeconds = (m_fAniscAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
 		if (m_fNeonAnimationScene.m_bPlayable)
-		{
 			m_fNeonAnimationScene.m_iPlaybackCurrentSeconds = (m_fNeonAnimationScene.m_iPlaybackCurrentSeconds + 1) % m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_iMaxLength;
-		}
 	}
 }
 
 void AnimationScene::Render()
 {
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fBackGroundUI, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], &m_fIntroVideo.m_fHealthBar, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fBackGroundUI, m_fBackGroundUI.m_iUIColor);
-	
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechSlate, FG_SKY);
-	//ConsoleRenderer::ScreenDrawUI(&m_fSpeechNextCursor, FG_WHITE);
-
-	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Speaker, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Dialog, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Type, FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUI(&m_fgameDialog[m_fSpeechContentIndex].Likeability, FG_WHITE);
-
 	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Rapi] == true)
-	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
-	}
 	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Anis] == true)
-	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
-	}
 	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Neon] == true)
-	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
-	}
 	if (m_fgameDialog[m_igameDialogIndex].m_aSpeakerTalkable[ECharacterName::Shifty] == true)
-	{
 		ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fShiftyAnimationScene.m_fAxis.X, m_fShiftyAnimationScene.m_fAxis.Y, &m_fShiftyAnimationScene.m_fanimation[m_fShiftyAnimationScene.m_eAnimationState].m_fui[m_fShiftyAnimationScene.m_iPlaybackCurrentSeconds], m_fShiftyAnimationScene.m_iColor);
-	}
-	//if(ch1 == Rapi || ch2 == Rapi)
-	//	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fRapiAnimationScene.m_fAxis.X, m_fRapiAnimationScene.m_fAxis.Y, &m_fRapiAnimationScene.m_fanimation[m_fRapiAnimationScene.m_eAnimationState].m_fui[m_fRapiAnimationScene.m_iPlaybackCurrentSeconds], m_fRapiAnimationScene.m_iColor);
-	//if (ch1 == Anis || ch2 == Anis)
-	//ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fAniscAnimationScene.m_fAxis.X, m_fAniscAnimationScene.m_fAxis.Y, &m_fAniscAnimationScene.m_fanimation[m_fAniscAnimationScene.m_eAnimationState].m_fui[m_fAniscAnimationScene.m_iPlaybackCurrentSeconds], m_fAniscAnimationScene.m_iColor);
-	//if (ch1 == Neon || ch2 == Neon)
-	//	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fNeonAnimationScene.m_fAxis.X, m_fNeonAnimationScene.m_fAxis.Y, &m_fNeonAnimationScene.m_fanimation[m_fNeonAnimationScene.m_eAnimationState].m_fui[m_fNeonAnimationScene.m_iPlaybackCurrentSeconds], m_fNeonAnimationScene.m_iColor);
-	
 	ConsoleRenderer::ScreenDrawUIFromFile(&m_fSpeechBubbleAnimationScene, m_fSpeechBubbleAnimationScene.m_iUIColor);
 
 	if (m_fgameDialog[m_igameDialogIndex].NextIdx == 0 || m_fgameDialog[m_igameDialogIndex].NextIdx == -1)

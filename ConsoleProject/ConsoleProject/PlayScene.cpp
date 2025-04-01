@@ -340,14 +340,14 @@ void PlayScene::ShootingPlaySceneInitialize()
 	// Initialize Crosshair
 	m_fCrossHair.m_fAxis.X = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.5);
 	m_fCrossHair.m_fAxis.Y = (SHORT)(ConsoleRenderer::ScreenHeight() * 0.5);
-	m_fCrossHair.m_fAspectRatio = 0.012f;
+	m_fCrossHair.m_fAspectRatio = 0.016f;
 	Object::CreateCrossHair(&m_fCrossHair);
 	m_icrossHairOriginalXSize = m_fCrossHair.m_sXDistanceFromCenter;
 	m_icrossHairOriginalYSize = m_fCrossHair.m_sYDistanceFromCenter;
 
 	m_icrossHairTargetXSize = (int)(m_fCrossHair.m_sXDistanceFromCenter * m_fcrossHairSizeRatio);
 	m_icrossHairTargetYSize = (int)(m_fCrossHair.m_sYDistanceFromCenter * m_fcrossHairSizeRatio);
-	m_fCrossHair.m_iColor = FG_RED;
+	m_fCrossHair.m_iColor = BG_RED;
 	bCrossHairMove = false;
 
 	// Initialize LeftAmmoUI
@@ -704,19 +704,14 @@ void PlayScene::ShootingPlaySceneInput()
 
 void PlayScene::ShootingPlaySceneRender()
 {
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fVideoPlayScene[m_ivideoPlaycursor], FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[PlayerCharacter.m_eAnimationState].m_fui[PlayerCharacter.m_iPlaybackCurrentSeconds], FG_WHITE);
-	//ConsoleRenderer::ScreenDrawUIFromFile(&PlayerCharacter.m_fanimation[1].m_fui[0], FG_WHITE);
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fanimation[m_fEnemyCharacter.m_eAnimationState].m_fui[m_fEnemyCharacter.m_iPlaybackCurrentSeconds], m_fEnemyCharacter.m_iColor);
 	ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fEnemyCharacter.m_fAxis.X, m_fEnemyCharacter.m_fAxis.Y, &m_fEnemyCharacter.m_fHealthBar, m_fEnemyCharacter.m_iHealth, m_fEnemyCharacter.m_iMaxHealth, m_fEnemyCharacter.m_fHealthBar.m_iUIColor);
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fPlayerCharacter[m_icharacterIndex].m_fAxis.X, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, &m_fPlayerCharacter[m_icharacterIndex].m_fanimation[m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState].m_fui[m_fPlayerCharacter[m_icharacterIndex].m_iPlaybackCurrentSeconds], m_fPlayerCharacter[m_icharacterIndex].m_iColor);
 	ConsoleRenderer::ScreenDrawPlayerHealthUI(m_fPlayerCharacter[m_icharacterIndex].m_fAxis.X, m_fPlayerCharacter[m_icharacterIndex].m_fAxis.Y, &m_fPlayerCharacter[m_icharacterIndex].m_fHealthBar, m_fPlayerCharacter[m_icharacterIndex].m_iHealth, m_fPlayerCharacter[m_icharacterIndex].m_iMaxHealth, m_fPlayerCharacter[m_icharacterIndex].m_fHealthBar.m_iUIColor);
 	ConsoleRenderer::ScreenDrawPlayerLeftAmmo(m_fLeftAmmoUIPlayScene.m_fAxis.X, m_fLeftAmmoUIPlayScene.m_fAxis.Y, &m_fLeftAmmoUIPlayScene.m_fui, m_fPlayerCharacter[m_icharacterIndex].m_iAmmo, m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo, m_fLeftAmmoUIPlayScene.m_iColor);
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fGuideUIPlayScene, m_fGuideUIPlayScene.m_iUIColor);
-	Object::RenderCrossHair(&m_fCrossHair);
-	
 	Object::RenderAllBulletNodeBulletNode(m_pBulletHead);
 	Object::RenderAllStoneNodeStoneNode(m_pStoneHead);
+	Object::RenderCrossHair(&m_fCrossHair);
 }
 
 

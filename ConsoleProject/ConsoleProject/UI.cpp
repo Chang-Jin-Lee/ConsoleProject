@@ -108,12 +108,6 @@ namespace UI
 		ui->m_ippcontentSize = SpeechSlateYSize;
 		ui->m_iUIColor = color;
 
-		/*for (int i = 0; i < SpeechSlateYSize; i++)
-		{
-			memset(ui->m_ppcontent[i], (char)L'⬛', SpeechSlateXSize);
-			ui->m_ppcontent[i][SpeechSlateXSize] = NULL;
-		}*/
-
 		// 실제 내용 채우기 (둥글게)
 		for (int i = 0; i < SpeechSlateYSize; i++)
 		{

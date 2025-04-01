@@ -7,10 +7,6 @@
 #pragma comment(lib, "fmod_vc.lib")
 
 // Time 관련
-float m_fcurrentTime = 0;
-float m_floadingTime = 5;
-float m_fMenuLastTime = 0;
-
 float m_finitialOneSecond = 0;
 float m_fcountOneSeconds = 0;
 float m_fPlayer_x = 0;
@@ -44,7 +40,6 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	m_fIntroVideo.m_fAxis.Y = 10;
 	m_fIntroVideo.m_iPlaybackCurrentSeconds = 0;
 
-	m_fMenuLastTime = Time::GetTotalTime();
 	m_finitialOneSecond = Time::GetTotalTime();
 	m_fcountOneSecond = Time::GetTotalTime();
 
@@ -116,12 +111,6 @@ void MenuScene::Update()
 {
 	Input::Update();
 	MenuScene::ProcessInput();
-
-	m_fMenuLastTime = Time::GetTotalTime() - m_fcurrentTime;
-	if (m_fMenuLastTime >= m_floadingTime + 1)
-	{
-		//Game::ChangeScene(ESceneState::PLAY);
-	}
 
 	m_fcountOneSeconds = Time::GetTotalTime() - m_finitialOneSecond;
 	if (m_fcountOneSeconds >= 1)

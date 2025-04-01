@@ -34,8 +34,6 @@ namespace ConsoleRenderer
         if (!SetConsoleWindowInfo(hConsoleHandle, TRUE, &larger_window_size))
             printf("SetConsoleWindowInfo(hConsoleHandle, TRUE, &larger_window_size): %lu\n", GetLastError());
 
-        //if (!SetConsoleWindowInfo(hConsoleHandle, TRUE, &window))
-        //    printf("창 크기 설정 실패: %lu\n", GetLastError());
         SetSmallFont(hConsoleHandle, nScreenFontSize);
 
 
@@ -51,8 +49,6 @@ namespace ConsoleRenderer
         if (!SetConsoleWindowInfo(hScreenBuffer[0], TRUE, &larger_window_size0))
             printf("SetConsoleWindowInfo(hConsoleHandle, TRUE, &larger_window_size): %lu\n", GetLastError());
 
-        //if (!SetConsoleWindowInfo(hScreenBuffer[0], TRUE, &window))
-        //    printf("창 크기 설정 실패: %lu\n", GetLastError());
         SetSmallFont(hScreenBuffer[0], nScreenFontSize);
 
 
@@ -69,9 +65,6 @@ namespace ConsoleRenderer
         if (!SetConsoleWindowInfo(hScreenBuffer[1], TRUE, &larger_window_size1))
             printf("SetConsoleWindowInfo(hConsoleHandle, TRUE, &larger_window_size): %lu\n", GetLastError());
 
-
-        //if (!SetConsoleWindowInfo(hScreenBuffer[1], TRUE, &window))
-        //    printf("창 크기 설정 실패: %lu\n", GetLastError());
         SetSmallFont(hScreenBuffer[1], nScreenFontSize);
         
         // 기본 콘솔,생성된 콘솔스크린 모두 커서 안보이게 설정
@@ -91,8 +84,6 @@ namespace ConsoleRenderer
 
         // 콘솔 출력 UTF8로 변경
         SetConsoleOutputCP(CP_UTF8);
-        //ShowWindow(GetConsoleWindow(), SW_RESTORE);
-        //ShowWindow(GetConsoleWindow(), SW_SHOWNA);
         ShowWindow(GetConsoleWindow(), SW_SHOW);
     }
 
@@ -289,28 +280,6 @@ namespace ConsoleRenderer
 
     void ScreenDrawPlayerWithAnimation(int x, int y, UI::FUI* ui, WORD attr)
     {
-        //// &ui->m_ppcontent[i] 8B50
-        //UI::FCOORDSNode* Root = ui->m_pDrawCOORDS;
-
-        //while (Root != NULL)
-        //{
-        //    int _x = Root->data.X; // 파일에서 행의 수를 먼저 읽기 때문.
-        //    int _y = Root->data.Y;
-        //    ScreenDrawChar(x +_y, y + _x, ui->m_ppcontent[_x][_y], attr);
-        //    Root = Root->next;
-        //}
-
-        // CHAR_INFO로 띄우기. 램 사용량 급증함
-        /*int width = ui->m_ipcontentSize;
-        int height = ui->m_ippcontentSize;
-
-        COORD bufferSize = { width, height };
-        COORD bufferCoord = { 0, 0 };
-        SMALL_RECT writeRegion = { x, y, x + width - 1, y + height - 1 };
-
-        WriteConsoleOutputA(hScreenBuffer[nScreenBufferIndex], ui->m_ppInfoContent, bufferSize, bufferCoord, &writeRegion);*/
-
-
         for (int i = 0; i < ui->m_ippcontentSize; i++)
         {
             ScreenDrawStringFromAnimation(x, y + i, ui->m_ppcontent[i], attr);

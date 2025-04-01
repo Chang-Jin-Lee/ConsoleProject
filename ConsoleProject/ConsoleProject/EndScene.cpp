@@ -62,15 +62,11 @@ void EndScene::Release()
 void EndScene::ProcessInput()
 {
 	if (Input::IsKeyPressed(VK_R))
-	{
 		if(bNextSceneEndScene)
 			Game::ChangeScene(ESceneState::MENU);
-	}
 
 	if (Input::IsKeyPressed(VK_ESCAPE)) //종료
-	{
 		Game::GameExit();
-	}
 
 	if (Input::IsKeyPressed(VK_0))
 	{
@@ -94,16 +90,12 @@ void EndScene::Update()
 
 	m_fLastTime += Time::GetElapsedTime();
 	if (m_fLastTime >= m_fSceneChangeTime)
-	{
 		bNextSceneEndScene = true;
-	}
 
 	if (Time::GetTotalTime() - m_fcountOneSecondEndScene >= m_fFPSTimeEndScene)	// 0.5초에 한 번씩
 	{
 		if (m_fIntroVideoEndScene.m_bPlayable)
-		{
 			m_fIntroVideoEndScene.m_iPlaybackCurrentSeconds = (m_fIntroVideoEndScene.m_iPlaybackCurrentSeconds + 1) % m_fIntroVideoEndScene.m_fanimation[m_fIntroVideoEndScene.m_eAnimationState].m_iMaxLength;
-		}
 		m_fcountOneSecondEndScene = Time::GetTotalTime();
 	}
 }
