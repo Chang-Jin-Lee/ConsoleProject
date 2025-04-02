@@ -24,7 +24,8 @@ namespace UI
 			{
 				for (int j = 0; j < video->m_fui[j].m_ippcontentSize; j++)
 					free(video->m_fui[i].m_ppcontent[j]);
-				free(video->m_fui[i].m_ppcontent);
+				if(video->m_fui[i].m_ppcontent)
+					free(video->m_fui[i].m_ppcontent);
 			}
 		}
 		
@@ -103,7 +104,8 @@ namespace UI
 		for (int i = 0; i < SpeechSlateYSize; i++)
 		{
 			ui->m_ppcontent[i] = (char*)malloc(sizeof(char) * (SpeechSlateXSize + 2));
-			memset(ui->m_ppcontent[i], ' ', SpeechSlateXSize);
+			if(ui->m_ppcontent)
+				memset(ui->m_ppcontent[i], ' ', SpeechSlateXSize);
 		}
 		ui->m_ippcontentSize = SpeechSlateYSize;
 		ui->m_iUIColor = color;
@@ -136,9 +138,12 @@ namespace UI
 
 		for (int i = 0; i < SpeechSlateYSize; i++)
 		{
-			ui->m_ppcontent[i] = (char*)malloc(sizeof(char) * (SpeechSlateXSize + 1));
-			memset(ui->m_ppcontent[i], ' ', SpeechSlateXSize); // 기본값: 공백
-			ui->m_ppcontent[i][SpeechSlateXSize] = '\0'; // 널 종료
+			if (ui->m_ppcontent)
+			{
+				ui->m_ppcontent[i] = (char*)malloc(sizeof(char) * (SpeechSlateXSize + 1));
+				memset(ui->m_ppcontent[i], ' ', SpeechSlateXSize); // 기본값: 공백
+				ui->m_ppcontent[i][SpeechSlateXSize] = '\0'; // 널 종료
+			}
 		}
 		ui->m_ippcontentSize = SpeechSlateYSize;
 		ui->m_iUIColor = color;
