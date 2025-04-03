@@ -9,6 +9,15 @@ typedef enum ESceneState {
 	GAMEOVER,
 } ESceneState;
 
+enum EPlaySceneState
+{
+	DESCRIPTION,
+	OPTION,
+	SHOOTING,
+	RHYTHM,
+	PUZZLE,
+};
+
 #define VK_Q 0x41 + 'q' - 'a'
 #define VK_W 0x41 + 'w' - 'a'
 #define VK_E 0x41 + 'e' - 'a'

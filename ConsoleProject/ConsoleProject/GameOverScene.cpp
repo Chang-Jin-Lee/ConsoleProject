@@ -1,9 +1,6 @@
 #include "GameOverScene.h"
 #include "Game.h"
 #include "Input.h"
-#include <fmod.hpp>
-
-#pragma comment(lib, "fmod_vc.lib")
 
 float m_fLastTimegameOverScene = 0;
 float m_fGameOverScenecurrentTime = 0;
@@ -19,7 +16,7 @@ FMOD::Channel* channelGameOverScene = nullptr;
 void GameOverScene::Initialize()	// 게임 시작할 때 초기화
 {
 	m_fGameOverScenecurrentTime = Time::GetTotalTime();
-	systemGameOverScene->playSound(soundGameOverScene, nullptr, false, &channelGameOverScene);
+	Sound::PlaySoundWithVolume(systemGameOverScene, soundGameOverScene, channelGameOverScene, 1.0f);
 }
 
 void GameOverScene::LoadData()
@@ -31,28 +28,19 @@ void GameOverScene::LoadData()
 	}
 
 	// FMOD 시스템 초기화
-	if (FMOD::System_Create(&systemGameOverScene) != FMOD_OK)
-	{
-		ConsoleRenderer::print((char*)"System_Create fail");
-	}
-	systemGameOverScene->init(32, FMOD_INIT_NORMAL, nullptr);
-	if (systemGameOverScene->createSound("Music/bgm_GameOverScene.mp3", FMOD_DEFAULT, nullptr, &soundGameOverScene) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	else
-	{
-		soundGameOverScene->setMode(FMOD_LOOP_NORMAL);
-	}
+	Sound::Initialize(systemGameOverScene, 32, FMOD_INIT_NORMAL);
+	Sound::LoadSound(systemGameOverScene, (char*)"Music", (char*)"bgm_EndScene.mp3", FMOD_DEFAULT, soundGameOverScene);
+	Sound::SetSoundMod(soundGameOverScene, FMOD_LOOP_NORMAL);
 }
 
 void GameOverScene::Release()
 {
 	UI::Release(&m_fenduiGameOverScene);
 
-	// 정리
-	soundGameOverScene->release();
-	systemGameOverScene->close();
-	systemGameOverScene->release();
+	// FMOD 시스템 정리
+	Sound::ReleaseChannel(channelGameOverScene);
+	Sound::ReleaseSound(soundGameOverScene);
+	Sound::ReleaseSystem(systemGameOverScene);
 }
 
 void GameOverScene::ProcessInput()

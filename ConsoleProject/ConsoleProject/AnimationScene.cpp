@@ -2,9 +2,6 @@
 #include "Input.h"
 #include "Game.h"
 #include "UI.h"
-#include <fmod.hpp>
-
-#pragma comment(lib, "fmod_vc.lib")
 
 // Time 관련
 float m_m_fcurrentTimeAnimationScene = 0;
@@ -97,7 +94,7 @@ void AnimationScene::Initialize()	// 게임 시작할 때 초기화
 	{
 
 	}
-	systemAnimationScene->playSound(soundAnimationScene1, nullptr, false, &channelAnimationScene);
+	Sound::PlaySoundWithVolume(systemAnimationScene, soundAnimationScene1, channelAnimationScene, 1.0f);
 }
 
 void AnimationScene::LoadData()
@@ -123,19 +120,10 @@ void AnimationScene::LoadData()
 	Object::LoadAnimationData(&m_fNeonAnimationScene);
 
 	// FMOD 시스템 초기화
-	if (FMOD::System_Create(&systemAnimationScene) != FMOD_OK)
-	{
-		ConsoleRenderer::print((char*)"System_Create fail");
-	}
-	systemAnimationScene->init(32, FMOD_INIT_NORMAL, nullptr);
 
-	// 사운드 1 미리 로드
-	if (systemAnimationScene->createSound("Music/bgm_AnimationScene.mp3", FMOD_DEFAULT, nullptr, &soundAnimationScene1) != FMOD_OK)
-		ConsoleRenderer::print((char*)"createSound 1 fail");
-
-	// 사운드 2 미리 로드
-	if (systemAnimationScene->createSound("Music/bgm_AnimationScene2.mp3", FMOD_DEFAULT, nullptr, &soundAnimationScene2) != FMOD_OK)
-		ConsoleRenderer::print((char*)"createSound 2 fail");
+	Sound::Initialize(systemAnimationScene, 32, FMOD_INIT_NORMAL);
+	Sound::LoadSound(systemAnimationScene, (char*)"Music", (char*)"bgm_AnimationScene.mp3", FMOD_DEFAULT, soundAnimationScene1);
+	Sound::LoadSound(systemAnimationScene, (char*)"Music", (char*)"bgm_AnimationScene2.mp3", FMOD_DEFAULT, soundAnimationScene2);
 }
 
 void AnimationScene::ProcessInput()
@@ -145,7 +133,7 @@ void AnimationScene::ProcessInput()
 		Game::GameExit();
 	}
 
-	if (Input::IsKeyPressed(VK_Z))
+	if (Input::IsKeyPressed(VK_Q))
 	{
 		Game::ChangeScene(ESceneState::PLAY);
 	}
@@ -193,10 +181,6 @@ void AnimationScene::ProcessInput()
 		m_fgameDialog[m_igameDialogIndex].m_iselectIndex = (m_fgameDialog[m_igameDialogIndex].m_iselectIndex + 1) % MAX_SELECTBUBBLE_SIZE;
 	}
 
-	//if (Input::IsKeyPressed(VK_RETURN) || Input::IsKeyPressed(VK_SPACE))
-	//{
-	//	Game::ChangeScene(ESceneState::PLAY);
-	//}
 	if (Input::IsKeyPressed(VK_T))  // 캐릭터 변경
 	{
 		switch (ch1)
@@ -273,10 +257,11 @@ void AnimationScene::Release()
 	Object::Release(&m_fRapiAnimationScene);
 	Object::Release(&m_fAniscAnimationScene);
 	Object::Release(&m_fNeonAnimationScene);
-	soundAnimationScene1->release();
-	soundAnimationScene2->release();
-	systemAnimationScene->close();
-	systemAnimationScene->release();
+
+	Sound::ReleaseChannel(channelAnimationScene);
+	Sound::ReleaseSound(soundAnimationScene1);
+	Sound::ReleaseSound(soundAnimationScene2);
+	Sound::ReleaseSystem(systemAnimationScene);
 }
 
 void AnimationScene::Update()
@@ -291,7 +276,7 @@ void AnimationScene::Update()
 
 		// 두 번째 사운드 재생
 		bSecondMusic = false;
-		systemAnimationScene->playSound(soundAnimationScene2, nullptr, false, &channelAnimationScene);
+		Sound::PlaySoundWithVolume(systemAnimationScene, soundAnimationScene2, channelAnimationScene, 1.0f);
 	}
 
 	m_fMenuLastTimeAnimationScene = Time::GetTotalTime() - m_m_fcurrentTimeAnimationScene;

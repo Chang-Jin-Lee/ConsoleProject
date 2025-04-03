@@ -3,9 +3,6 @@
 #include "Game.h"
 #include "UI.h"
 #include "Object.h"
-#include <fmod.hpp>
-
-#pragma comment(lib, "fmod_vc.lib")
 
 // Timer 관련
 float m_fcurrentTimePlayScene = 0;
@@ -18,15 +15,6 @@ float m_fBulletTimePlayScene = 0.4f;
 
 float m_fStoneTimeLastPlayScene = 0.4f;
 float m_fStoneTimePlayScene = 1.5f;
-
-enum EPlaySceneState
-{
-	DESCRIPTION,
-	OPTION,
-	SHOOTING,
-	RHYTHM,
-	PUZZLE,
-};
 
 EPlaySceneState m_eplaySceneState = DESCRIPTION;
 
@@ -85,8 +73,7 @@ void PlayScene::Initialize()	// 게임 시작할 때 초기화
 	ShootingPlaySceneInitialize();
 	OptionPlaySceneInitialize();
 	srand((unsigned int)time(NULL));
-	systemPlayScene->playSound(soundPlayScene, nullptr, false, &channelPlayScene);
-	channelPlayScene->setVolume(0.8f);  // 볼륨 조절
+	Sound::PlaySoundWithVolume(systemPlayScene, soundPlayScene, channelPlayScene, 0.8f);
 }
 
 void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어온다
@@ -96,38 +83,16 @@ void PlayScene::LoadData()	// 각 애니메이션에 대한 데이터를 읽어�
 	OptionPlaySceneLoadData();
 
 	// FMOD 시스템 초기화
-	if (FMOD::System_Create(&systemPlayScene) != FMOD_OK)
-	{
-		ConsoleRenderer::print((char*)"System_Create fail");
-	}
-	systemPlayScene->init(32, FMOD_INIT_NORMAL, nullptr);
-	if (systemPlayScene->createSound("Music/bgm_PlayScene.mp3", FMOD_DEFAULT, nullptr, &soundPlayScene) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	else
-	{
-		soundPlayScene->setMode(FMOD_LOOP_NORMAL);
-	}
+	Sound::Initialize(systemPlayScene, 32, FMOD_INIT_NORMAL);
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"bgm_PlayScene.mp3", FMOD_DEFAULT, soundPlayScene);
+	Sound::SetSoundMod(soundPlayScene, FMOD_LOOP_NORMAL);
 
-	if (systemPlayScene->createSound("Music/Rifle.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Rapi]) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	if (systemPlayScene->createSound("Music/Shotgun.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Anis]) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	if (systemPlayScene->createSound("Music/Machinegun.mp3", FMOD_DEFAULT, nullptr, &soundShotSFXPlayScene[ECharacterName::Neon]) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-
-	if (systemPlayScene->createSound("Music/RifleReload.mp3", FMOD_DEFAULT, nullptr, &soundReloadSFXPlayScene[ECharacterName::Rapi]) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	if (systemPlayScene->createSound("Music/ShotgunReload.mp3", FMOD_DEFAULT, nullptr, &soundReloadSFXPlayScene[ECharacterName::Anis]) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	if (systemPlayScene->createSound("Music/MachinegunReload.mp3", FMOD_DEFAULT, nullptr, &soundReloadSFXPlayScene[ECharacterName::Neon]) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"Rifle.mp3", FMOD_DEFAULT, soundShotSFXPlayScene[ECharacterName::Rapi]);
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"Shotgun.mp3", FMOD_DEFAULT, soundShotSFXPlayScene[ECharacterName::Anis]);
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"Machinegun.mp3", FMOD_DEFAULT, soundShotSFXPlayScene[ECharacterName::Neon]);
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"RifleReload.mp3", FMOD_DEFAULT, soundShotSFXPlayScene[ECharacterName::Rapi]);
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"ShotgunReload.mp3", FMOD_DEFAULT, soundShotSFXPlayScene[ECharacterName::Anis]);
+	Sound::LoadSound(systemPlayScene, (char*)"Music", (char*)"MachinegunReload.mp3", FMOD_DEFAULT, soundShotSFXPlayScene[ECharacterName::Neon]);
 }
 
 void PlayScene::ProcessInput()
@@ -163,9 +128,10 @@ void PlayScene::Release()
 	Object::Release(&m_fCrossHair.Bottom);
 	m_pStoneHead = Object::DeleteAllNodeStoneNode(m_pStoneHead);
 	m_pBulletHead = Object::DeleteAllNodeBulletNode(m_pBulletHead);
-	soundPlayScene->release();
-	systemPlayScene->close();
-	systemPlayScene->release();
+
+	Sound::ReleaseChannel(channelPlayScene);
+	Sound::ReleaseSound(soundPlayScene);
+	Sound::ReleaseSystem(systemPlayScene);
 }
 
 void PlayScene::Update()
@@ -593,7 +559,7 @@ void PlayScene::ShootingPlaySceneInput()
 			m_fPlayerCharacter[m_icharacterIndex].m_iAmmo = m_fPlayerCharacter[m_icharacterIndex].m_iMaxAmmo;
 		m_fPlayerCharacter[m_icharacterIndex].m_eAnimationState = Object::EAnimationState::RELOAD;
 		channelReloadSFXPlayScene[m_icharacterIndex]->stop();
-		systemPlayScene->playSound(soundReloadSFXPlayScene[m_icharacterIndex], nullptr, false, &channelReloadSFXPlayScene[m_icharacterIndex]);
+		Sound::PlaySoundWithVolume(systemPlayScene, soundReloadSFXPlayScene[m_icharacterIndex], channelReloadSFXPlayScene[m_icharacterIndex], 1.0f);
 		bIsReloading = true;
 	}
 
@@ -652,7 +618,8 @@ void PlayScene::ShootingPlaySceneInput()
 				m_fEnemyCharacter.m_iHealth -= m_fPlayerCharacter[m_icharacterIndex].m_iFireDamage;
 
 				channelShotSFXPlayScene[m_icharacterIndex]->stop();
-				systemPlayScene->playSound(soundShotSFXPlayScene[m_icharacterIndex], nullptr, false, &channelShotSFXPlayScene[m_icharacterIndex]);
+				Sound::PlaySoundWithVolume(systemPlayScene, soundShotSFXPlayScene[m_icharacterIndex], channelShotSFXPlayScene[m_icharacterIndex], 1.0f);
+
 
 				for (int i = 0; i < MAX_EFFECT_SIZE; i++)
 				{

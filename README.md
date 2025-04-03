@@ -5,10 +5,13 @@
 - 개발 목적 : 콘솔 프로그래밍 학습
 - 스택 : Windows Console API, ffmpeg, FMOD, AsciiGen2
 
-- 동영상링크
+- <p align="center">  <img src="https://github.com/user-attachments/assets/26bd803f-5db3-4c52-aa1e-47548d5af495" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/a9576478-4771-4a9d-8f7f-eeb7b40fdeb2" align="center" width="32%">  <img src="https://github.com/user-attachments/assets/28de6de0-2d52-4145-8c9d-a610462aaf30" align="center" width="32%">  <figcaption align="center">스크린샷</figcaption></p>
+
+
+### 동영상링크
     https://youtu.be/KQgX1lqgpaI
 
-- 참고
+### 참고
     - 영상을 아스키 아트로 실행하는 원리
         1. ffmpeg로 영상을 60프레임 png 파일로 변환
         2. 변환된 png 파일들을 AsciiGen2 batch를 사용해 txt 파일로 전부 전환

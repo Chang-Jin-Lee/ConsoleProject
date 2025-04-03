@@ -2,23 +2,11 @@
 #include "Input.h"
 #include "Game.h"
 #include "UI.h"
-#include <fmod.hpp>
-
-#pragma comment(lib, "fmod_vc.lib")
 
 // Time 관련
-float m_finitialOneSecond = 0;
-float m_fcountOneSeconds = 0;
-
 float m_fFPSTimeMenuScene = 1 / 60;
-//float m_fFPSTimeMenuScene = 60;
 float m_fcountOneSecond = 0;
 bool bcatBlink = false;
-
-UI::FUI m_fTitleFile;
-UI::FUI m_fCursor;
-UI::FUI m_fStartButton;
-UI::FUI m_fExitButton;
 
 Object::FPlayerCharacter m_fIntroVideo;
 
@@ -38,38 +26,15 @@ void MenuScene::Initialize()	// 게임 시작할 때 초기화
 	m_fIntroVideo.m_fAxis.Y = 10;
 	m_fIntroVideo.m_iPlaybackCurrentSeconds = 0;
 
-	m_finitialOneSecond = Time::GetTotalTime();
 	m_fcountOneSecond = Time::GetTotalTime();
 
-
-	systemMenuScene->playSound(soundMenuScene, nullptr, false, &channelMenuScene);
+	Sound::PlaySoundWithVolume(systemMenuScene, soundMenuScene, channelMenuScene, 1.0f);
 }
 void MenuScene::LoadData()
 {
-	//Images/CityForest01/CityForest_01.txt
-	//Video/Aru/frame_0001.txt
-	//Images/CityForest01/CityForest_01.txt
-	//Images/Test.txt
-	//Images/text/Dialogue/text_0008_12.txt
-	if (FileController::FileRead("Images/text/text_shifty_10.txt", "r", &m_fTitleFile.m_ppcontent, &m_fTitleFile.m_ippcontentSize))
-	{
-		m_fTitleFile.m_fAxis.X = 0;
-		m_fTitleFile.m_fAxis.Y = 0;
-	}
-
-	// FMOD 시스템 초기화
-	if (FMOD::System_Create(&systemMenuScene) != FMOD_OK)
-	{
-		ConsoleRenderer::print((char*)"System_Create fail");
-	}
-	systemMenuScene->init(32, FMOD_INIT_NORMAL, nullptr);
-	if (systemMenuScene->createSound("Music/bgm_MenuScene.mp3", FMOD_DEFAULT, nullptr, &soundMenuScene) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	else
-	{
-		soundMenuScene->setMode(FMOD_LOOP_NORMAL);
-	}
+	Sound::Initialize(systemMenuScene, 32, FMOD_INIT_NORMAL);
+	Sound::LoadSound(systemMenuScene, (char*)"Music", (char*)"bgm_MenuScene.mp3", FMOD_DEFAULT, soundMenuScene);
+	Sound::SetSoundMod(soundMenuScene, FMOD_LOOP_NORMAL);
 }
 
 void MenuScene::ProcessInput()
@@ -101,25 +66,17 @@ void MenuScene::ProcessInput()
 
 void MenuScene::Release()
 {
-	UI::Release(&m_fTitleFile);
 	Object::Release(&m_fIntroVideo);
-	// 정리
-	soundMenuScene->release();
-	systemMenuScene->close();
-	systemMenuScene->release();
+	// FMOD 시스템 정리
+	Sound::ReleaseChannel(channelMenuScene);
+	Sound::ReleaseSound(soundMenuScene);
+	Sound::ReleaseSystem(systemMenuScene);
 }
 
 void MenuScene::Update()
 {
 	Input::Update();
 	MenuScene::ProcessInput();
-
-	m_fcountOneSeconds = Time::GetTotalTime() - m_finitialOneSecond;
-	if (m_fcountOneSeconds >= 1)
-	{
-		m_finitialOneSecond = Time::GetTotalTime();
-		m_fcountOneSeconds = 0;
-	}
 
 	if (Time::GetTotalTime() - m_fcountOneSecond >= m_fFPSTimeMenuScene)	// 0.5초에 한 번씩
 	{
@@ -133,6 +90,5 @@ void MenuScene::Update()
 
 void MenuScene::Render()
 {
-	//ConsoleRenderer::ScreenDrawUIFromFile(&m_fTitleFile, FG_WHITE);
 	ConsoleRenderer::ScreenDrawPlayerWithAnimation(m_fIntroVideo.m_fAxis.X, m_fIntroVideo.m_fAxis.Y, &m_fIntroVideo.m_fanimation[m_fIntroVideo.m_eAnimationState].m_fui[m_fIntroVideo.m_iPlaybackCurrentSeconds], m_fIntroVideo.m_iColor);
 }

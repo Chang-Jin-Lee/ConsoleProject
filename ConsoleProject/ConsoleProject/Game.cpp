@@ -1,5 +1,9 @@
 // ConsoleDoubleBuffering.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
+#ifdef MEMORY_LEAK_CHECK
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#endif
 
 #include <iostream>
 #include <Windows.h>
@@ -15,6 +19,9 @@ bool g_bQuit = false;
 
 int wmain()
 {
+#ifdef MEMORY_LEAK_CHECK
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 	Time::Initialize();
 	Game::Initialize();
 
@@ -25,6 +32,9 @@ int wmain()
 	};
 
 	Game::Release();
+#ifdef MEMORY_LEAK_CHECK
+	_CrtDumpMemoryLeaks();
+#endif
 }
 
 void Game::Initialize()	// 게임 시작할 때 초기화

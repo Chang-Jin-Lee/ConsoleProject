@@ -6,6 +6,7 @@
 #include "BaseDefine.h"
 #include "Time.h"
 #include "FileController.h"
+#include "Sound.h"
 
 namespace Game
 {

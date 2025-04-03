@@ -1,9 +1,6 @@
 #include "EndScene.h"
 #include "Game.h"
 #include "Input.h"
-#include <fmod.hpp>
-
-#pragma comment(lib, "fmod_vc.lib")
 
 float m_fLastTime = 0;
 float m_fEndScenecurrentTime = 0;
@@ -25,7 +22,7 @@ void EndScene::Initialize()	// 게임 시작할 때 초기화
 {
 	m_fEndScenecurrentTime = Time::GetTotalTime();
 
-	systemEndScene->playSound(soundEndScene, nullptr, false, &channelEndScene);
+	Sound::PlaySoundWithVolume(systemEndScene, soundEndScene, channelEndScene, 1.0f);
 }
 
 void EndScene::LoadData()
@@ -40,27 +37,19 @@ void EndScene::LoadData()
 	m_fIntroVideoEndScene.m_iPlaybackCurrentSeconds = 0;
 
 	// FMOD 시스템 초기화
-	if (FMOD::System_Create(&systemEndScene) != FMOD_OK)
-	{
-		ConsoleRenderer::print((char*)"System_Create fail");
-	}
-	systemEndScene->init(32, FMOD_INIT_NORMAL, nullptr);
-	if (systemEndScene->createSound("Music/bgm_EndScene.mp3", FMOD_DEFAULT, nullptr, &soundEndScene) != FMOD_OK) {
-		ConsoleRenderer::print((char*)"createSound fail");
-	}
-	else
-	{
-		soundEndScene->setMode(FMOD_LOOP_NORMAL);
-	}
+
+	Sound::Initialize(systemEndScene, 32, FMOD_INIT_NORMAL);
+	Sound::LoadSound(systemEndScene, (char*)"Music", (char*)"bgm_EndScene.mp3", FMOD_DEFAULT, soundEndScene);
+	Sound::SetSoundMod(soundEndScene, FMOD_LOOP_NORMAL);
 }
 
 void EndScene::Release()
 {
 	Object::Release(&m_fIntroVideoEndScene);
 	// 정리
-	soundEndScene->release();
-	systemEndScene->close();
-	systemEndScene->release();
+	Sound::ReleaseChannel(channelEndScene);
+	Sound::ReleaseSound(soundEndScene);
+	Sound::ReleaseSystem(systemEndScene);
 }
 
 void EndScene::ProcessInput()
